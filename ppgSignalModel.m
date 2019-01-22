@@ -1,16 +1,18 @@
 % % Modelo pulso PPG
 
 %% Función Gaussiana
+figure(1)
 Sigma = 0.4;
 mu = 2.5;
 AmplitudGaussiana = 0.12;
 a = AmplitudGaussiana/sqrt(2*pi*Sigma.^2);
-x = 0:0.1:10
+x = 0:0.1:10;
 g = ((x-mu)/Sigma).^2;
 f = a*exp(-0.5*g);
- 
-x = 0:0.1:10;
+
 y = gaussmf(x,[2 5]);
+plot(x,f)
+hold on
 
 %% Función LogNormal
 % Y = lognpdf(X,mu,sigma) returns values at X of the 
@@ -19,16 +21,16 @@ y = gaussmf(x,[2 5]);
 % respectively, of the associated normal distribution
 sigma2 = 1;
 mu2 = 0.7;
-x2 = 0:0.1:10;
 % a1 = x1.*sqrt(2*pi*c1.^2);
 % g1 = log(((x1-b1)/2*c1).^2);2% f1 = a1*exp(-0.5*g1);
 % plot(f1)
 % Amplitud LogNormal
  AmplLogNormal = 1.23;
- y2 = AmplLogNormal.*lognpdf(x2,mu2,sigma2);
- 
- figure(1)
+ y2 = AmplLogNormal.*lognpdf(x,mu2,sigma2);
+ hold on
+ plot(x,y2)
  PPGSignal1 = y2+f;
+ hold on
  plot(PPGSignal1), grid on
  %plot(x1,y2)
  
