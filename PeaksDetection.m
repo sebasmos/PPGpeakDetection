@@ -23,7 +23,9 @@
     hold on
 %% Señal PPG
 
-PPG1 = ppgSignalModel(0.7,2.5,0.4,1,1.23,0.12,0,10);
+ PPG1 = ppgSignalModel(0.7,2.5,0.4,1,1.23,0.12,0,10);
+% hold on 
+%PPG2 = ppgSignalModel(20,7,0.4,1,1.23,0.12,0,12);
      
 %% ENCONTRAR PICOS
 % Se detectan picos con un ancho de mínimo 0.11 y máximo 0.5
