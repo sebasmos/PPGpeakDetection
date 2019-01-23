@@ -10,12 +10,12 @@
     pfinal2 = ppgSignal(2,(3793:11379));
 %FRECUENCIA DE MUESTREO
     Fs = 125;
-% CONVERSIÓN A VARIABLES FÍSICAS
+% CONVERSIÓN A VARIABLES F�?SICAS
     s2 = (pfinal-128)/(255);
     s22=(pfinal2-128)/255;
    % s2 = (ppgSignal(2,:)+81)/161;
     s3 = (ppgSignal(3,:)+41)/81;
-% NORMALIZACIÓN POR MÁXIMOS Y MÍNIMOS
+% NORMALIZACIÓN POR M�?XIMOS Y M�?NIMOS
     s2Norm = (s2-min(s2))/(max(s2)-min(s2));
     s22Norm= (s22-min(s22))/(max(s22)-min(s22));
     t = (0:length(pfinal)-1);
@@ -40,7 +40,7 @@
 %  plot(s2Norm),grid on
   hold on
   plot(LOCS,PKS,'o')
-  
+  %%
   for i=1:length(LOCS)-1
       vecseparacion(i)=LOCS(i+1)-LOCS(i);
   end
@@ -74,6 +74,7 @@
   NEWLOCS=[NEWLOCS LOCS(end)];
   NEWLOCS=nonzeros(NEWLOCS);
   
+  %%
   figure(3)
   findpeaks(s22Norm,Fs,'MinPeakWidth',0.1,'MaxPeakWidth',0.5, ...
               'Annotate','extents','MinPeakProminence',0.15)
