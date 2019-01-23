@@ -1,39 +1,33 @@
-% % Modelo pulso PPG
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%% MODELO DE PULSO PPG %%%%%%%%%%%%%%%%%%
+% Sumatoria de una Función LogNormal y una Gaussiana
+% Valores por defecto de una función PPG común
+% Sigma = 0.4;
+% mu = 2.5;
+% AmplitudGaussiana = 0.12;
+% Sigma2 = 1;
+% mu2 = 0.7;
+% AmplLogNormal = 1.23;
+function PPGSignal1 = ppgSignalModel(Sigma,mu,AmplitudGaussiana,Sigma2,mu2,AmplLogNormal)
 %% Función Gaussiana
 figure(1)
-Sigma = 0.4;
-mu = 2.5;
-AmplitudGaussiana = 0.12;
 a = AmplitudGaussiana/sqrt(2*pi*Sigma.^2);
 x = 0:0.1:10;
 g = ((x-mu)/Sigma).^2;
 f = a*exp(-0.5*g);
-
-y = gaussmf(x,[2 5]);
-plot(x,f)
-hold on
 
 %% Función LogNormal
 % Y = lognpdf(X,mu,sigma) returns values at X of the 
 % lognormal pdf with distribution parameters mu and 
 % sigma. mu and sigma are the mean and standard deviation,
 % respectively, of the associated normal distribution
-sigma2 = 1;
-mu2 = 0.7;
 % a1 = x1.*sqrt(2*pi*c1.^2);
 % g1 = log(((x1-b1)/2*c1).^2);2% f1 = a1*exp(-0.5*g1);
 % plot(f1)
-% Amplitud LogNormal
- AmplLogNormal = 1.23;
- y2 = AmplLogNormal.*lognpdf(x,mu2,sigma2);
- hold on
- plot(x,y2)
- PPGSignal1 = y2+f;
- hold on
- plot(PPGSignal1), grid on
- %plot(x1,y2)
- 
+% % Amplitud LogNormal
+ y2 = AmplLogNormal.*lognpdf(x,mu2,Sigma2);
 
-%  h2 = f + y;
+ PPGSignal1 = y2+f;
+ plot(PPGSignal1), grid on
+end
  
