@@ -43,4 +43,3 @@
 % plot(s2Norm),grid on
   hold on
   plot(LOCS,PKS,'o')
-   

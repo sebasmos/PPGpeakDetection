@@ -90,7 +90,7 @@ Sigma = 0.4;
 mu = 2.5;
 AmplitudGaussiana = 0.12;
 a = AmplitudGaussiana/sqrt(2*pi*Sigma.^2);
-x = 0:1:20
+x = 0:1:20;
 g = ((x-mu)/Sigma).^2;
 f = a*exp(-0.5*g);
  
