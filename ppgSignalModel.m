@@ -8,7 +8,8 @@
 % Sigma2 = 1;
 % mu2 = 0.7;
 % AmplLogNormal = 1.23;
-function PPGSignal1 = ppgSignalModel(mu2,mu,Sigma,Sigma2,AmplLogNormal,AmplitudGaussiana,xi,xf,w)
+%Ampl total = 1
+function PPGSignal1 = ppgSignalModel(amplitud,mu2,mu,Sigma,Sigma2,AmplLogNormal,AmplitudGaussiana,xi,xf,w)
 %% Función Gaussiana
 figure(1)
 a = AmplitudGaussiana/sqrt(2*pi*Sigma.^2);
@@ -28,7 +29,7 @@ f = a*exp(-0.5*g);
 % plot(f1)
 % % Amplitud LogNormal
  y2 = AmplLogNormal.*lognpdf(x-w,mu2,Sigma2);
- PPGSignal1 = y2+f;
+ PPGSignal1 = amplitud.*(y2+f);
  plot(PPGSignal1+0.4), grid on, hold on
 end
  
