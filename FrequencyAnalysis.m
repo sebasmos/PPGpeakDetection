@@ -25,10 +25,10 @@ title('Espectro de la señal total en reposo, primeros 30 segundos');
 figure(3)
 plot(f,dP);
 title('Espectro de la señal total CON RUIDO, primeros 30 segundos');
- figure(4)
- plot(Fs/2*linspace(0,1,NN-1),PS)
- title('Espectro de Potencia')
- axis([0 50 -1 3000 ])
+figure(4)
+plot(Fs/2*linspace(0,1,NN-1),PS)
+title('Espectro de Potencia')
+axis([0 50 -1 3000 ])
 %  %% Extracciòn de caracterìsticas
 %  caract1 = caract(pfinal,Fs);
 %  %% Despliegue de informaciòn de las caracterìsticas

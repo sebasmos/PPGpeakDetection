@@ -40,22 +40,17 @@ nb_Int = 3;                    % Number of intervals for thresholding.
  N = length(s2Norm);
  Freq = (0:1/N:1-1/N)*Fs;
  plot(Freq,EspectroSenal)
- axis([0 10 -200 200 ])
 
 %% Anàlisis de los espectros
 [~,~,f,dP] = centerfreq(Fs,pfinal);
 [PS,NN] = PowSpecs(pfinal);
-[~,~,f2,dP2] = centerfreq(Fs,sigden);
-[PS2,NN2] = PowSpecs(sigden);
-figure(4)
+figure(1)
 plot(f,dP);
-hold on 
-plot(f2,dP2)
-legend('Senal con ruido','Senal sin ruido')
-title('Espectro de la señal CON Y SIN RUIDO total en reposo, primeros 30 segundos');
- %plot(Fs/2*linspace(0,1,NN-1),PS)
+title('Espectro de la señal total en reposo, primeros 30 segundos');
+ figure(2)
+ plot(Fs/2*linspace(0,1,NN-1),PS)
  title('Espectro de Potencia')
- axis([0 50 -1 100 ])
+ axis([0 50 -1 3000 ])
  
 %helperFFT(Freq,X_mag,'Magnitude Response')
  
