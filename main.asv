@@ -137,7 +137,7 @@ title('FINAL WAVELET NOISE')
 figure(14)
     ppg2=load('DATA_02_TYPE02.mat');
     ppgSignal2 = ppg2.sig;
-    pfinal2 = ppgSignal2(3,(3000:18050));
+    pfinal2 = ppgSignal2(3,(1:18050));
 %FRECUENCIA DE MUESTREO
     Fs = 125;
 % CONVERSIÓN A VARIABLES FÍSICAS
@@ -146,14 +146,5 @@ figure(14)
     s33 = (ppgSignal2(3,:)+41)/81;
 % NORMALIZACIÓN POR MÁXIMOS Y MÍNIMOS
     s2Norm2 = (s22-min(s22))/(max(s22)-min(s22));
-    S2WithWaveletNoise = s2Norm2 + Ruido+mean(s2Norm);
-    S2WithSavitzkyNoise= s2Norm2 + nueva+mean(s2Norm);
-    subplot(2,1,1)
-    plot(S2WithWaveletNoise)
-    title('SEÑAL CON RUIDO ARTIFICIAL WAVELET ADICIONADO ACTIVIDAD TIPO 2')
-    subplot(2,1,2)
-    hold on
-    plot(S2WithSavitzkyNoise)
-    title('SEÑAL CON RUIDO ARTIFICIAL SAVITZKY ADICIONADO ACTIVIDAD TIPO 2')
-    
+    Noise2WithWaveletNoii = s2Norm2 + Ruido+mean(s2Norm);
     
