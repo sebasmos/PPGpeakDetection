@@ -10,7 +10,7 @@ function salida = caract(x,Fs)
 % Estas caracterìsticas se obtienen luego de aplicar la FFT a un conjunto
 % de ventanas mòviles sobre la señal de voz, para detectar los "tonos" en
 % la señal de voz
-[Frequency_amp,Frequency,FunFrequency] = PreProcessing(x,Fs); % Realiza el ventaneo de Haming, devuelve las frecuencias centrales,
+[Frequency_amp,Frequency] = PreProcessing(x,Fs); % Realiza el ventaneo de Haming, devuelve las frecuencias centrales,
 %                                                               potencia de promedio y frecuencias fundamentales de cada espectro de una ventana
 %% Desviaciòn estàndar
 sd = std(Frequency);
@@ -32,12 +32,12 @@ sfm = geomean(Frequency)/mean(Frequency);
 modfrec = mode(Frequency);
 %% Las siguientes caracterìsticas se extraen con base en las frecuencias fundamentales (tonos) de la voz
 %% Frecuancia fundamental promedio
-meanfun = mean(FunFrequency);
+%meanfun = mean(FunFrequency);
 %% Frecuencia fundamental mìnima
-minfun = min(FunFrequency);
+%minfun = min(FunFrequency);
 %% Frecuancia fundamental màxima
-maxfun = max(FunFrequency);
+%maxfun = max(FunFrequency);
 
-salida = [mediaF,medianF,sd,Q25,Q75,IQR,skew,kurt,spent,sfm,modfrec,meanfun,minfun,maxfun];
+salida = [mediaF,medianF,sd,Q25,Q75,IQR,skew,kurt,spent,sfm,modfrec];
 
 

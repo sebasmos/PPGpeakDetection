@@ -35,8 +35,8 @@ nb_Int = 3;                    % Number of intervals for thresholding.
  
  figure(3)
  EspectroSenal = fft(s2Norm);
- X_mag = abs(EspectroSenal)
- X_fase = angle(EspectroSenal)
+ X_mag = abs(EspectroSenal);
+ X_fase = angle(EspectroSenal);
  N = length(s2Norm);
  Freq = (0:1/N:1-1/N)*Fs;
  plot(Freq,EspectroSenal)
@@ -55,7 +55,63 @@ legend('Senal con ruido','Senal sin ruido')
 title('Espectro de la señal CON Y SIN RUIDO total en reposo, primeros 30 segundos');
  %plot(Fs/2*linspace(0,1,NN-1),PS)
  title('Espectro de Potencia')
- axis([0 50 -1 100 ])
+ axis([0 50 -10 100 ])
+ Var_EstadisticasRuidoDeWavelets = caract(Ruido,Fs);
  
+ figure(5)
+ histogram(Ruido,100)
+ 
+ % RUIDO A PARTIR DE SAVINTSKY
+Res = 10; % Resolucion en frecuencia = 10 Hz
+Npuntos = 2^nextpow2(Fs/2/Res);
+w = hanning(Npuntos);
+%% Grafica del espectro de potencia
+s2filt=sgolayfilt(s2Norm,3,41);
+[Pf,Ff]=pwelch(s2filt,w,Npuntos/2,Npuntos,Fs);
+figure(6)
+pwelch(s2Norm,w,Npuntos/2,Npuntos,Fs),
+hold on,
+title('Savitzky Potencia Espectral');
+pwelch(s2filt,w,Npuntos/2,Npuntos,Fs),
+legend('normal','filtrado')
+figure(7)
+
+title('SENAL NORMAL Y CON Savitzky ');
+plot(t,s2Norm),hold on, plot(t,s2filt)
+nueva=s2Norm-s2filt;
+figure(3),
+
+title('ruido savitzky');
+plot(t,nueva);
+
+figure(8)
+
+title('Densidad espectral de ruido');
+pwelch(nueva,w,Npuntos/2,Npuntos,Fs),
+espectroruido=fft(nueva);
+L=length(espectroruido);
+P2 = abs(espectroruido/L);
+P1 = P2(1:L/2+1);
+P1(2:end-1) = 2*P1(2:end-1);
+
+f = Fs*(0:(L/2))/L;
+
+figure(9)
+
+title('fft ruido');
+plot(f,P1)
+
+figure(10)
+histogram(nueva,100),grid on;
 %helperFFT(Freq,X_mag,'Magnitude Response')
+ figure(11)
+ title('comparacion ruidos')
+ plot(Ruido)
+ hold on
+ plot(nueva)
+ legend('WAVELETS','SAVITZKY')
+ Caract_savitzky=caract(nueva,125);
  
+%figure(12)
+%ppgArr=load('a103l.mat');
+%ppgSignalArr = ppgArr.sig;
