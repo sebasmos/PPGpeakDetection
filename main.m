@@ -2,7 +2,7 @@
     figure(1) 
     ppg=load('DATA_01_TYPE01.mat');
     ppgSignal = ppg.sig;
-    pfinal = ppgSignal(3,(3000:18050));
+    pfinal = ppgSignal(3,(1:3050));
 %FRECUENCIA DE MUESTREO
     Fs = 125;
 % CONVERSIÓN A VARIABLES FÍSICAS
@@ -66,7 +66,7 @@ Res = 10; % Resolucion en frecuencia = 10 Hz
 Npuntos = 2^nextpow2(Fs/2/Res);
 w = hanning(Npuntos);
 %% Grafica del espectro de potencia
-s2filt=sgolayfilt(s2Norm,3,101);
+s2filt=sgolayfilt(s2Norm,3,41);
 [Pf,Ff]=pwelch(s2filt,w,Npuntos/2,Npuntos,Fs);
 figure(6)
 pwelch(s2Norm,w,Npuntos/2,Npuntos,Fs),
@@ -146,14 +146,67 @@ figure(14)
     s33 = (ppgSignal2(3,:)+41)/81;
 % NORMALIZACIÓN POR MÁXIMOS Y MÍNIMOS
     s2Norm2 = (s22-min(s22))/(max(s22)-min(s22));
-    S2WithWaveletNoise = s2Norm2 + Ruido+mean(s2Norm);
-    S2WithSavitzkyNoise= s2Norm2 + nueva+mean(s2Norm);
-    subplot(2,1,1)
-    plot(S2WithWaveletNoise)
-    title('SEÑAL CON RUIDO ARTIFICIAL WAVELET ADICIONADO ACTIVIDAD TIPO 2')
-    subplot(2,1,2)
-    hold on
-    plot(S2WithSavitzkyNoise)
-    title('SEÑAL CON RUIDO ARTIFICIAL SAVITZKY ADICIONADO ACTIVIDAD TIPO 2')
-    
-    
+%     S2WithWaveletNoise = s2Norm2 + Ruido+mean(s2Norm);
+%     S2WithSavitzkyNoise= s2Norm2 + nueva+mean(s2Norm);
+%     subplot(2,1,1)
+%     plot(S2WithWaveletNoise)
+%     title('SEÑAL CON RUIDO ARTIFICIAL WAVELET ADICIONADO ACTIVIDAD TIPO 2')
+%     subplot(2,1,2)
+%     hold on
+%     plot(S2WithSavitzkyNoise)
+%     title('SEÑAL CON RUIDO ARTIFICIAL SAVITZKY ADICIONADO ACTIVIDAD TIPO 2')
+
+% CREACIÓN DEL RUIDO 
+% Tomamos la resta obtenida a partir de la resta de la señal original con 
+% el la señal filtrada a partir del filtro Savitzky-Golay. Ahora en el
+% siguiente paso vamos a crear una señal promedio de este ruido obtenido,
+% de manera que podamos modelar de manera general, su distribución,
+% utilizando la media de la distribución, la desviación estándar etc.. Y
+% finalmente buscamos añadir un nivel de dc a través de una envolvente de
+% la señal, que se componga de la suma de señales sinoidales, como el sin y
+% el cos, de manera que podamos generar una wanderer baseline de manera
+% artificial que modele el nivel de ruido de DC.
+subplot(3,1,1)
+plot(s2Norm), grid on
+title('SEÑAL ORIGINAL, 30 SEGUNDOS DE REPOSO')
+t = linspace(0,10,3050);
+f = 0.2;
+amplitudEnvolvente = 0.009;
+ SEnvolvente = amplitudEnvolvente * (sin(2*pi*t*f)+cos(2*pi*t*f))+nueva;
+ subplot(3,1,2)
+ plot(SEnvolvente+mean(s2Norm))
+ title('RUIDO CON ENVOLVENTE SINUSAL+NIVEL DC + RUIDO SAVITZKY')
+ 
+ %aux = zeros(1,3050);
+ s1 = nueva(1:300);
+ s2 = nueva(301:600);
+ s3 = nueva(601:900); 
+ s4 = nueva(901:1200); 
+ s5 = nueva(1201:1500); 
+ s6 = nueva(1501:1800); 
+ s7 = nueva(1801:2100); 
+ s8 = nueva(2101:2400); 
+ s9 = nueva(2401:2700); 
+ s10 = nueva(2701:3000); 
+
+ p = (s1+s2+s3+s4+s5+s6+s7+s8+s9+s10)./length(nueva);
+ PT = [p p p p p p p p p p];
+%  n = 10; % Numero de ventanas
+%  j = 1;
+%  for  i = 1:n % n ventanas para promediar muestras n veces
+%      aux(1,i)=aux(1,i)+nueva(j:length(nueva).*i./10);
+%      j = j+length(nueva)./10;
+%  end
+ subplot(3,1,3)
+ plot(PT) 
+
+
+ %SavitzkyMean = mean(nueva);
+ %d = ones(1,length(nueva)).*SavitzkyMean;
+ %subplot(3,1,3)
+ %plot(d)
+ title('RUIDO PROMEDIO DE SAVITZKY')
+%     figure(15)
+%     
+%      p = fit(s2Norm)
+%      plot(p)
