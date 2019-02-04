@@ -4,9 +4,9 @@
 % which are recorded from the wrist of each subject. The last three rows are 
 % simultaneous recordings of acceleration data (in x-, y-, and z-axis)
 %% ACTIVIDADES TIPO 1
-    ppg=load('DATA_01_TYPE01.mat');
+    ppg=load('DATA_01_TYPE02.mat');
     ppgSignal = ppg.sig;
-    pfinal = ppgSignal(2,(1:3793));
+    pfinal = ppgSignal(2,(3000:18093));
     pfinal2 = ppgSignal(2,(3793:11379));
 %FRECUENCIA DE MUESTREO
     Fs = 125;
@@ -33,14 +33,14 @@
               'MinPeakDistance', 0.7723);
           
     
-
- figure(2)
- findpeaks(s2Norm,Fs,'MinPeakWidth',0.11,'MaxPeakWidth',0.5, ...
+%GRAFICAR PICOS
+  figure(2)
+  findpeaks(s2Norm,Fs,'MinPeakWidth',0.11,'MaxPeakWidth',0.5, ...
               'Annotate','extents','MinPeakHeight',0.25)
-%  plot(s2Norm),grid on
   hold on
   plot(LOCS,PKS,'o')
   
+ %QUITAR PICOS QUE NO ESTÉN CORRECTAMENTE UBICADOS
   for i=1:length(LOCS)-1
       vecseparacion(i)=LOCS(i+1)-LOCS(i);
   end
@@ -74,11 +74,18 @@
   NEWLOCS=[NEWLOCS LOCS(end)];
   NEWLOCS=nonzeros(NEWLOCS);
   
-  figure(3)
-  findpeaks(s22Norm,Fs,'MinPeakWidth',0.1,'MaxPeakWidth',0.5, ...
-              'Annotate','extents','MinPeakProminence',0.15)
+  %NUEVOS PICOS
+  figure(2)
+  findpeaks(s2Norm,Fs,'MinPeakWidth',0.11,'MaxPeakWidth',0.5, ...
+              'Annotate','extents','MinPeakHeight',0.25)
   hold on
-  plot(LOCS2,PKS2,'o')
+  plot(NEWLOCS,PKS,'o')
+  
+%   figure(3)
+%   findpeaks(s22Norm,Fs,'MinPeakWidth',0.1,'MaxPeakWidth',0.5, ...
+%               'Annotate','extents','MinPeakProminence',0.15)
+%   hold on
+%   plot(LOCS2,PKS2,'o')
   
   
 
