@@ -1,6 +1,6 @@
 function Noise = GetSavitzkyNoise(name,n,m,s)
     ppg=load(name);
-    ppgSignal = ppg.sig;
+    ppgSignal = ppg.cont;
     pfinal = ppgSignal(n,(m:s));
 %FRECUENCIA DE MUESTREO
     Fs = 125;
