@@ -15,7 +15,7 @@ for k = 1:12
         labelstring = int2str(k);
         word = strcat({'DATA_'},labelstring,{'_TYPE02.mat'});
         a = load(char(word));
-        TamRealizaciones(k,:) = length(a.sig)
+        TamRealizaciones(k,:) = length(a.sig);
     else
         labelstring = int2str(k);
         word = strcat({'DATA_0'},labelstring,{'_TYPE02.mat'});
@@ -24,11 +24,11 @@ for k = 1:12
     end
 end
 
+
 for k = 1:12
     if k >= 10
         labelstring = int2str(k);
         word = strcat({'DATA_'},labelstring,{'_TYPE02.mat'});
-        a = load(char(word));
         s(k,:) =  GetSavitzkyNoise(char(word),2,1,3750);
         s1(k,:) =  GetSavitzkyNoise(char(word),2,3751,11250);
         s2(k,:) =  GetSavitzkyNoise(char(word),2,11251,18750);
@@ -37,8 +37,7 @@ for k = 1:12
         s5(k,:) =  GetSavitzkyNoise(char(word),2,33751,min(TamRealizaciones));
     else       
         labelstring = int2str(k);
-        word = strcat({'DATA_'},labelstring,{'_TYPE02.mat'});
-        a = load(char(word));
+        word = strcat({'DATA_0'},labelstring,{'_TYPE02.mat'});
         s(k,:) =  GetSavitzkyNoise(char(word),2,1,3750);
         s1(k,:) =  GetSavitzkyNoise(char(word),2,3751,11250);
         s2(k,:) =  GetSavitzkyNoise(char(word),2,11251,18750);
@@ -46,14 +45,28 @@ for k = 1:12
         s4(k,:) =  GetSavitzkyNoise(char(word),2,26251,33750);        
         s5(k,:) =  GetSavitzkyNoise(char(word),2,33751,min(TamRealizaciones));
     end
+    % Cálculo de Media Muestral
     sm0 = sm0 + s(k,:);
     sm1 = sm1 + s(k,:);
     sm2 = sm2 + s(k,:);
     sm3 = sm3 + s(k,:);
     sm4 = sm4 + s(k,:);
     sm5 = sm5 + s(k,:);
+       
 end
-%% PROMEDIO DE LOS RUIDOS
-total1 = sm0./12;
-plot(total1);
+%% MEDIA MUESTRAL
+Realizaciones = 12;
+Media0 = sm0./Realizaciones;
+%% VARIANZA INSESGADA: Cálculo de varianza insesgada: divide entre (n-1)
+%the standard deviation var is normalized by N-1, where N is the number of observations.
+varianza0 = VarianzaMuestral(Realizaciones,s);
 
+%% SEÑALES EN REPOSO- VISUALIZACION 
+% MEDIA Y VARIANZA POR RAMIREZ
+% for i = 1:12
+%     for k = 0:length(s) % Recorrer todas las muestras de c/realizacion
+%     plot(s(i,k)), hold on    
+%     %Media = mean(s(i,k));
+%     end
+%end
+% ANALISIS POR MUESTRA HASTA TOTAL DE MUESTRAS

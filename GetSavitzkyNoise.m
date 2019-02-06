@@ -12,7 +12,6 @@ function Noise = GetSavitzkyNoise(name,n,m,s)
 %% Grafica del espectro de potencia
     sfilt=sgolayfilt(sNorm,3,41);
     media = ValoresMedia(sNorm);
-    Noise=sNorm-sfilt+media;
-    
+    Noise=sNorm-sfilt+media;    
 
 end

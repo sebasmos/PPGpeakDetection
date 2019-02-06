@@ -45,14 +45,28 @@ for k = 1:12
         s4(k,:) =  GetSavitzkyNoise(char(word),2,26251,33750);        
         s5(k,:) =  GetSavitzkyNoise(char(word),2,33751,min(TamRealizaciones));
     end
+    % Cálculo de Media Muestral
     sm0 = sm0 + s(k,:);
     sm1 = sm1 + s(k,:);
     sm2 = sm2 + s(k,:);
     sm3 = sm3 + s(k,:);
     sm4 = sm4 + s(k,:);
     sm5 = sm5 + s(k,:);
+       
 end
-%% PROMEDIO DE LOS RUIDOS
-total1 = sm0./12;
-plot(total1);
+%% MEDIA MUESTRAL
+Realizaciones = 12;
+Media0 = sm0./Realizaciones;
+%% VARIANZA INSESGADA: Cálculo de varianza insesgada: divide entre (n-1)
+%the standard deviation var is normalized by N-1, where N is the number of observations.
+Varianza0 = VarianzaMuestral(Realizaciones,s);
+x = 0:0.1:10; 
+%% FUNCIONES DE DENSIDAD DE PROBABILIDAD LOCALES
+y = normpdf(x,Media0(1,1),Varianza0(1,1));
+for i=1:10:3750
+   % x =0.01:0.01:37.5;
+  % x = 0:0.1:10; 
+   %y0(i) = normpdf(x,Media0(1,i),Varianza0(1,i));
+    %plot(y0(i)), hold on
+end
 
