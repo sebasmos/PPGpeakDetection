@@ -55,22 +55,25 @@ for k = 1:12
 
 end
 
-% ORGANIZAMOS LAS MEDIAS MUESTRALES EN UNA MATRIZ
+%% MEDIA MUESTRAL
+%ORGANIZAMOS LOS RUIDOS EN UNA MATRIZ PARA LUEGO PODER SACAR LAS MEDIAS 
+%MUESTRALES DIVIDIENDO TODA LA MATRIZ ENTRE EL NUMERO DE REALIZACIONES.
 
 M=[sm0 zeros(1,3750); sm1; sm2; sm3; sm4; sm5 zeros(1,7500-length(sm5))];
-%% MEDIA MUESTRAL
 Realizaciones = 12;
 Media0 = M./Realizaciones;
+v=[M(1,:) M(2,:) M(3,:) M(4,:) M(5,:) M(6,:)];
+mediamuestral=nonzeros(v);
+mediamuestral=mediamuestral';
+
+%% VARIANZA INSESGADA
+
+V=[s s1 s2 s3 s4 s5];
+varianzamuestral= var(V);
+
+
+
 %% VARIANZA INSESGADA: C�lculo de varianza insesgada: divide entre (n-1)
 %the standard deviation var is normalized by N-1, where N is the number of observations.
 Varianza0 = VarianzaMuestral(Realizaciones,s);
-x = 0:0.1:10; 
-%% FUNCIONES DE DENSIDAD DE PROBABILIDAD LOCALES
-y = normpdf(x,Media0(1,1),Varianza0(1,1));
-for i=1:10:3750
-   % x =0.01:0.01:37.5;
-  % x = 0:0.1:10; 
-   %y0(i) = normpdf(x,Media0(1,i),Varianza0(1,i));
-    %plot(y0(i)), hold on
-end
 
