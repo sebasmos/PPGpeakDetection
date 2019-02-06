@@ -34,7 +34,7 @@ for k = 1:12
         s2(k,:) =  GetSavitzkyNoise(char(word),2,11251,18750);
         s3(k,:) =  GetSavitzkyNoise(char(word),2,18751,26250);
         s4(k,:) =  GetSavitzkyNoise(char(word),2,26251,33750);        
-        s5(k,:) =  GetSavitzkyNoise(char(word),2,33751,min(TamRealizaciones));
+        s5(k,:) =  GetSavitzkyNoise(char(word),2,33751,TamRealizaciones(k));
     else       
         labelstring = int2str(k);
         word = strcat({'DATA_0'},labelstring,{'_TYPE02.mat'});
@@ -43,24 +43,23 @@ for k = 1:12
         s2(k,:) =  GetSavitzkyNoise(char(word),2,11251,18750);
         s3(k,:) =  GetSavitzkyNoise(char(word),2,18751,26250);
         s4(k,:) =  GetSavitzkyNoise(char(word),2,26251,33750);        
-        s5(k,:) =  GetSavitzkyNoise(char(word),2,33751,min(TamRealizaciones));
+        s5(k,:) =  GetSavitzkyNoise(char(word),2,33751,TamRealizaciones(k));
     end
     % C�lculo de Media Muestral
     sm0 = sm0 + s(k,:);
-    sm1 = sm1 + s1(k,:);
-    sm2 = sm2 + s2(k,:);
-    sm3 = sm3 + s3(k,:);
-    sm4 = sm4 + s4(k,:);
-    sm5 = sm5 + s5(k,:);
-
+    sm1 = sm1 + s(k,:);
+    sm2 = sm2 + s(k,:);
+    sm3 = sm3 + s(k,:);
+    sm4 = sm4 + s(k,:);
+    sm5 = sm5 + s(k,:);
+       
 end
 
 % ORGANIZAMOS LAS MEDIAS MUESTRALES EN UNA MATRIZ
 
-M=[sm0 zeros(1,3750); sm1; sm2; sm3; sm4; sm5 zeros(1,7500-length(sm5))];
 %% MEDIA MUESTRAL
 Realizaciones = 12;
-Media0 = M./Realizaciones;
+Media0 = sm0./Realizaciones;
 %% VARIANZA INSESGADA: C�lculo de varianza insesgada: divide entre (n-1)
 %the standard deviation var is normalized by N-1, where N is the number of observations.
 Varianza0 = VarianzaMuestral(Realizaciones,s);
