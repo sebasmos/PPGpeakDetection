@@ -15,7 +15,7 @@ for k = 1:12
         labelstring = int2str(k);
         word = strcat({'DATA_'},labelstring,{'_TYPE02.mat'});
         a = load(char(word));
-        TamRealizaciones(k,:) = length(a.sig)
+        TamRealizaciones(k,:) = length(a.sig);
     else
         labelstring = int2str(k);
         word = strcat({'DATA_0'},labelstring,{'_TYPE02.mat'});
@@ -24,21 +24,26 @@ for k = 1:12
     end
 end
 
+
 for k = 1:12
     if k >= 10
+        labelstring = int2str(k);
+        word = strcat({'DATA_'},labelstring,{'_TYPE02.mat'});
         s(k,:) =  GetSavitzkyNoise(char(word),2,1,3750);
         s1(k,:) =  GetSavitzkyNoise(char(word),2,3751,11250);
-        s2(k,:) =  GetSavitzkyNoise(char(word),2,11250,18750);
-        s3(k,:) =  GetSavitzkyNoise(char(word),2,18750,26250);
-        s4(k,:) =  GetSavitzkyNoise(char(word),2,26250,33750);        
-        s5(k,:) =  GetSavitzkyNoise(char(word),2,33750,min(TamRealizaciones));
+        s2(k,:) =  GetSavitzkyNoise(char(word),2,11251,18750);
+        s3(k,:) =  GetSavitzkyNoise(char(word),2,18751,26250);
+        s4(k,:) =  GetSavitzkyNoise(char(word),2,26251,33750);        
+        s5(k,:) =  GetSavitzkyNoise(char(word),2,33751,min(TamRealizaciones));
     else       
+        labelstring = int2str(k);
+        word = strcat({'DATA_0'},labelstring,{'_TYPE02.mat'});
         s(k,:) =  GetSavitzkyNoise(char(word),2,1,3750);
         s1(k,:) =  GetSavitzkyNoise(char(word),2,3751,11250);
-        s2(k,:) =  GetSavitzkyNoise(char(word),2,11250,18750);
-        s3(k,:) =  GetSavitzkyNoise(char(word),2,18750,26250);
-        s4(k,:) =  GetSavitzkyNoise(char(word),2,26250,33750);        
-        s5(k,:) =  GetSavitzkyNoise(char(word),2,33750,min(TamRealizaciones));
+        s2(k,:) =  GetSavitzkyNoise(char(word),2,11251,18750);
+        s3(k,:) =  GetSavitzkyNoise(char(word),2,18751,26250);
+        s4(k,:) =  GetSavitzkyNoise(char(word),2,26251,33750);        
+        s5(k,:) =  GetSavitzkyNoise(char(word),2,33751,min(TamRealizaciones));
     end
     sm0 = sm0 + s(k,:);
     sm1 = sm1 + s(k,:);
