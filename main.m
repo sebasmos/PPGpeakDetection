@@ -1,6 +1,9 @@
+
+clear all
+clc
 %% ACTIVIDADES TIPO 1
     figure(1) 
-    ppg=load('DATA_01_TYPE01.mat');
+    ppg=load('DATA_01_TYPE02.mat');
     ppgSignal = ppg.sig;
     pfinal = ppgSignal(3,(1:3050));
 %FRECUENCIA DE MUESTREO
@@ -189,17 +192,26 @@ amplitudEnvolvente = 0.009;
  s9 = nueva(2401:2700); 
  s10 = nueva(2701:3000); 
 
- p = (s1+s2+s3+s4+s5+s6+s7+s8+s9+s10)./length(nueva);
+ p = (s1+s2+s3+s4+s5+s6+s7+s8+s9+s10)./10;
  PT = [p p p p p p p p p p];
-%  n = 10; % Numero de ventanas
-%  j = 1;
-%  for  i = 1:n % n ventanas para promediar muestras n veces
-%      aux(1,i)=aux(1,i)+nueva(j:length(nueva).*i./10);
-%      j = j+length(nueva)./10;
-%  end
- subplot(3,1,3)
- plot(PT) 
 
+%  
+  n = 10; % Numero de ventanas
+  j = 1;
+  i=1;
+  aux = zeros(1,length(Ruido)./10);
+  aux2 = 0;
+  sum = 0;
+  for  i = 1:n % n ventanas para promediar muestras n veces
+      aux(i,:)=Ruido(1,(1:length(Ruido)./n));
+      aux2 = length(Ruido)./n + 1 ;
+      j = aux2;      
+      sum = aux(i,:) + sum;
+  end
+MeanSignal = sum/n;
+  PT2 = [MeanSignal MeanSignal MeanSignal MeanSignal MeanSignal MeanSignal MeanSignal MeanSignal MeanSignal MeanSignal MeanSignal] 
+ subplot(3,1,3)
+ plot(PT2) 
 
  %SavitzkyMean = mean(nueva);
  %d = ones(1,length(nueva)).*SavitzkyMean;
