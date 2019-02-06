@@ -1,5 +1,11 @@
 function [PS,NN,nbFrames] = PowSpecs(data)
 %% Computing MFCC Co-efficients..
+<<<<<<< HEAD
+=======
+   %Output--> PS: power spectrum of the signal
+   %NN --> 65... 
+   
+>>>>>>> 4751b791c4c11d23a5c5d2ea3a127d92c97dd5cf
     %% (1) Frame Blocking..
     N = 256;   % N point FFT
     M = 100;   % Overlapping
@@ -34,4 +40,8 @@ function [PS,NN,nbFrames] = PowSpecs(data)
     %% (4) Mel-frequency Wrapping..
     % (a) Calculate Power spectrum..
     PS = abs(ffts).^2;
+<<<<<<< HEAD
     PS = PS(1:NN-1,:);
+=======
+    PS = PS(1:NN-1,:);
+>>>>>>> 4751b791c4c11d23a5c5d2ea3a127d92c97dd5cf
