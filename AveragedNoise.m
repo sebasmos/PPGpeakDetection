@@ -71,9 +71,3 @@ mediamuestral=mediamuestral';
 V=[s s1 s2 s3 s4 s5];
 varianzamuestral= var(V);
 
-
-
-%% VARIANZA INSESGADA: C�lculo de varianza insesgada: divide entre (n-1)
-%the standard deviation var is normalized by N-1, where N is the number of observations.
-Varianza0 = VarianzaMuestral(Realizaciones,s);
-
