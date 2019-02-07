@@ -69,19 +69,13 @@ mediamuestral=mediamuestral';
 %% VARIANZA INSESGADA
 
 V=[s s1 s2 s3 s4 s5];
-varianzamuestral=
+varianzamuestral= var(V);
 
 
-%% VARIANZA INSESGADA: C�lculo de varianza insesgada: divide entre (n-1)
-%the standard deviation var is normalized by N-1, where N is the number of observations.
-Varianza0 = VarianzaMuestral(Realizaciones,s);
-x = 0:0.1:10; 
-%% FUNCIONES DE DENSIDAD DE PROBABILIDAD LOCALES
-y = normpdf(x,Media0(1,1),Varianza0(1,1));
-for i=1:10:3750
-   % x =0.01:0.01:37.5;
-  % x = 0:0.1:10; 
-   %y0(i) = normpdf(x,Media0(1,i),Varianza0(1,i));
-    %plot(y0(i)), hold on
+%% pdf 
+[MX,MY]=Distribucion(mediamuestral,varianzamuestral); %sacamos 
+for i=1:length(MY)
+    maximo=max(MY(i,:));
+    minimo=min(MY(i,:));
+    nuevoMY(i,:)=(MY(i,:)-minimo)./(maximo-minimo);
 end
-
