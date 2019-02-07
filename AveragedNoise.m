@@ -71,3 +71,6 @@ mediamuestral=mediamuestral';
 V=[s s1 s2 s3 s4 s5];
 varianzamuestral= var(V);
 
+
+%% pdf 
+[MX,MY]=Distribucion(mediamuestral,varianzamuestral);

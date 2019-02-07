@@ -1,0 +1,21 @@
+function [MX,MY]=Distribucion(vmedia,vvarianza)
+%OPCION #1
+% x=randn(1,50000);
+% y=3*x-2;
+% figure(1)
+%     stem(y,'.')
+%     grid on;
+% figure(2)
+%     histogram(y)
+%     grid on; 
+%OPCION #2 MAS CONFIABLE
+for i=1:50:length(vmedia)
+    x=randn(1,37000);
+    y=3*x-2;
+    fig=figure;
+    set(fig,'visible','off');
+    H=histfit(y);
+    hx=H(2).XData;
+    hy=H(2).YData;
+    
+end
