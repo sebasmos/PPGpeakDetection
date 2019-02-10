@@ -71,22 +71,40 @@ mediamuestral=mediamuestral';
 V=[s s1 s2 s3 s4 s5];
 varianzamuestral= var(V);
 
+%% MATRIZ DE AUTOCORRELACION
 
-%% pdf 
-[MX,MY]=Distribucion(mediamuestral,varianzamuestral); %sacamos 
-for i=1:length(MY)
-    maximo=max(MY(i,:));
-    minimo=min(MY(i,:));
-    nuevoMY(i,:)=(MY(i,:)-minimo)./(maximo-minimo);
+values=[];
+i=1;
+j=1;
+[a,b]=size(V);
+for t1=1:10:b
+    for t2=1:10:b
+        for k=1:12
+            values(k)=V(k,i).*V(k,j);
+        end
+        Rxx(i,j)=mean(values);
+        j=j+1;
+        values=[];
+    end
+    i=i+1;
+    j=1;
 end
-W=zeros(5,length(mediamuestral));
-for k=1:length(mediamuestral)
-    W(:,k)=mediamuestral(k)+sqrt(varianzamuestral(k))*randn(5,1);
-end
-%%
-t = (0:length(W)-1);
-figure(2)
-plot(t,W(1,:)./10),hold on,grid on, 
+
+% %% pdf 
+% [MX,MY]=Distribucion(mediamuestral,varianzamuestral); %sacamos 
+% for i=1:length(MY)
+%     maximo=max(MY(i,:));
+%     minimo=min(MY(i,:));
+%     nuevoMY(i,:)=(MY(i,:)-minimo)./(maximo-minimo);
+% end
+% W=zeros(5,length(mediamuestral));
+% for k=1:length(mediamuestral)
+%     W(:,k)=mediamuestral(k)+sqrt(varianzamuestral(k))*randn(5,1);
+% end
+% %%
+% t = (0:length(W)-1);
+% figure(2)
+% plot(t,W(1,:)./10),hold on,grid on, 
 
 %%
 
