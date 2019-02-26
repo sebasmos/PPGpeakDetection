@@ -62,7 +62,7 @@ end
 M=[sm0 zeros(1,3750); sm1; sm2; sm3; sm4; sm5 zeros(1,7500-length(sm5))];
 Realizaciones = 12;
 Media0 = M./Realizaciones;
-v=[M(1,:) M(2,:) M(3,:) M(4,:) M(5,:) M(6,:)];
+v=[Media0(1,:) Media0(2,:) Media0(3,:) Media0(4,:) Media0(5,:) Media0(6,:)];
 mediamuestral=nonzeros(v);
 mediamuestral=mediamuestral';
 
@@ -71,7 +71,7 @@ mediamuestral=mediamuestral';
 V=[s s1 s2 s3 s4 s5];
 varianzamuestral= var(V);
 
-%% MATRIZ DE AUTOCORRELACION
+%% MATRIZ DE AUTOCORRELACION Y AUTOCOVARIANZA
 
 values=[];
 i=1;
@@ -80,31 +80,22 @@ j=1;
 for t1=1:10:b
     for t2=1:10:b
         for k=1:12
-            values(k)=V(k,i).*V(k,j);
+            values(k)=V(k,t1).*V(k,t2);
         end
         Rxx(i,j)=mean(values);
+        Kxx(i,j)=Rxx(i,j)-(mediamuestral(t1).*mediamuestral(t2));
         j=j+1;
         values=[];
     end
     i=i+1;
     j=1;
 end
+%% DENSIDAD ESPECTRAL DE POTENCIA
 
-% %% pdf 
-% [MX,MY]=Distribucion(mediamuestral,varianzamuestral); %sacamos 
-% for i=1:length(MY)
-%     maximo=max(MY(i,:));
-%     minimo=min(MY(i,:));
-%     nuevoMY(i,:)=(MY(i,:)-minimo)./(maximo-minimo);
-% end
-% W=zeros(5,length(mediamuestral));
-% for k=1:length(mediamuestral)
-%     W(:,k)=mediamuestral(k)+sqrt(varianzamuestral(k))*randn(5,1);
-% end
-% %%
-% t = (0:length(W)-1);
-% figure(2)
-% plot(t,W(1,:)./10),hold on,grid on, 
+for i=1:length(Rxx)
+    tf(i,:)=fft(Rxx(i,:));
+end
 
-%%
+tf=(abs(tf)).^2;
+PSD=tf./2;
 
