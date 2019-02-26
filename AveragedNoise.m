@@ -68,19 +68,31 @@ mediamuestral=mediamuestral';
 
 %% VARIANZA INSESGADA
 
-V=[s s1 s2 s3 s4 s5];
-varianzamuestral= var(V);
+V1=[s s1 s2 s3 s4 s5];
+varianzamuestral= var(V1);
 
 %% MATRIZ DE AUTOCORRELACION Y AUTOCOVARIANZA
+
+
+% val=[];
+% i=1;
+% j=1;
+% [a,b]=size(V);
+% for t1=1:12
+%     val(t1,:) = xcorr(V(t1,:));
+% end
+% mesh(val)
 
 values=[];
 i=1;
 j=1;
-[a,b]=size(V);
+[a,b]=size(V1);
 for t1=1:10:b
     for t2=1:10:b
         for k=1:12
+
             values(k)=V(k,t1).*V(k,t2);
+
         end
         Rxx(i,j)=mean(values);
         Kxx(i,j)=Rxx(i,j)-(mediamuestral(t1).*mediamuestral(t2));
@@ -90,6 +102,7 @@ for t1=1:10:b
     i=i+1;
     j=1;
 end
+
 %% DENSIDAD ESPECTRAL DE POTENCIA
 
 for i=1:length(Rxx)
