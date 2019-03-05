@@ -13,6 +13,5 @@ function Noise = GetSavitzkyNoise(name,n,m,s)
     sfilt=sgolayfilt(sNorm,3,41);
     %media = ValoresMedia(sNorm);
     Noise=sNorm-sfilt;
-    
 
 end
