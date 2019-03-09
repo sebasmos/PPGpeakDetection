@@ -118,19 +118,3 @@ CorruptedSignal5 = ppgFullSignal(1,(26251:33750))-ruido5;
 %% ANALISIS POR BPM
 
 BPMs = ReadBPM();
-movimiento=mean(BPMs((1:15),:));
-
-switch(movimiento)
-        case 1
-            segundos=mean(mbpm(:,(1:15)));
-        case 2
-            segundos=mean(mbpm(:,(15:45)));
-        case 3
-            segundos=mean(mbpm(:,(45:75)));
-        case 4
-            segundos=mean(mbpm(:,(75:105)));
-        case 5
-            segundos=mean(mbpm(:,(105:135)));
-        case 6
-            segundos=mean(mbpm(:,(135:end)));
-    end
