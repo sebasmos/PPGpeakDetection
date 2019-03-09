@@ -1,4 +1,3 @@
-
 clear all
 clc
 %% RUIDO EN REPOSO PRIMEROS 30 SEGUNDOS
@@ -76,79 +75,41 @@ mediamuestral=nonzeros(v);
 % señales unidas en una sola fila.
 mediamuestral=mediamuestral';
 
-%% VARIANZA INSESGADA
-
-% Se toman las 6 señales de 6 tipos diferentes de ruido y se sitúan en una
-% sola fila.
-V=[s s1 s2 s3 s4 s5];
-varianzamuestral= var(V);
-
-%% MATRIZ DE AUTOCORRELACION Y AUTOCOVARIANZA
-
-
-% val=[];
-% i=1;
-% j=1;
-% [a,b]=size(V);
-% for t1=1:12
-%     val(t1,:) = xcorr(V(t1,:));
-% end
-% mesh(val)
-
-values=[];
-i=1;
-j=1;
-[a,b]=size(V);
-for t1=1:10:b
-    for t2=1:10:b
-        for k=1:12
-            values(k)=V(k,t1).*V(k,t2);
-        end
-        Rxx(i,j)=mean(values);
-        Kxx(i,j)=Rxx(i,j)-(mediamuestral(t1).*mediamuestral(t2));
-        j=j+1;
-        values=[];
-    end
-    i=i+1;
-    j=1;
-end
-
-%% DENSIDAD ESPECTRAL DE POTENCIA
-
-for i=1:length(Rxx)
-    tf(i,:)=fft(Rxx(i,:));
-end
-
-tf=(abs(tf)).^2;
-PSD=tf./2;
-%% ANALISIS SECCIONAL
-%Graficos
-figure(1)
-subplot(3,1,1)
-plot(mediamuestral),grid on,title('Ruido por mediamuestral')
-subplot(3,1,2)
-plot(varianzamuestral),grid on,title('Ruido por varianzamuestral')
-subplot(3,1,3)
-x = randn(1,1000);
-[MX,MY] = Distribucion(mediamuestral,varianzamuestral);
-
- for i=1:100:length(mediamuestral)
-    y(i) = pdf(x,MX,MY)
- end
-%plot(),grid on,title('Ruido mediamuestral')
-figure(2)
-%ANALISIS EN EL ESPECTRO DE FRECUENCIA
-% 1.Espectro:
-%%
+%SEÑAL MUESTRA
+ppg = load('DATA_10_TYPE02.mat');
+ppgSig = ppg.sig;
+ppgFullSignal = ppgSig(2,(1:length(mediamuestral)));%Emparejamos tamaños 
+%FRECUENCIA MUESTREO:
 Fs = 125;
- EspectroSenal = fft(mediamuestral);
- N = length(mediamuestral);
- X_mag = abs(EspectroSenal/N);
- X_mag2 = X_mag(1:N/2+1);
- X_mag2(2:end-1) = 2*X_mag2(2:end-1);
- Freq = Fs*(0:(N/2))/N;
- figure(3)
- plot(Freq,log(X_mag2))
- title('ESPECTRO DE FRECUENCIA DE LA SEÃ‘AL ORIGINAL')
- grid on, axis tight
+%NORMALIZACIONES
+ppgFullSignal = (ppgFullSignal-128)./255;
+ppgFullSignal = (ppgFullSignal-min(ppgFullSignal))./(max(ppgFullSignal)-min(ppgFullSignal));
+t = (0:length(ppgFullSignal)-1);   
+%AÑADIR RUIDO
+ruido1 = mediamuestral(1,(1:3750));
+ruido2 = mediamuestral(1,(3751:11250));
+ruido3 = mediamuestral(1,(11251:18750));
+ruido4 = mediamuestral(1,(18751:26250));
+ruido5 = mediamuestral(1,(26251:33750));
 
+CorruptedSignal1 = ppgFullSignal(1,(1:3750))-ruido1;
+CorruptedSignal2 = ppgFullSignal(1,(3751:11250))-ruido2;
+CorruptedSignal3 = ppgFullSignal(1,(11251:18750))-ruido3;
+CorruptedSignal4 = ppgFullSignal(1,(18751:26250))-ruido4;
+CorruptedSignal5 = ppgFullSignal(1,(26251:33750))-ruido5;
+
+% ORIGINAL en reposo vs con ruido
+[PKS1Original,LOCS1Original] = GetPeakPoints(ppgFullSignal(1,(1:3750)),Fs,0.11,0.5,0.05);
+[PKS1ruido,LOCS1ruido] = GetPeakPoints(CorruptedSignal1,Fs,0.11,0.5,0.05);
+% CORRIENDO 1min señal original vs con ruido
+[PKS2Original,LOCS2Original] = GetPeakPoints(ppgFullSignal(1,(3751:11250)),Fs,0.11,0.5,0.15);
+[PKS2ruido,LOCS2ruido] = GetPeakPoints(CorruptedSignal2,Fs,0.11,0.5,0.15);
+% CORRIENDO 1min señal original vs con ruido
+[PKS3Original,LOCS3Original] = GetPeakPoints(ppgFullSignal(1,(11251:18750)),Fs,0.11,0.5,0.15);
+[PKS3ruido,LOCS3ruido] = GetPeakPoints(CorruptedSignal3,Fs,0.11,0.5,0.15);
+% CORRIENDO 1min señal original vs con ruido
+[PKS4Original,LOCS4Original] = GetPeakPoints(ppgFullSignal(1,(18751:26250)),Fs,0.11,0.5,0.15);
+[PKS4ruido,LOCS4ruido] = GetPeakPoints(CorruptedSignal4,Fs,0.11,0.5,0.15);
+% CORRIENDO 1min señal original vs con ruido
+[PKS5Original,LOCS5Original] = GetPeakPoints(ppgFullSignal(1,(26251:33750)),Fs,0.11,0.5,0.15);
+[PKS5ruido,LOCS5ruido] = GetPeakPoints(CorruptedSignal5,Fs,0.11,0.5,0.15);
