@@ -2,6 +2,7 @@ clear all
 clc
 %% RUIDO EN REPOSO PRIMEROS 30 SEGUNDOS
 k=0;
+prom=0;
 sm0=0;
 sm1=0;
 sm2=0;
@@ -110,6 +111,26 @@ CorruptedSignal5 = ppgFullSignal(1,(26251:33750))-ruido5;
 % CORRIENDO 1min señal original vs con ruido
 [PKS4Original,LOCS4Original] = GetPeakPoints(ppgFullSignal(1,(18751:26250)),Fs,0.11,0.5,0.15);
 [PKS4ruido,LOCS4ruido] = GetPeakPoints(CorruptedSignal4,Fs,0.11,0.5,0.15);
-% CORRIENDO 1min señal original vs con ruido
+% CORRIENDO 30s señal original vs con ruido
 [PKS5Original,LOCS5Original] = GetPeakPoints(ppgFullSignal(1,(26251:33750)),Fs,0.11,0.5,0.15);
 [PKS5ruido,LOCS5ruido] = GetPeakPoints(CorruptedSignal5,Fs,0.11,0.5,0.15);
+
+%% ANALISIS POR BPM
+
+BPMs = ReadBPM();
+movimiento=mean(BPMs((1:15),:));
+
+switch(movimiento)
+        case 1
+            segundos=mean(mbpm(:,(1:15)));
+        case 2
+            segundos=mean(mbpm(:,(15:45)));
+        case 3
+            segundos=mean(mbpm(:,(45:75)));
+        case 4
+            segundos=mean(mbpm(:,(75:105)));
+        case 5
+            segundos=mean(mbpm(:,(105:135)));
+        case 6
+            segundos=mean(mbpm(:,(135:end)));
+    end
