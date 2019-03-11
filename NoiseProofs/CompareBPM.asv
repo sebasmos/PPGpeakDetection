@@ -1,0 +1,54 @@
+%% function [segundos] = CompareBPM(movimiento,n)
+% movimiento: Specify the movement from 1-6 from the selected activities
+% n: Chose the realizacion to deploy from 1-12
+function [segundos] = CompareBPM(movimiento,n)
+%% RUIDO EN REPOSO PRIMEROS 30 SEGUNDOS
+k=0;
+prom=0;
+sm0=0;
+sm1=0;
+sm2=0;
+sm3=0;
+sm4=0;
+sm5=0;
+
+for k = 1:12
+    if k >= 10
+        labelstring = int2str(k);
+        word = strcat({'DATA_'},labelstring,{'_TYPE02_BPMtrace.mat'});
+        a = load(char(word));
+        TamRealizaciones(k) = length(a.BPM0);
+    else
+        labelstring = int2str(k);
+        word = strcat({'DATA_0'},labelstring,{'_TYPE02_BPMtrace.mat'});
+        a = load(char(word));
+        TamRealizaciones(k) = length(a.BPM0);
+    end
+end
+%%
+for k = 1:12
+    if k >= 10
+        labelstring = int2str(k);
+        word = strcat({'DATA_'},labelstring,{'_TYPE02_BPMtrace.mat'});
+        Trunk =  GetBPM(char(word));
+        Trunk = Trunk((1:140),1);
+        s(:,k) =  Trunk;
+    else       
+         labelstring = int2str(k);
+         word = strcat({'DATA_0'},labelstring,{'_TYPE02_BPMtrace.mat'});
+         Trunk =  GetBPM(char(word));
+         Trunk = Trunk(1:min(TamRealizaciones),1);
+         s(:,k) =  Trunk;
+    end
+end
+%%
+
+for i = 1:12
+        mov1(i) = mean(s((1:15),i));
+        mov2(i) = mean(s((15:45),n));
+        mov3(i) = mean(s((45:75),n));
+        mov4(i) = mean(s((75:105),n));
+        mov5(i) = mean(s((105:135),n));
+        mov6(i) = mean(s((135:end),n));
+   
+end

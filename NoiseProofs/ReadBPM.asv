@@ -38,6 +38,11 @@ for k = 1:12
          s(:,k) =  Trunk;
     end
 end
-
+%%
+swith(movimiento)
+case 1,
+    segundos = mean(s((1:15),n));
+case 2,
+    segundos = mean(s((1:15),n));
  
 end
