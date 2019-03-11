@@ -1,4 +1,8 @@
-
+%% function Noise = GetSavitzkyNoise(name,n,m,s)
+% name: dataset's name
+% n: Number of channel according to the dataset
+% m: Initial sample
+% s: Final Sample
 function Noise = GetSavitzkyNoise(name,n,m,s)
     ppg=load(name);
     ppgSignal = ppg.sig;

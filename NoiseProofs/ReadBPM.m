@@ -1,4 +1,4 @@
-function [prom] = ReadBPM()
+function [s] = ReadBPM()
 %% RUIDO EN REPOSO PRIMEROS 30 SEGUNDOS
 k=0;
 prom=0;
@@ -37,7 +37,6 @@ for k = 1:12
          Trunk = Trunk(1:min(TamRealizaciones),1);
          s(:,k) =  Trunk;
     end
-     prom = prom + s(:,k);
 end
 
  

@@ -1,5 +1,5 @@
 clear all
-close all
+cl
 clc
 %% ARTIFITIAL NOISE DESIGN 
 % This code intends to proof the viability of the obtained noise from the
