@@ -124,22 +124,22 @@ CorruptedSignal4 = ppgFullSignal(1,(18751:26250))-ruido4;
 CorruptedSignal5 = ppgFullSignal(1,(26251:33750))-ruido5;
 CorruptedSignal6 = ppgFullSignal(1,(33751:min(TamRealizaciones)))-ruido6;
 
-% ORIGINAL en reposo vs con ruido
+% 1. ORIGINAL en reposo vs con ruido
 [PKS1Original,LOCS1Original] = GetPeakPoints(ppgFullSignal(1,(1:3750)),Fs,0.11,0.5,0.05);
 [PKS1ruido,LOCS1ruido] = GetPeakPoints(CorruptedSignal1,Fs,0.11,0.5,0.05);
-% CORRIENDO 1min señal original vs con ruido
+% 2. CORRIENDO 1min señal original vs con ruido
 [PKS2Original,LOCS2Original] = GetPeakPoints(ppgFullSignal(1,(3751:11250)),Fs,0.11,0.5,0.15);
 [PKS2ruido,LOCS2ruido] = GetPeakPoints(CorruptedSignal2,Fs,0.11,0.5,0.15);
-% CORRIENDO 1min señal original vs con ruido
+% 3. CORRIENDO 1min señal original vs con ruido
 [PKS3Original,LOCS3Original] = GetPeakPoints(ppgFullSignal(1,(11251:18750)),Fs,0.11,0.5,0.15);
 [PKS3ruido,LOCS3ruido] = GetPeakPoints(CorruptedSignal3,Fs,0.11,0.5,0.15);
-% CORRIENDO 1min señal original vs con ruido
+% 4. CORRIENDO 1min señal original vs con ruido
 [PKS4Original,LOCS4Original] = GetPeakPoints(ppgFullSignal(1,(18751:26250)),Fs,0.11,0.5,0.15);
 [PKS4ruido,LOCS4ruido] = GetPeakPoints(CorruptedSignal4,Fs,0.11,0.5,0.15);
-% CORRIENDO 1min señal original vs con ruido
-[PKS5Original,LOCS5Original] = GetPeakPoints(ppgFullSignal(1,(26251:33750)),Fs,0.11,0.5,0.15);
-[PKS5ruido,LOCS5ruido] = GetPeakPoints(CorruptedSignal5,Fs,0.11,0.5,0.15);
-% CORRIENDO 30s señal original vs con ruido
+% 5. CORRIENDO 1min señal original vs con ruido
+[PKS5Original,LOCS5Original] = GetPeakPoints(ppgFullSignal(1,(26251:33750)),Fs,0.11,1,0.15);
+[PKS5ruido,LOCS5ruido] = GetPeakPoints(CorruptedSignal5,Fs,0.11,1,0.15);
+% 6. REST 30s señal original vs con ruido
 [PKS6Original,LOCS6Original] = GetPeakPoints(ppgFullSignal(1,(33751:end)),Fs,0.11,0.5,0.05);
 [PKS6ruido,LOCS6ruido] = GetPeakPoints(CorruptedSignal6,Fs,0.11,0.5,0.05);
 %% Error using HeartBeats from findpeaks
@@ -152,7 +152,7 @@ Error6 = 100*abs(size(LOCS6ruido(1,:))-size(LOCS6Original(1,:)))./size(LOCS6Orig
 ErrorFromFindPeaks = [Error1(2) Error2(2) Error3(2) Error4(2) Error5(2) Error6(2)];
 %% Error from BPM 
 % bpm stores the bpm in the matrix 6x12, where 1-6 represents the type of
-% activity and 1-12 represents the number of realizations. Since the bps is
+% activity and 1-12 represents the number of realizations. Since the bpm is
 % taken from 8 windows size and is overlapping every 6s, there are 2
 % effective seconds and therefore, the activity 1 (Rest per 30s)
 % corresponds to 15 effective seconds
@@ -165,4 +165,38 @@ Er4 = size(LOCS4ruido(1,:));
 Er5 = size(LOCS5ruido(1,:));
 Er6 = size(LOCS6ruido(1,:));
 E1 = 100*abs(Er1(2)-bpm(1,realizacion)./2)./bpm(1,realizacion);
-E2 = 100*abs(Er2(2)-bpm(1,realizacion))./bpm(2,realizacion);
+E2 = 100*abs(Er2(2)-bpm(2,realizacion))./bpm(2,realizacion);
+E3 = 100*abs(Er3(2)-bpm(3,realizacion))./bpm(3,realizacion);
+E4 = 100*abs(Er4(2)-bpm(4,realizacion))./bpm(4,realizacion);
+E5 = 100*abs(Er5(2)-bpm(5,realizacion))./bpm(5,realizacion);
+E6 = 100*abs(Er6(2)-bpm(6,realizacion)./2)./bpm(6,realizacion);
+ErrorFromBPM = [E1 E2 E3 E4 E5 E6];
+
+
+%% PROOF 2: ECG peaks detection
+% Random sample signal: 
+ecg = load('DATA_10_TYPE02.mat');
+ecgSig = ecg.sig;
+ecgFullSignal = ecgSig(1,(1:length(mediamuestral)));% match sizes 
+% Sample Frequency
+Fs = 125;
+% Normalize with min-max method
+ecgFullSignal = (ecgFullSignal-128)./255;
+ecgFullSignal = (ecgFullSignal-min(ecgFullSignal))./(max(ecgFullSignal)-min(ecgFullSignal));
+ecgF = abs(ecgFullSignal).^2;
+t = (0:length(ecgFullSignal)-1);   
+
+[ECG1Peaks,ECG1Locs] = GetECGPeakPoints(ecgF(1,(1:3750)),0.35,0.150);
+[ECG2Peaks,ECG2Locs] = GetECGPeakPoints(ecgF(1,(3751:11250)),0.35,0.150);
+[ECG3Peaks,ECG3Locs] = GetECGPeakPoints(ecgF(1,(11251:18750)),0.35,0.150);
+[ECG4Peaks,ECG4Locs] = GetECGPeakPoints(ecgF(1,(18751:26250)),0.35,0.150);
+[ECG5Peaks,ECG5Locs] = GetECGPeakPoints(ecgF(1,(26251:33750)),0.35,0.150);
+[ECG6Peaks,ECG6Locs] = GetECGPeakPoints(ecgF(1,(33751:end)),0.35,0.150);
+
+ECGERROR1 = 100*abs(Er1(2)-bpm(1,realizacion)./2)./bpm(1,realizacion);
+ECGERROR2 = 100*abs(Er2(2)-bpm(2,realizacion))./bpm(2,realizacion);
+ECGERROR3 = 100*abs(Er3(2)-bpm(3,realizacion))./bpm(3,realizacion);
+ECGERROR4 = 100*abs(Er4(2)-bpm(4,realizacion))./bpm(4,realizacion);
+ECGERROR5 = 100*abs(Er5(2)-bpm(5,realizacion))./bpm(5,realizacion);
+ECGERROR6 = 100*abs(Er6(2)-bpm(6,realizacion)./2)./bpm(6,realizacion);
+ErrorFromBPM = [E1 E2 E3 E4 E5 E6];

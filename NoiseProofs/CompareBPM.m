@@ -4,14 +4,6 @@
 function [bpm] = CompareBPM()
 %% RUIDO EN REPOSO PRIMEROS 30 SEGUNDOS
 k=0;
-prom=0;
-sm0=0;
-sm1=0;
-sm2=0;
-sm3=0;
-sm4=0;
-sm5=0;
-
 for k = 1:12
     if k >= 10
         labelstring = int2str(k);
@@ -41,8 +33,7 @@ for k = 1:12
          s(:,k) =  Trunk;
     end
 end
-%%
-
+%% Save in matrix with activities (rows) vs testing sample (Columns)
 for i = 1:12
         mov1(i) = mean(s((1:15),i));
         mov2(i) = mean(s((15:45),i));
