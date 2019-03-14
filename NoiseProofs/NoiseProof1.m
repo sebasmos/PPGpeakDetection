@@ -117,31 +117,31 @@ ruido5 = mediamuestral(1,(26251:33750));
 ruido6 = mediamuestral(1,(33751:min(TamRealizaciones)));
 
 % Sectionally take off noise from each correspondent activity.
-CorruptedSignal1 = ppgFullSignal(1,(1:3750))-ruido1;
-CorruptedSignal2 = ppgFullSignal(1,(3751:11250))-ruido2;
-CorruptedSignal3 = ppgFullSignal(1,(11251:18750))-ruido3;
-CorruptedSignal4 = ppgFullSignal(1,(18751:26250))-ruido4;
-CorruptedSignal5 = ppgFullSignal(1,(26251:33750))-ruido5;
-CorruptedSignal6 = ppgFullSignal(1,(33751:min(TamRealizaciones)))-ruido6;
+CleanedSignal1 = ppgFullSignal(1,(1:3750))-ruido1;
+CleanedSignal2 = ppgFullSignal(1,(3751:11250))-ruido2;
+CleanedSignal3 = ppgFullSignal(1,(11251:18750))-ruido3;
+CleanedSignal4 = ppgFullSignal(1,(18751:26250))-ruido4;
+CleanedSignal5 = ppgFullSignal(1,(26251:33750))-ruido5;
+CleanedSignal6 = ppgFullSignal(1,(33751:min(TamRealizaciones)))-ruido6;
 
-% 1. ORIGINAL en reposo vs con ruido
+% 1. ORIGINAL en reposo vs sin ruido
 [PKS1Original,LOCS1Original] = GetPeakPoints(ppgFullSignal(1,(1:3750)),Fs,0.11,0.5,0.05);
-[PKS1ruido,LOCS1ruido] = GetPeakPoints(CorruptedSignal1,Fs,0.11,0.5,0.05);
-% 2. CORRIENDO 1min señal original vs con ruido
+[PKS1ruido,LOCS1ruido] = GetPeakPoints(CleanedSignal1,Fs,0.11,0.5,0.05);
+% 2. CORRIENDO 1min señal original vs sin ruido
 [PKS2Original,LOCS2Original] = GetPeakPoints(ppgFullSignal(1,(3751:11250)),Fs,0.11,0.5,0.15);
-[PKS2ruido,LOCS2ruido] = GetPeakPoints(CorruptedSignal2,Fs,0.11,0.5,0.15);
-% 3. CORRIENDO 1min señal original vs con ruido
+[PKS2ruido,LOCS2ruido] = GetPeakPoints(CleanedSignal2,Fs,0.11,0.5,0.15);
+% 3. CORRIENDO 1min señal original vs sin ruido
 [PKS3Original,LOCS3Original] = GetPeakPoints(ppgFullSignal(1,(11251:18750)),Fs,0.11,0.5,0.15);
-[PKS3ruido,LOCS3ruido] = GetPeakPoints(CorruptedSignal3,Fs,0.11,0.5,0.15);
-% 4. CORRIENDO 1min señal original vs con ruido
+[PKS3ruido,LOCS3ruido] = GetPeakPoints(CleanedSignal3,Fs,0.11,0.5,0.15);
+% 4. CORRIENDO 1min señal original vs sin ruido
 [PKS4Original,LOCS4Original] = GetPeakPoints(ppgFullSignal(1,(18751:26250)),Fs,0.11,0.5,0.15);
-[PKS4ruido,LOCS4ruido] = GetPeakPoints(CorruptedSignal4,Fs,0.11,0.5,0.15);
-% 5. CORRIENDO 1min señal original vs con ruido
+[PKS4ruido,LOCS4ruido] = GetPeakPoints(CleanedSignal4,Fs,0.11,0.5,0.15);
+% 5. CORRIENDO 1min señal original vs sin ruido
 [PKS5Original,LOCS5Original] = GetPeakPoints(ppgFullSignal(1,(26251:33750)),Fs,0.11,1,0.15);
-[PKS5ruido,LOCS5ruido] = GetPeakPoints(CorruptedSignal5,Fs,0.11,1,0.15);
-% 6. REST 30s señal original vs con ruido
+[PKS5ruido,LOCS5ruido] = GetPeakPoints(CleanedSignal5,Fs,0.11,1,0.15);
+% 6. REST 30s señal original vs sin ruido
 [PKS6Original,LOCS6Original] = GetPeakPoints(ppgFullSignal(1,(33751:end)),Fs,0.11,0.5,0.05);
-[PKS6ruido,LOCS6ruido] = GetPeakPoints(CorruptedSignal6,Fs,0.11,0.5,0.05);
+[PKS6ruido,LOCS6ruido] = GetPeakPoints(CleanedSignal6,Fs,0.11,0.5,0.05);
 %% Error using HeartBeats from findpeaks
 ErrorFindP1 = 100*abs(size(LOCS1ruido(1,:))-size(LOCS1Original(1,:)))./size(LOCS1Original(1,:));
 ErrorFindP2 = 100*abs(size(LOCS2ruido(1,:))-size(LOCS2Original(1,:)))./size(LOCS2Original(1,:));
@@ -243,12 +243,12 @@ ECGCorruptedSignal6 = abs(ECGCorruptedSignal6).^2;
 [ecgS6Peaks,e6Locs] = GetECGPeakPoints(ecgF(1,(33751:end)),0.35,0.150);
 
 % Cleaned Signal with Savitzky noise
-[e1Peaks,e1Locs] = GetECGPeakPoints(ECGCorruptedSignal1,0.35,0.150);
-[e2Peaks,e2Locs] = GetECGPeakPoints(ECGCorruptedSignal2,0.35,0.150);
-[e3Peaks,e3Locs] = GetECGPeakPoints(ECGCorruptedSignal3,0.35,0.150);
-[e4Peaks,e4Locs] = GetECGPeakPoints(ECGCorruptedSignal4,0.35,0.150);
-[e5Peaks,e5Locs] = GetECGPeakPoints(ECGCorruptedSignal5,0.35,0.150);
-[e6Peaks,e6Locs] = GetECGPeakPoints(ECGCorruptedSignal6,0.35,0.150);
+[e1Peaks,ecg1Locs] = GetECGPeakPoints(ECGCorruptedSignal1,0.35,0.150);
+[e2Peaks,ecg2Locs] = GetECGPeakPoints(ECGCorruptedSignal2,0.35,0.150);
+[e3Peaks,ecg3Locs] = GetECGPeakPoints(ECGCorruptedSignal3,0.35,0.150);
+[e4Peaks,ecg4Locs] = GetECGPeakPoints(ECGCorruptedSignal4,0.35,0.150);
+[e5Peaks,ecg5Locs] = GetECGPeakPoints(ECGCorruptedSignal5,0.35,0.150);
+[e6Peaks,ecg6Locs] = GetECGPeakPoints(ECGCorruptedSignal6,0.35,0.150);
 
 %% Error using HeartBeats from findpeaks
 ErrorECGFindP1 = 100*abs(size(e1Peaks(1,:))-size(ecgS1Peaks(1,:)))./size(ecgS1Peaks(1,:));
