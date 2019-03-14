@@ -164,13 +164,12 @@ FindPeaks3 = size(LOCS3ruido(1,:));
 FindPeaks4 = size(LOCS4ruido(1,:));
 FindPeaks5 = size(LOCS5ruido(1,:));
 FindPeaks6 = size(LOCS6ruido(1,:));
-%%
+%% For computational reasons, we separate the 30s-activities
 bpm1 = bpm(1,realizacion)./2;
-EBPM1 = 100*abs(FindPeaks1(2)-bpm1)./bpm1;
 bpm6 = bpm(6,realizacion)./2;
-EBPM6 = 100*abs(FindPeaks6(2)-bpm6)./bpm6;
 
 %%
+EBPM1 = 100*abs(FindPeaks1(2)-bpm1)./bpm1;
 EBPM2 = 100*abs(FindPeaks2(2)-bpm(2,realizacion))./bpm(2,realizacion);
 EBPM3 = 100*abs(FindPeaks3(2)-bpm(3,realizacion))./bpm(3,realizacion);
 EBPM4 = 100*abs(FindPeaks4(2)-bpm(4,realizacion))./bpm(4,realizacion);
@@ -212,4 +211,50 @@ ECGERROR3 = 100*abs(FindPeaks3(2)-peaksECG3(2))./peaksECG3(2);
 ECGERROR4 = 100*abs(FindPeaks4(2)-peaksECG4(2))./peaksECG4(2);
 ECGERROR5 = 100*abs(FindPeaks5(2)-peaksECG5(2))./peaksECG5(2);
 ECGERROR6 = 100*abs(FindPeaks6(2)-peaksECG6(2))./peaksECG6(2);
+
 ErrorFromECG = [ECGERROR1 ECGERROR2 ECGERROR3 ECGERROR4 ECGERROR5 ECGERROR6];
+
+%% Proof 3: Savitzky noise is added to ECG signal. Why? Yes because
+
+
+% Sectionally take off noise from each correspondent activity.
+ECGCorruptedSignal1 = ecgFullSignal(1,(1:3750))-ruido1;
+ECGCorruptedSignal2 = ecgFullSignal(1,(3751:11250))-ruido2;
+ECGCorruptedSignal3 = ecgFullSignal(1,(11251:18750))-ruido3;
+ECGCorruptedSignal4 = ecgFullSignal(1,(18751:26250))-ruido4;
+ECGCorruptedSignal5 = ecgFullSignal(1,(26251:33750))-ruido5;
+ECGCorruptedSignal6 = ecgFullSignal(1,(33751:min(TamRealizaciones)))-ruido6;
+
+% Square ECG signal for easiest peaks detection
+ECGCorruptedSignal1 = abs(ECGCorruptedSignal1).^2;
+ECGCorruptedSignal2 = abs(ECGCorruptedSignal2).^2;
+ECGCorruptedSignal3 = abs(ECGCorruptedSignal3).^2;
+ECGCorruptedSignal4 = abs(ECGCorruptedSignal4).^2;
+ECGCorruptedSignal5 = abs(ECGCorruptedSignal5).^2;
+ECGCorruptedSignal6 = abs(ECGCorruptedSignal6).^2;
+
+%% Signal to be tested
+
+[ecgS1Peaks,e1Locs] = GetECGPeakPoints(ecgF(1,(1:3750)),0.35,0.150);
+[ecgS2Peaks,e2Locs] = GetECGPeakPoints(ecgF(1,(3751:11250)),0.35,0.150);
+[ecgS3Peaks,e3Locs] = GetECGPeakPoints(ecgF(1,(11251:18750)),0.35,0.150);
+[ecgS4Peaks,e4Locs] = GetECGPeakPoints(ecgF(1,(18751:26250)),0.35,0.150);
+[ecgS5Peaks,e5Locs] = GetECGPeakPoints(ecgF(1,(26251:33750)),0.35,0.150);
+[ecgS6Peaks,e6Locs] = GetECGPeakPoints(ecgF(1,(33751:end)),0.35,0.150);
+
+% Cleaned Signal with Savitzky noise
+[e1Peaks,e1Locs] = GetECGPeakPoints(ECGCorruptedSignal1,0.35,0.150);
+[e2Peaks,e2Locs] = GetECGPeakPoints(ECGCorruptedSignal2,0.35,0.150);
+[e3Peaks,e3Locs] = GetECGPeakPoints(ECGCorruptedSignal3,0.35,0.150);
+[e4Peaks,e4Locs] = GetECGPeakPoints(ECGCorruptedSignal4,0.35,0.150);
+[e5Peaks,e5Locs] = GetECGPeakPoints(ECGCorruptedSignal5,0.35,0.150);
+[e6Peaks,e6Locs] = GetECGPeakPoints(ECGCorruptedSignal6,0.35,0.150);
+
+%% Error using HeartBeats from findpeaks
+ErrorECGFindP1 = 100*abs(size(e1Peaks(1,:))-size(ecgS1Peaks(1,:)))./size(ecgS1Peaks(1,:));
+ErrorECGFindP2 = 100*abs(size(e2Peaks(1,:))-size(ecgS2Peaks(1,:)))./size(ecgS2Peaks(1,:));
+ErrorECGFindP3 = 100*abs(size(e3Peaks(1,:))-size(ecgS3Peaks(1,:)))./size(ecgS3Peaks(1,:));
+ErrorECGFindP4 = 100*abs(size(e4Peaks(1,:))-size(ecgS4Peaks(1,:)))./size(ecgS4Peaks(1,:));
+ErrorECGFindP5 = 100*abs(size(e5Peaks(1,:))-size(ecgS5Peaks(1,:)))./size(ecgS5Peaks(1,:));
+ErrorECGFindP6 = 100*abs(size(e6Peaks(1,:))-size(ecgS6Peaks(1,:)))./size(ecgS6Peaks(1,:));
+ErrorECGFromFindPeaksInECG = [ErrorECGFindP1(2) ErrorECGFindP2(2) ErrorECGFindP3(2) ErrorECGFindP4(2) ErrorECGFindP5(2) ErrorECGFindP6(2)];
