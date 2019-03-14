@@ -216,8 +216,8 @@ ECGERROR6 = 100*abs(FindPeaks6(2)-peaksECG6(2))./peaksECG6(2);
 
 ErrorFromECG = [ECGERROR1 ECGERROR2 ECGERROR3 ECGERROR4 ECGERROR5 ECGERROR6];
 
-%% Proof 3: Savitzky noise is removed from ECG signal. Why? Yes because I'm
-%kind of a big stubborn
+%% Proof 3: Savitzky noise is added to ECG signal. Why? Yes because
+
 
 % Sectionally take off noise from each correspondent activity.
 ECGCorruptedSignal1 = ecgFullSignal(1,(1:3750))-ruido1;
@@ -235,7 +235,7 @@ ECGCorruptedSignal4 = abs(ECGCorruptedSignal4).^2;
 ECGCorruptedSignal5 = abs(ECGCorruptedSignal5).^2;
 ECGCorruptedSignal6 = abs(ECGCorruptedSignal6).^2;
 
-%% Signal to be tested
+%% ECG Signal to be tested
 
 [ecgS1Peaks,e1Locs] = GetECGPeakPoints(ecgF(1,(1:3750)),0.35,0.150);
 [ecgS2Peaks,e2Locs] = GetECGPeakPoints(ecgF(1,(3751:11250)),0.35,0.150);

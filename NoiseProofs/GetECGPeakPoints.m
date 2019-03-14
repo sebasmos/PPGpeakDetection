@@ -4,7 +4,7 @@
 % minW: Ancho min
 % dist min : d
 
-function [ECGPeaks,ECGLocs] = GetECGPeakECGPoints(s,minW,d)
+function [ECGPeaks,ECGLocs] = GetECGPeakPoints(s,minW,d)
 
 [ECGPeaks,ECGLocs] = findpeaks(s,'MinPeakHeight',minW,...
     'MinPeakDistance',d);
