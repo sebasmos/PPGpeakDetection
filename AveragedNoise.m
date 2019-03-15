@@ -9,7 +9,7 @@ sm2=0;
 sm3=0;
 sm4=0;
 sm5=0;
-
+Fs=125;
 for k = 1:12
     if k >= 10
         labelstring = int2str(k);
@@ -61,24 +61,26 @@ end
 
 % M representa la suma de las 12 realizaciones para los 6 tipos diferentes
 % de ruido; Por tanto tiene la forma de 6 filas de ruidos y cada uno con un
-% tamaño seleccionado de 7500 muestras cada uno.
+% tamaï¿½o seleccionado de 7500 muestras cada uno.
 
 M=[sm0 zeros(1,3750); sm1; sm2; sm3; sm4; sm5 zeros(1,7500-length(sm5))];
 Realizaciones = 12;
 
-% Al realizar un promedio vertical, la suma también es vertical, por tanto
+% Al realizar un promedio vertical, la suma tambiï¿½n es vertical, por tanto
 % la media corresponde al promedio plano de cada una de las filas.
 Media0 = M./Realizaciones;
 % Reorganizamos las filas en una sola fila y le quitamos los ceros.
 v=[Media0(1,:) Media0(2,:) Media0(3,:) Media0(4,:) Media0(5,:) Media0(6,:)];
 mediamuestral=nonzeros(v);
-% De manera que media muestral tiene una señal promedio de todas las
-% señales unidas en una sola fila.
+% De manera que media muestral tiene una seï¿½al promedio de todas las
+% seï¿½ales unidas en una sola fila.
 mediamuestral=mediamuestral';
-
+h=hampel(mediamuestral,5,2); %Este serÃ­a nuestro ruido sin valores extremos
+t=(0:length(h)-1)/Fs;
+figure(1), plot(t,h),title('Total Averaged Noise'),xlabel('Time(s)'),ylabel('V'),axis tight,grid on
 %% VARIANZA INSESGADA
 
-% Se toman las 6 señales de 6 tipos diferentes de ruido y se sitúan en una
+% Se toman las 6 seï¿½ales de 6 tipos diferentes de ruido y se sitï¿½an en una
 % sola fila.
 V=[s s1 s2 s3 s4 s5];
 varianzamuestral= var(V);
@@ -105,7 +107,7 @@ for t1=1:10:b
             values(k)=V(k,t1).*V(k,t2);
         end
         Rxx(i,j)=mean(values);
-        Kxx(i,j)=Rxx(i,j)-(mediamuestral(t1).*mediamuestral(t2));
+        Kxx(i,j)=Rxx(i,j)-(h(t1).*h(t2));
         j=j+1;
         values=[];
     end
@@ -125,13 +127,13 @@ PSD=tf./2;
 %Graficos
 figure(1)
 subplot(3,1,1)
-plot(mediamuestral),grid on,title('Ruido por mediamuestral')
+plot(h),grid on,title('Ruido por mediamuestral')
 subplot(3,1,2)
 plot(varianzamuestral),grid on,title('Ruido por varianzamuestral')
 subplot(3,1,3)
 
 x = randn(1,1000);
-[MX,MY] = Distribucion(mediamuestral,varianzamuestral);
+[MX,MY] = Distribucion(h,varianzamuestral);
 
 %  for i=1:100:length(mediamuestral)
 %     y(i) = normpdf(x,MX,MY);
