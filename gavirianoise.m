@@ -50,19 +50,29 @@ end
     line([SP5 SP5],get(hax,'YLim'),'Color',[1 0 0]);
     line([SP6 SP6],get(hax,'YLim'),'Color',[1 0 0]);
     
- %% PRIMEROS 30 SEGUNDOS:
- 
+ %% FOR ACTIVITY 1 (INITIAL 30 SECONDS):
  addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/NoiseProofs');
  s30=sNorm(:,(1:3750));
- [PKS30,LOCS30]=findpeaks(s30(1,:),Fs,'MinPeakWidth',0.11,'MaxPeakWidth',0.5, ...
-              'Annotate','extents','MinPeakProminence',0.03);
-figure
-findpeaks(s30(1,:),Fs,'MinPeakWidth',0.11,'MaxPeakWidth',0.5, ...
-              'Annotate','extents','MinPeakProminence',0.05);
-hold on
-plot(LOCS30,PKS30,'o')   
-xlabel('Tiempo');
-ylabel('Signal');
-hold on
+ for k=1:12 
+     [PKS30,LOCS30]=GetPeakPoints(s30(k,:),Fs,0.11,0.5,0.005);
+     peaks(k)=length(PKS30);
+ end
+
+%%
+intPP=mean(diff(LOCS30)); %Here we obtain the average P-P interval
+fprintf('El intervalo PP promedio es %d ',intPP);
+fprintf('\n es decir que el ciclo PPG comienza aproximadamente %d segundos antes del pico',round(intPP/2,2));
+
+delay=round(0.4*Fs);
+M=length(diff(LOCS30));   % N�mero de intervalos RR encontrados
+offset=0.3;     % Para desplegar los intervalos RR en 3D por 
+                % encima de la se�al
+stack=zeros(M,min(LOCS30)); % Reserva memoria para almacenar 
+                        % matriz de M ciclos cardiacos
+qrs=zeros(M,2); % Reserva memoria para curva de intervalos RR en 3D
+
+
+
+
  
     
