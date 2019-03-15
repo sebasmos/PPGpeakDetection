@@ -53,6 +53,7 @@ end
  %% FOR ACTIVITY 1 (INITIAL 30 SECONDS):
  addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/NoiseProofs');
  s30=sNorm(:,(1:3750));
+
  for k=1:12 
      [PKS30,LOCS30]=GetPeakPoints(s30(k,:),Fs,0.11,0.5,0.005);
      peaks(k)=length(PKS30);
@@ -71,8 +72,3 @@ stack=zeros(M,min(LOCS30)); % Reserva memoria para almacenar
                         % matriz de M ciclos cardiacos
 qrs=zeros(M,2); % Reserva memoria para curva de intervalos RR en 3D
 
-
-
-
- 
-    
