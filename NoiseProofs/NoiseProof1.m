@@ -120,8 +120,8 @@ ECGERROR6 = 100*abs(FindPeaks6-peaksECG6)./peaksECG6;
 
 ErrorFromECG = [ECGERROR1 ECGERROR2 ECGERROR3 ECGERROR4 ECGERROR5 ECGERROR6];
 
-%% Proof 3: Savitzky noise is added to ECG signal. Why? Yes because I'm 
-% a big time stubborn. 
+%% Proof 3: Savitzky Noise is substracted from ECG signal, just in case
+%they're a little alike in both signals, then it's compared with the 
 %THIS PROOF IS NOT ABSOLUTELY NECESSARY.
 % Sectionally take off noise from each correspondent activity.
 ECGCleanedSignal1 = ecgFullSignal(1,(1:3750))-ruido1;
@@ -139,15 +139,6 @@ ECGCleanedSignal4 = (abs(ECGCleanedSignal4)).^2;
 ECGCleanedSignal5 = (abs(ECGCleanedSignal5)).^2;
 ECGCleanedSignal6 = (abs(ECGCleanedSignal6)).^2;
 
-% Signal to be tested
-
-[ecgS1Peaks,e1Locs] = GetECGPeakPoints(ecgF(1,(1:3750)),0.35,0.150);
-[ecgS2Peaks,e2Locs] = GetECGPeakPoints(ecgF(1,(3751:11250)),0.35,0.150);
-[ecgS3Peaks,e3Locs] = GetECGPeakPoints(ecgF(1,(11251:18750)),0.35,0.150);
-[ecgS4Peaks,e4Locs] = GetECGPeakPoints(ecgF(1,(18751:26250)),0.35,0.150);
-[ecgS5Peaks,e5Locs] = GetECGPeakPoints(ecgF(1,(26251:33750)),0.35,0.150);
-[ecgS6Peaks,e6Locs] = GetECGPeakPoints(ecgF(1,(33751:end)),0.35,0.150);
-
 % Cleaned Signal with Savitzky noise
 [e1Peaks,ecg1Locs] = GetECGPeakPoints(ECGCleanedSignal1,0.09,0.150);
 [e2Peaks,ecg2Locs] = GetECGPeakPoints(ECGCleanedSignal2,0.09,0.150);
@@ -156,11 +147,11 @@ ECGCleanedSignal6 = (abs(ECGCleanedSignal6)).^2;
 [e5Peaks,ecg5Locs] = GetECGPeakPoints(ECGCleanedSignal5,0.09,0.150);
 [e6Peaks,ecg6Locs] = GetECGPeakPoints(ECGCleanedSignal6,0.09,0.150);
 
-%% Error using HeartBeats from findpeaks
-ErrorECGFindP1 = 100*abs(size(e1Peaks(1,:))-size(ecgS1Peaks(1,:)))./size(ecgS1Peaks(1,:));
-ErrorECGFindP2 = 100*abs(size(e2Peaks(1,:))-size(ecgS2Peaks(1,:)))./size(ecgS2Peaks(1,:));
-ErrorECGFindP3 = 100*abs(size(e3Peaks(1,:))-size(ecgS3Peaks(1,:)))./size(ecgS3Peaks(1,:));
-ErrorECGFindP4 = 100*abs(size(e4Peaks(1,:))-size(ecgS4Peaks(1,:)))./size(ecgS4Peaks(1,:));
-ErrorECGFindP5 = 100*abs(size(e5Peaks(1,:))-size(ecgS5Peaks(1,:)))./size(ecgS5Peaks(1,:));
-ErrorECGFindP6 = 100*abs(size(e6Peaks(1,:))-size(ecgS6Peaks(1,:)))./size(ecgS6Peaks(1,:));
-ErrorECGFromFindPeaksInECG = [ErrorECGFindP1(2) ErrorECGFindP2(2) ErrorECGFindP3(2) ErrorECGFindP4(2) ErrorECGFindP5(2) ErrorECGFindP6(2)];
+% Error using HeartBeats from findpeaks
+ErrorECGFindP1 = 100*abs(length(e1Peaks)-length(ECG1Peaks))./length(ECG1Peaks);
+ErrorECGFindP2 = 100*abs(length(e2Peaks)-length(ECG2Peaks))./length(ECG1Peaks);
+ErrorECGFindP3 = 100*abs(length(e3Peaks)-length(ECG3Peaks))./length(ECG1Peaks);
+ErrorECGFindP4 = 100*abs(length(e4Peaks)-length(ECG4Peaks))./length(ECG1Peaks);
+ErrorECGFindP5 = 100*abs(length(e5Peaks)-length(ECG5Peaks))./length(ECG1Peaks);
+ErrorECGFindP6 = 100*abs(length(e6Peaks)-length(ECG6Peaks))./length(ECG1Peaks);
+ErrorECGFromFindPeaksInECG = [ErrorECGFindP1 ErrorECGFindP2 ErrorECGFindP3 ErrorECGFindP4 ErrorECGFindP5 ErrorECGFindP6];
