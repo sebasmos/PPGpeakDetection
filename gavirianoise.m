@@ -63,4 +63,10 @@ hold on
 plot(LOCS30,PKS30,'o')   
 xlabel('Tiempo');
 ylabel('Signal');
+<<<<<<< HEAD
 hold on
+=======
+hold on
+ 
+    
+>>>>>>> 43482ef3b2a86b24d7952fffd5d1104e62881b41
