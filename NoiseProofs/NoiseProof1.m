@@ -120,38 +120,3 @@ ECGERROR6 = 100*abs(FindPeaks6-peaksECG6)./peaksECG6;
 
 ErrorFromECG = [ECGERROR1 ECGERROR2 ECGERROR3 ECGERROR4 ECGERROR5 ECGERROR6];
 
-%% Proof 3: Savitzky Noise is substracted from ECG signal, just in case
-%they're a little alike in both signals, then it's compared with the 
-%THIS PROOF IS NOT ABSOLUTELY NECESSARY.
-% Sectionally take off noise from each correspondent activity.
-ECGCleanedSignal1 = ecgFullSignal(1,(1:3750))-ruido1;
-ECGCleanedSignal2 = ecgFullSignal(1,(3751:11250))-ruido2;
-ECGCleanedSignal3 = ecgFullSignal(1,(11251:18750))-ruido3;
-ECGCleanedSignal4 = ecgFullSignal(1,(18751:26250))-ruido4;
-ECGCleanedSignal5 = ecgFullSignal(1,(26251:33750))-ruido5;
-ECGCleanedSignal6 = ecgFullSignal(1,(33751:min(TamRealizaciones)))-ruido6;
-
-% Square ECG signal for easiest peaks detection
-ECGCleanedSignal1 = (abs(ECGCleanedSignal1)).^2;
-ECGCleanedSignal2 = (abs(ECGCleanedSignal2)).^2;
-ECGCleanedSignal3 = (abs(ECGCleanedSignal3)).^2;
-ECGCleanedSignal4 = (abs(ECGCleanedSignal4)).^2;
-ECGCleanedSignal5 = (abs(ECGCleanedSignal5)).^2;
-ECGCleanedSignal6 = (abs(ECGCleanedSignal6)).^2;
-
-% Cleaned Signal with Savitzky noise
-[e1Peaks,ecg1Locs] = GetECGPeakPoints(ECGCleanedSignal1,0.09,0.150);
-[e2Peaks,ecg2Locs] = GetECGPeakPoints(ECGCleanedSignal2,0.09,0.150);
-[e3Peaks,ecg3Locs] = GetECGPeakPoints(ECGCleanedSignal3,0.09,0.150);
-[e4Peaks,ecg4Locs] = GetECGPeakPoints(ECGCleanedSignal4,0.09,0.150);
-[e5Peaks,ecg5Locs] = GetECGPeakPoints(ECGCleanedSignal5,0.09,0.150);
-[e6Peaks,ecg6Locs] = GetECGPeakPoints(ECGCleanedSignal6,0.09,0.150);
-
-% Error using HeartBeats from findpeaks
-ErrorECGFindP1 = 100*abs(length(e1Peaks)-length(ECG1Peaks))./length(ECG1Peaks);
-ErrorECGFindP2 = 100*abs(length(e2Peaks)-length(ECG2Peaks))./length(ECG1Peaks);
-ErrorECGFindP3 = 100*abs(length(e3Peaks)-length(ECG3Peaks))./length(ECG1Peaks);
-ErrorECGFindP4 = 100*abs(length(e4Peaks)-length(ECG4Peaks))./length(ECG1Peaks);
-ErrorECGFindP5 = 100*abs(length(e5Peaks)-length(ECG5Peaks))./length(ECG1Peaks);
-ErrorECGFindP6 = 100*abs(length(e6Peaks)-length(ECG6Peaks))./length(ECG1Peaks);
-ErrorECGFromFindPeaksInECG = [ErrorECGFindP1 ErrorECGFindP2 ErrorECGFindP3 ErrorECGFindP4 ErrorECGFindP5 ErrorECGFindP6];
