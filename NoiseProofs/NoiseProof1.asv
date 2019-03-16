@@ -7,18 +7,15 @@ clc
 %% Initial Conditions
 % Parameters for findpeaks Function
 % MinPeakWidth
-MinPeakWidthRest = 0.11;
+MinPeakWidthRest_1 = 0.11;
 MinPealWidthRun_1to6 = 0.11;
-% MaxWidthPeak
+%MaxWidthPeak
 MaxWidthRest1 = 0.5;
 MaxWidthRun2 = 0.5;
 MaxWidthRun3 = 0.5;
 MaxWidthRun4 = 0.5;
 MaxWidthRun5 = 1;
 MaxWidthRest6 = 0.5;
-%Prominences
-ProminenceInRest = 0.05;
-ProminenceRunning = 0.15;
 % MiN Width in ECG
 MinWidthECGRest = 0.35;
 MinWidthECGRun = 0.35;
@@ -51,28 +48,28 @@ CleanedSignal6 = ppgFullSignal(1,(33751:min(TamRealizaciones)))-ruido6;
 
 % 1. ORIGINAL en reposo vs sin ruido
 [PKS1Original,LOCS1Original] = GetPeakPoints(ppgFullSignal(1,(1:3750)),...
-    Fs,MinPeakWidthRest,MaxWidthRest1,ProminenceInRest);
-[PKS1ruido,LOCS1ruido] = GetPeakPoints(CleanedSignal1,Fs,MinPeakWidthRest,MaxWidthRest1,ProminenceInRest);
+    Fs,MinPeakWidthRest_1,MaxWidthRest1,0.05);
+[PKS1ruido,LOCS1ruido] = GetPeakPoints(CleanedSignal1,Fs,MinPeakWidthRest_1,MaxWidthRest1,0.05);
 % 2. CORRIENDO 1min señal original vs sin ruido
 [PKS2Original,LOCS2Original] = GetPeakPoints(ppgFullSignal(1,(3751:11250)),...
-    Fs,MinPealWidthRun_1to6,MaxWidthRun2,ProminenceRunning);
-[PKS2ruido,LOCS2ruido] = GetPeakPoints(CleanedSignal2,Fs,MinPealWidthRun_1to6,MaxWidthRun2,ProminenceRunning);
+    Fs,MinPealWidthRun_1,MaxWidthRun2,0.15);
+[PKS2ruido,LOCS2ruido] = GetPeakPoints(CleanedSignal2,Fs,MinPealWidthRun_1,MaxWidthRun2,0.15);
 % 3. CORRIENDO 1min señal original vs sin ruido
 [PKS3Original,LOCS3Original] = GetPeakPoints(ppgFullSignal(1,(11251:18750)),...
-    Fs,MinPealWidthRun_1to6,MaxWidthRun3,ProminenceRunning);
-[PKS3ruido,LOCS3ruido] = GetPeakPoints(CleanedSignal3,Fs,MinPealWidthRun_1to6,MaxWidthRun3,ProminenceRunning);
+    Fs,MinPealWidthRun_1,MaxWidthRun3,0.15);
+[PKS3ruido,LOCS3ruido] = GetPeakPoints(CleanedSignal3,Fs,MinPealWidthRun_1,MaxWidthRun3,0.15);
 % 4. CORRIENDO 1min señal original vs sin ruido
 [PKS4Original,LOCS4Original] = GetPeakPoints(ppgFullSignal(1,(18751:26250)),...
-    Fs,MinPealWidthRun_1to6,MaxWidthRun4,ProminenceRunning);
-[PKS4ruido,LOCS4ruido] = GetPeakPoints(CleanedSignal4,Fs,MinPealWidthRun_1to6,MaxWidthRun4,ProminenceRunning);
+    Fs,MinPealWidthRun_1,MaxWidthRun4,0.15);
+[PKS4ruido,LOCS4ruido] = GetPeakPoints(CleanedSignal4,Fs,MinPealWidthRun_1,MaxWidthRun4,0.15);
 % 5. CORRIENDO 1min señal original vs sin ruido
 [PKS5Original,LOCS5Original] = GetPeakPoints(ppgFullSignal(1,(26251:33750)),...
-    Fs,MinPealWidthRun_1to6,MaxWidthRun5,ProminenceRunning);
-[PKS5ruido,LOCS5ruido] = GetPeakPoints(CleanedSignal5,Fs,MinPealWidthRun_1to6,MaxWidthRun5,ProminenceRunning);
+    Fs,MinPealWidthRun_1,MaxWidthRun5,0.15);
+[PKS5ruido,LOCS5ruido] = GetPeakPoints(CleanedSignal5,Fs,MinPealWidthRun_1,MaxWidthRun5,0.15);
 % 6. REST 30s señal original vs sin ruido
 [PKS6Original,LOCS6Original] = GetPeakPoints(ppgFullSignal(1,(33751:end)),...
-    Fs,MinPeakWidthRest,MaxWidthRest6,ProminenceInRest);
-[PKS6ruido,LOCS6ruido] = GetPeakPoints(CleanedSignal6,Fs,MinPeakWidthRest,MaxWidthRest6,ProminenceInRest);
+    Fs,MinPeakWidthRest_1,MaxWidthRest6,0.05);
+[PKS6ruido,LOCS6ruido] = GetPeakPoints(CleanedSignal6,Fs,MinPeakWidthRest_1,MaxWidthRest6,0.05);
 
 %% Error using HeartBeats from findpeaks
 ErrorFindP1 = 100*abs(length(LOCS1ruido(1,:))-length(LOCS1Original(1,:)))./length(LOCS1Original(1,:));
@@ -122,12 +119,12 @@ ecgFullSignal = (ecgFullSignal-min(ecgFullSignal))./(max(ecgFullSignal)-min(ecgF
 ecgF = (abs(ecgFullSignal)).^2;
 t = (0:length(ecgFullSignal)-1)/Fs;   
 
-[ECG1Peaks,ECG1Locs] = GetECGPeakPoints(ecgF(1,(1:3750)),MinWidthECGRest,0.150);
-[ECG2Peaks,ECG2Locs] = GetECGPeakPoints(ecgF(1,(3751:11250)),MinWidthECGRun,0.150);
-[ECG3Peaks,ECG3Locs] = GetECGPeakPoints(ecgF(1,(11251:18750)),MinWidthECGRun,0.150);
-[ECG4Peaks,ECG4Locs] = GetECGPeakPoints(ecgF(1,(18751:26250)),MinWidthECGRun,0.150);
-[ECG5Peaks,ECG5Locs] = GetECGPeakPoints(ecgF(1,(26251:33750)),MinWidthECGRun,0.150);
-[ECG6Peaks,ECG6Locs] = GetECGPeakPoints(ecgF(1,(33751:end)),MinWidthECGRest,0.150);
+[ECG1Peaks,ECG1Locs] = GetECGPeakPoints(ecgF(1,(1:3750)),0.35,0.150);
+[ECG2Peaks,ECG2Locs] = GetECGPeakPoints(ecgF(1,(3751:11250)),0.35,0.150);
+[ECG3Peaks,ECG3Locs] = GetECGPeakPoints(ecgF(1,(11251:18750)),0.35,0.150);
+[ECG4Peaks,ECG4Locs] = GetECGPeakPoints(ecgF(1,(18751:26250)),0.35,0.150);
+[ECG5Peaks,ECG5Locs] = GetECGPeakPoints(ecgF(1,(26251:33750)),0.35,0.150);
+[ECG6Peaks,ECG6Locs] = GetECGPeakPoints(ecgF(1,(33751:end)),0.35,0.150);
 
 peaksECG1 = length(ECG1Locs);
 peaksECG2 = length(ECG2Locs);
