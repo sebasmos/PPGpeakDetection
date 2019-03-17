@@ -54,10 +54,10 @@ end
  addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/NoiseProofs');
  s30=sNorm(:,(1:3750));
 
- for k=1:12 
-     [PKS30,LOCS30]=GetPeakPoints(s30(k,:),Fs,0.11,0.5,0.005);
-     peaks(k)=length(PKS30);
- end
+ %for k=1:12 
+     [PKS30,LOCS30]=GetPeakPoints(s30(1,:),Fs,0.11,0.5,0.005);
+     peaks=length(PKS30);
+ %end
 
 %%
 intPP=mean(diff(LOCS30)); %Here we obtain the average P-P interval
