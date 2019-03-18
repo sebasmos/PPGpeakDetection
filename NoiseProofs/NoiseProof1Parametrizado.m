@@ -8,7 +8,7 @@ clc
 % Parameters for findpeaks Function
 % MinPeakWidth
 MinPeakWidthRest1 = 0.13;
-MinPealWidthRun_2 = 0.07;
+MinPealWidthRun_2 = 0.05;
 MinPealWidthRun_3 = 0.05;
 MinPealWidthRun_4 = 0.07;
 MinPealWidthRun_5 = 0.05;
@@ -23,12 +23,13 @@ MaxWidthRest6 = 0.5;
 % Prominence in PPG
 ProminenceInRest = 0.005;
 ProminenceRunning = 0.04;
-% MiN Width in ECG
-MinWidthECGRest1 = 0.45;
-MinWidthECGRun2 = 0.5;
-MinWidthECGRun3 = 0.48;
-MinWidthECGRun4 = 0.45;
-MinWidthECGRun5 = 0.45;
+%% INITIAL CONDITIONS FOR ECG
+% Min Width in ECG
+MinWidthECGRest1 = 0.48;
+MinWidthECGRun2 = 0.38;
+MinWidthECGRun3 = 0.45;
+MinWidthECGRun4 = 0.43;
+MinWidthECGRun5 = 0.38;
 MinWidthECGRest6 = 0.35;
 %Min Dist in ECG
 minDistRest1 = 50;
@@ -36,7 +37,7 @@ minDistRun2 = 35;
 minDistRun3 = 35;
 minDistRun4 = 30;
 minDistRun5 = 30;
-minDistRest6 = 35;
+minDistRest6 = 30;
 %% PROOF 1: Cleaning corrupted signal with Savitzky-Golay filter.
 % Random sample signal: 
 ppg = load('DATA_08_TYPE02.mat');
