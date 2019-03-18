@@ -7,38 +7,39 @@ clc
 %% Initial Conditions
 % Parameters for findpeaks Function
 % MinPeakWidth
-MinPeakWidthRest = 0.11;
-MinPealWidthRun_2 = 0.11;
-MinPealWidthRun_3 = 0.11;
-MinPealWidthRun_4 = 0.11;
-MinPealWidthRun_5 = 0.11;
-% MaxWidthPeak
+MinPeakWidthRest1 = 0.13;
+MinPealWidthRun_2 = 0.07;
+MinPealWidthRun_3 = 0.05;
+MinPealWidthRun_4 = 0.07;
+MinPealWidthRun_5 = 0.05;
+MinPeakWidthRest6 = 0.1;
+% MaxWidthPeak in PPG
 MaxWidthRest1 = 0.5;
 MaxWidthRun2 = 0.5;
-MaxWidthRun3 = 0.5;
-MaxWidthRun4 = 0.5;
+MaxWidthRun3 = 0.3;
+MaxWidthRun4 = 0.3;
 MaxWidthRun5 = 1;
 MaxWidthRest6 = 0.5;
-%Prominences
-ProminenceInRest = 0.05;
-ProminenceRunning = 0.15;
+% Prominence in PPG
+ProminenceInRest = 0.005;
+ProminenceRunning = 0.04;
 % MiN Width in ECG
-MinWidthECGRest1 = 0.6;
-MinWidthECGRun2 = 0.55;
-MinWidthECGRun3 = 0.6;
-MinWidthECGRun4 = 0.65;
-MinWidthECGRun5 = 0.7;
-MinWidthECGRest6 = 0.6;
+MinWidthECGRest1 = 0.45;
+MinWidthECGRun2 = 0.5;
+MinWidthECGRun3 = 0.48;
+MinWidthECGRun4 = 0.45;
+MinWidthECGRun5 = 0.45;
+MinWidthECGRest6 = 0.35;
 %Min Dist in ECG
-minDistRest1 = 0.15;
-minDistRun2 = 0.15;
-minDistRun3 = 0.15;
-minDistRun4 = 0.15;
-minDistRun5 = 0.15;
-minDistRest6 = 0.15;
+minDistRest1 = 50;
+minDistRun2 = 35;
+minDistRun3 = 35;
+minDistRun4 = 30;
+minDistRun5 = 30;
+minDistRest6 = 35;
 %% PROOF 1: Cleaning corrupted signal with Savitzky-Golay filter.
 % Random sample signal: 
-ppg = load('DATA_07_TYPE02.mat');
+ppg = load('DATA_08_TYPE02.mat');
 ppgSig = ppg.sig;
 ppgFullSignal = ppgSig(2,(1:length(mediamuestral)));% match sizes 
 % Sample Frequency
@@ -67,8 +68,8 @@ CleanedSignal6 = ppgFullSignal(1,(33751:min(TamRealizaciones)))-ruido6;
 
 % 1. ORIGINAL en reposo vs sin ruido
 [PKS1Original,LOCS1Original] = GetPeakPoints(ppgFullSignal(1,(1:3750)),...
-    Fs,MinPeakWidthRest,MaxWidthRest1,ProminenceInRest);
-[PKS1ruido,LOCS1ruido] = GetPeakPoints(CleanedSignal1,Fs,MinPeakWidthRest,MaxWidthRest1,ProminenceInRest);
+    Fs,MinPeakWidthRest1,MaxWidthRest1,ProminenceInRest);
+[PKS1ruido,LOCS1ruido] = GetPeakPoints(CleanedSignal1,Fs,MinPeakWidthRest1,MaxWidthRest1,ProminenceInRest);
 % 2. CORRIENDO 1min señal original vs sin ruido
 [PKS2Original,LOCS2Original] = GetPeakPoints(ppgFullSignal(1,(3751:11250)),...
     Fs,MinPealWidthRun_2,MaxWidthRun2,ProminenceRunning);
@@ -87,8 +88,8 @@ CleanedSignal6 = ppgFullSignal(1,(33751:min(TamRealizaciones)))-ruido6;
 [PKS5ruido,LOCS5ruido] = GetPeakPoints(CleanedSignal5,Fs,MinPealWidthRun_5,MaxWidthRun5,ProminenceRunning);
 % 6. REST 30s señal original vs sin ruido
 [PKS6Original,LOCS6Original] = GetPeakPoints(ppgFullSignal(1,(33751:end)),...
-    Fs,MinPeakWidthRest,MaxWidthRest6,ProminenceInRest);
-[PKS6ruido,LOCS6ruido] = GetPeakPoints(CleanedSignal6,Fs,MinPeakWidthRest,MaxWidthRest6,ProminenceInRest);
+    Fs,MinPeakWidthRest6,MaxWidthRest6,ProminenceInRest);
+[PKS6ruido,LOCS6ruido] = GetPeakPoints(CleanedSignal6,Fs,MinPeakWidthRest6,MaxWidthRest6,ProminenceInRest);
 
 %% Error using HeartBeats from findpeaks
 ErrorFindP1 = 100*abs(length(LOCS1ruido)-length(LOCS1Original))./length(LOCS1Original);
@@ -130,7 +131,7 @@ ErrorFromBPM = [EBPM1 EBPM2 EBPM3 EBPM4 EBPM5 EBPM6];
 
 %% PROOF 2: ECG peaks detection
 % Random sample signal: 
-ecg = load('DATA_07_TYPE02.mat');
+ecg = load('DATA_08_TYPE02.mat');
 ecgSig = ecg.sig;
 ecgFullSignal = ecgSig(1,(1:length(mediamuestral)));% match sizes 
 % Normalize with min-max method
@@ -145,7 +146,7 @@ t = (0:length(ecgFullSignal)-1)/Fs;
 [ECG3Peaks,ECG3Locs] = GetECGPeakPoints(ecgF(1,(11251:18750)),MinWidthECGRun3,minDistRun3);
 [ECG4Peaks,ECG4Locs] = GetECGPeakPoints(ecgF(1,(18751:26250)),MinWidthECGRun4,minDistRun4);
 [ECG5Peaks,ECG5Locs] = GetECGPeakPoints(ecgF(1,(26251:33750)),MinWidthECGRun5,minDistRun5);
-[ECG6Peaks,ECG6Locs] = GetECGPeakPoints(ecgF(1,(33751:end)),MinWidthECGRest6,minDistRest1);
+[ECG6Peaks,ECG6Locs] = GetECGPeakPoints(ecgF(1,(33751:end)),MinWidthECGRest6,minDistRest6);
 
 peaksECG1 = length(ECG1Locs);
 peaksECG2 = length(ECG2Locs);
@@ -160,10 +161,9 @@ ECGERROR3 = 100*abs(FindPeaks3-peaksECG3)./peaksECG3;
 ECGERROR4 = 100*abs(FindPeaks4-peaksECG4)./peaksECG4;
 ECGERROR5 = 100*abs(FindPeaks5-peaksECG5)./peaksECG5;
 ECGERROR6 = 100*abs(FindPeaks6-peaksECG6)./peaksECG6;
-
 ErrorFromECG = [ECGERROR1 ECGERROR2 ECGERROR3 ECGERROR4 ECGERROR5 ECGERROR6];
 
-FindPeaksOriginalPeaks = [FindPeaks1 FindPeaks2 FindPeaks3 FindPeaks4 FindPeaks5 FindPeaks6 ]
+FindPeaksOriginalPeaks = [length(LOCS1Original) length(LOCS2Original) length(LOCS3Original) length(LOCS4Original) length(LOCS5Original) length(LOCS6Original)]
 
 FindPeakDenoisedPeaks = [length(PKS1ruido) length(PKS2ruido) length(PKS3ruido) length(PKS4ruido) length(PKS5ruido) length(PKS6ruido)] 
 
