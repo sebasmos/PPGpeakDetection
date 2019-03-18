@@ -78,23 +78,17 @@ t60s=(0:length(activity2)-1)/Fs;
 tfin=(0:length(activity6)-1)/Fs;
 realization=1; %change this value to update realization.
 figure(2)
-plot(t30s,activity1(realization,:)),title('Detrended signal for activity 1'), xlabel('Time (s)'),grid on, axis tight,
+plot(t30s,activity1(realization,:)),title('Detrended signal for activity 1'), xlabel('Time (s)')
 figure(3)
-plot(t60s,activity2(realization,:)),title('Detrended signal for activity 2'), xlabel('Time (s)'),grid on, axis tight,
+plot(t60s,activity2(realization,:)),title('Detrended signal for activity 2'), xlabel('Time (s)')
 figure(4)
-plot(t60s,activity3(realization,:)),title('Detrended signal for activity 3'), xlabel('Time (s)'),grid on, axis tight,
-figure(5)
-plot(t60s,activity4(realization,:)),title('Detrended signal for activity 4'), xlabel('Time (s)'),grid on, axis tight,
-figure(6)
-plot(t60s,activity5(realization,:)),title('Detrended signal for activity 5'), xlabel('Time (s)'),grid on, axis tight,
-figure(7)
-plot(tfin,activity6(realization,:)),title('Detrended signal for activity 6'), xlabel('Time (s)'),grid on, axis tight,
-
+plot(t60s,activity1(realization,:)),title('Detrended signal for activity 1'), xlabel('Time (s)')
  %% FOR ACTIVITY 1 (INITIAL 30 SECONDS):
  addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/NoiseProofs');
- 
+ s30=sNorm(:,(1:3750));
+
  %for k=1:12 
-     [PKS1,LOCS1]=GetPeakPoints(activity1(1,:),Fs,0.11,0.5,0.005);
+     [PKS30,LOCS30]=GetPeakPoints(s30(1,:),Fs,0.11,0.5,0.005);
      peaks=length(PKS30);
  %end
 
