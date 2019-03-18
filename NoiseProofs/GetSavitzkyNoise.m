@@ -20,7 +20,7 @@ function Noise = GetSavitzkyNoise(name,n,m,s)
 %     else
 %         media = Detrending(sNorm,10);
 %     end
-     media=ValoresMedia(sNorm);
+    media=ValoresMedia(sNorm);
     Noise=sNorm-sfilt+media;
 
 end
