@@ -32,7 +32,6 @@ CleanedSignal5 = ppgFullSignal(1,(26251:33750))-ruido5;
 CleanedSignal6 = ppgFullSignal(1,(33751:min(TamRealizaciones)))-ruido6;
 
 % 1. ORIGINAL en reposo vs sin ruido
-
 [PKS1Original,LOCS1Original] = GetPeakPoints(ppgFullSignal(1,(1:3750)),Fs,0.09,0.5,0.06);
 [PKS1ruido,LOCS1ruido] = GetPeakPoints(CleanedSignal1,Fs,0.11,0.5,0.06);
 % 2. CORRIENDO 1min se�al original vs sin ruido

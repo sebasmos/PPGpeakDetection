@@ -162,14 +162,13 @@ ECGERROR5 = 100*abs(FindPeaks5-peaksECG5)./peaksECG5;
 ECGERROR6 = 100*abs(FindPeaks6-peaksECG6)./peaksECG6;
 
 ErrorFromECG = [ECGERROR1 ECGERROR2 ECGERROR3 ECGERROR4 ECGERROR5 ECGERROR6];
-disp('FindPeaksOriginal peaks')
-FindPeaksO = [FindPeaks1 FindPeaks2 FindPeaks3 FindPeaks4 FindPeaks5 FindPeaks6 ]
-disp('FindPeakDenoised peaks ')
-FindPeakD = [PKS1ruido PKS2ruido PKS3ruido PKS4ruido PKS5ruido PKS6ruido] 
-disp('BPM peaks ')
-showBPM = [bpm1 bpm(2,realizacion) bpm(3,realizacion) bpm(4,realizacion) bpm(5,realizacion) bpm6]
-disp('ECG peaks')
-showECG = 
-showECGPeaks = []
+
+FindPeaksOriginalPeaks = [FindPeaks1 FindPeaks2 FindPeaks3 FindPeaks4 FindPeaks5 FindPeaks6 ]
+
+FindPeakDenoisedPeaks = [length(PKS1ruido) length(PKS2ruido) length(PKS3ruido) length(PKS4ruido) length(PKS5ruido) length(PKS6ruido)] 
+
+showBPMPeaks = [bpm1 bpm(2,realizacion) bpm(3,realizacion) bpm(4,realizacion) bpm(5,realizacion) bpm6]
+
+showECGPeaks = [peaksECG1 peaksECG2 peaksECG3 peaksECG4 peaksECG5 peaksECG6  ]
 disp('CALCULO % ERRORES: Fila 1 (FindPeaks), Fila 2 (BPM), Fila 3 (ECG)')
 ErroresTotales = [ErrorFromFindPeaks;ErrorFromBPM;ErrorFromECG]
