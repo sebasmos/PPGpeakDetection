@@ -1,4 +1,4 @@
-function valoresmedia = Detrending(signal,n)
+function y = Detrending(signal,n)
     L=length(signal);
     bp=[];
     if(mod(L,n)==0)
@@ -10,7 +10,7 @@ function valoresmedia = Detrending(signal,n)
             aux=aux+incremento;
         end
         y=detrend(signal,'linear',bp);
-        valoresmedia=signal-y;
+        %valoresmedia=signal-y;
     else
         incremento=450;
         j=1;
@@ -21,6 +21,6 @@ function valoresmedia = Detrending(signal,n)
             j=j+1;
         end
         y=detrend(signal,'linear',bp);
-        valoresmedia=signal-y;
+        %valoresmedia=signal-y;
     end
 end
