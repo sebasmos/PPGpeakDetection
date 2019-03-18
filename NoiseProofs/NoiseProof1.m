@@ -6,7 +6,7 @@ clc
 
 %% PROOF 1: Cleaning corrupted signal with Savitzky-Golay filter.
 % Random sample signal: 
-ppg = load('DATA_01_TYPE02.mat');
+ppg = load('DATA_06_TYPE02.mat');
 ppgSig = ppg.sig;
 ppgFullSignal = ppgSig(2,(1:length(mediamuestral)));% match sizes 
 % Sample Frequency
@@ -33,20 +33,20 @@ CleanedSignal6 = ppgFullSignal(1,(33751:min(TamRealizaciones)))-ruido6;
 
 % 1. ORIGINAL en reposo vs sin ruido
 
-[PKS1Original,LOCS1Original] = GetPeakPoints(ppgFullSignal(1,(1:3750)),Fs,0.11,0.5,0.01);
-[PKS1ruido,LOCS1ruido] = GetPeakPoints(CleanedSignal1,Fs,0.11,0.5,0.01);
+[PKS1Original,LOCS1Original] = GetPeakPoints(ppgFullSignal(1,(1:3750)),Fs,0.09,0.5,0.06);
+[PKS1ruido,LOCS1ruido] = GetPeakPoints(CleanedSignal1,Fs,0.11,0.5,0.06);
 % 2. CORRIENDO 1min se�al original vs sin ruido
 [PKS2Original,LOCS2Original] = GetPeakPoints(ppgFullSignal(1,(3751:11250)),Fs,0.11,0.5,0.05);
 [PKS2ruido,LOCS2ruido] = GetPeakPoints(CleanedSignal2,Fs,0.11,0.5,0.05);
 % 3. CORRIENDO 1min se�al original vs sin ruido
-[PKS3Original,LOCS3Original] = GetPeakPoints(ppgFullSignal(1,(11251:18750)),Fs,0.1,0.3,0.05);
-[PKS3ruido,LOCS3ruido] = GetPeakPoints(CleanedSignal3,Fs,0.1,0.3,0.05);
+[PKS3Original,LOCS3Original] = GetPeakPoints(ppgFullSignal(1,(11251:18750)),Fs,0.1,0.5,0.06);
+[PKS3ruido,LOCS3ruido] = GetPeakPoints(CleanedSignal3,Fs,0.1,0.5,0.06);
 % 4. CORRIENDO 1min se�al original vs sin ruido
-[PKS4Original,LOCS4Original] = GetPeakPoints(ppgFullSignal(1,(18751:26250)),Fs,0.07,0.3,0.05);
-[PKS4ruido,LOCS4ruido] = GetPeakPoints(CleanedSignal4,Fs,0.07,0.3,0.05);
+[PKS4Original,LOCS4Original] = GetPeakPoints(ppgFullSignal(1,(18751:26250)),Fs,0.07,0.3,0.04);
+[PKS4ruido,LOCS4ruido] = GetPeakPoints(CleanedSignal4,Fs,0.07,0.3,0.04);
 % 5. CORRIENDO 1min se�al original vs sin ruido
-[PKS5Original,LOCS5Original] = GetPeakPoints(ppgFullSignal(1,(26251:33750)),Fs,0.07,0.5,0.05);
-[PKS5ruido,LOCS5ruido] = GetPeakPoints(CleanedSignal5,Fs,0.07,0.5,0.05);
+[PKS5Original,LOCS5Original] = GetPeakPoints(ppgFullSignal(1,(26251:33750)),Fs,0.07,0.5,0.09);
+[PKS5ruido,LOCS5ruido] = GetPeakPoints(CleanedSignal5,Fs,0.07,0.5,0.09);
 % 6. REST 30s se�al original vs sin ruido
 [PKS6Original,LOCS6Original] = GetPeakPoints(ppgFullSignal(1,(33751:end)),Fs,0.07,0.5,0.005);
 [PKS6ruido,LOCS6ruido] = GetPeakPoints(CleanedSignal6,Fs,0.07,0.5,0.005);
@@ -66,7 +66,7 @@ ErrorFromFindPeaks = [ErrorFindP1 ErrorFindP2 ErrorFindP3 ErrorFindP4 ErrorFindP
 % effective seconds and therefore, the activity 1 (Rest per 30s)
 % corresponds to 15 effective seconds
 bpm = CompareBPM();
-realizacion = 1;
+realizacion = 6;
 % Separate peaks from findpeaks detection 
 FindPeaks1 = length(LOCS1ruido);
 FindPeaks2 = length(LOCS2ruido);
@@ -89,7 +89,7 @@ ErrorFromBPM = [EBPM1 EBPM2 EBPM3 EBPM4 EBPM5 EBPM6];
 
 %% PROOF 2: ECG peaks detection
 % Random sample signal: 
-ecg = load('DATA_01_TYPE02.mat');
+ecg = load('DATA_06_TYPE02.mat');
 ecgSig = ecg.sig;
 ecgFullSignal = ecgSig(1,(1:length(mediamuestral)));% match sizes 
 % Normalize with min-max method
@@ -99,12 +99,12 @@ ecgFullSignal = (ecgFullSignal-min(ecgFullSignal))./(max(ecgFullSignal)-min(ecgF
 ecgF = (abs(ecgFullSignal)).^2;
 t = (0:length(ecgFullSignal)-1)/Fs;   
 
-[ECG1Peaks,ECG1Locs] = GetECGPeakPoints(ecgF(1,(1:3750)),0.5,0.150);
-[ECG2Peaks,ECG2Locs] = GetECGPeakPoints(ecgF(1,(3751:11250)),0.55,0.150);
-[ECG3Peaks,ECG3Locs] = GetECGPeakPoints(ecgF(1,(11251:18750)),0.55,0.150);
-[ECG4Peaks,ECG4Locs] = GetECGPeakPoints(ecgF(1,(18751:26250)),0.55,0.150);
+[ECG1Peaks,ECG1Locs] = GetECGPeakPoints(ecgF(1,(1:3750)),0.49,0.15);
+[ECG2Peaks,ECG2Locs] = GetECGPeakPoints(ecgF(1,(3751:11250)),0.5,15);
+[ECG3Peaks,ECG3Locs] = GetECGPeakPoints(ecgF(1,(11251:18750)),0.55,15);
+[ECG4Peaks,ECG4Locs] = GetECGPeakPoints(ecgF(1,(18751:26250)),0.6,0.150);
 [ECG5Peaks,ECG5Locs] = GetECGPeakPoints(ecgF(1,(26251:33750)),0.55,0.150);
-[ECG6Peaks,ECG6Locs] = GetECGPeakPoints(ecgF(1,(33751:end)),0.55,0.150);
+[ECG6Peaks,ECG6Locs] = GetECGPeakPoints(ecgF(1,(33751:end)),0.6,0.150);
 
 peaksECG1 = length(ECG1Locs);
 peaksECG2 = length(ECG2Locs);
