@@ -90,24 +90,138 @@ plot(t60s,activity5(realization,:)),title('Detrended signal for activity 5'), xl
 figure(7)
 plot(tfin,activity6(realization,:)),title('Detrended signal for activity 6'), xlabel('Time (s)'),grid on, axis tight,
 
- %% FOR ACTIVITY 1 (INITIAL 30 SECONDS):
+%% WE ESTABLISH THE MATRIX THAT WILL ALLOW TO PARAMETRIZE FINDPEAKS
+% P=[0.11	0.5	0.005 0.4 0.11 0.5 0.05
+% 0.11 0.5 0.005 0.4 0.11	0.5	0.07
+% 0.1 0.5 0.005 0.4 0.07	0.3	0.05
+% 0.07 0.3 0.05 0.05	0.3	0.05
+% 0.07 0.3 0.05 0.07	0.5	0.08
+% 0.11 0.5 0.05 0.07	0.5	0.04]
+%% FOR ACTIVITY 1 (INITIAL 30 SECONDS):
  addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/NoiseProofs');
  
  %for k=1:12 
-     [PKS1,LOCS1]=GetPeakPoints(activity1(1,:),Fs,0.11,0.5,0.005);
-     peaks=length(PKS30);
+ [PKS1,LOCS1]=GetPeakPoints(activity1(1,:),Fs,0.1,0.5,0.005,0.4);
+ peaks=length(PKS1);
  %end
 
-%%
-intPP=mean(diff(LOCS30)); %Here we obtain the average P-P interval
-fprintf('El intervalo PP promedio es %d ',intPP);
-fprintf('\n es decir que el ciclo PPG comienza aproximadamente %d segundos antes del pico',round(intPP/2,2));
+ 
+%% IN THIS SECTION WE GENERATE THE AVERAGE PPG FORM FOR EACH ACTIVITY
 
-delay=round(0.4*Fs);
-M=length(diff(LOCS30));   % N�mero de intervalos RR encontrados
-offset=0.3;     % Para desplegar los intervalos RR en 3D por 
-                % encima de la se�al
-stack=zeros(M,min(LOCS30)); % Reserva memoria para almacenar 
-                        % matriz de M ciclos cardiacos
-qrs=zeros(M,2); % Reserva memoria para curva de intervalos RR en 3D
+%% APPROXIMATION 1: minimum PP interval
 
+intPP=diff(LOCS1); % PP interval duration
+medintPP=mean(diff(LOCS1)); %Average PP interval duration
+fprintf('El intervalo PP promedio es %d ',medintPP);
+fprintf('\n es decir que el ciclo PPG comienza aproximadamente %d segundos antes del pico \n',round(medintPP/2,1));
+samPP=round(intPP*Fs,0); % We obtain the durations of the peaks in samples number
+newlocs=LOCS1*Fs; %Positions of the peaks in samples number
+delay=round(round(medintPP/2,1)*Fs); %And delay time before the peak in samples number
+M=length(diff(newlocs));   % Found PP intervals
+offset=max(PKS1);     % To deploy PP peaks above the signal
+meanduration=round(medintPP*Fs,0);
+stack=zeros(M,min(samPP)); % Sets apart memory for storing the matrix M (cardiac cycles)
+qrs=zeros(M,2); % Sets apart memory for the PP peaks curve in 3D
+
+for m=1:M
+    switch(m)
+        case 1
+            first=activity1(1,(1:newlocs(m)-delay+min(samPP)));
+            L=length(first);
+            stack(m,:)=[first zeros(1,min(samPP)-L)];
+            qrs(m,:)=[delay+1 activity1(1,newlocs(m))];
+        case M
+            if(length(activity1)-newlocs(m))>0
+                stack(m,:)=activity1(1,(newlocs(m)-delay:newlocs(m)+min(samPP)-delay-1));
+                qrs(m,:)=[delay+1 activity1(1,newlocs(m))];
+            else
+                stack(m,:)=activity1(1,(newlocs(m)-delay:end));
+                qrs(m,:)=[delay+1 activity1(1,newlocs(m))];
+            end
+        otherwise
+            stack(m,:)=activity1(1,(newlocs(m)-delay:newlocs(m)+min(samPP)-delay-1));
+            % Stores a cardiac cycle, since 0.4*Fs seconds before PP peak
+            % until the duration, given by the minimum duration of all PP
+            % found intervals 
+            qrs(m,:)=[delay+1 activity1(1,newlocs(m))]; 
+            % Saves P peaks to deploy above 3D P peak
+    end     
+end
+
+figure(8)
+[X,Y] = meshgrid(1:min(samPP),1:M); % Generates a mesh in x-y for drawing the 3D surface
+surf(Y,X,stack);hold on;grid on; % Draws all cycles in 3D
+shading interp
+% Draws the curve of PP peaks above 3D PPG
+plot3(1:M,qrs(:,1),qrs(:,2)+offset,'go-','MarkerFaceColor','g')
+view(120, 30);%vision of the signal in 120 degrees
+
+% Obtencion de la onda PPG promedio
+
+ppg_prom = mean(stack);
+figure(9)
+plot((0:length(stack)-1)/Fs,ppg_prom);
+
+
+%% APPROXIMATION 2: mean PP interval duration
+
+intPP=diff(LOCS1); % PP interval duration
+medintPP=mean(diff(LOCS1)); %Average PP interval duration
+fprintf('El intervalo PP promedio es %d ',medintPP);
+fprintf('\n es decir que el ciclo PPG comienza aproximadamente %d segundos antes del pico \n',round(medintPP/2,1));
+samPP=round(intPP*Fs,0); % We obtain the durations of the peaks in samples number
+newlocs=LOCS1*Fs; %Positions of the peaks in samples number
+delay=round(round(medintPP/2,1)*Fs); %And delay time before the peak in samples number
+M=length(diff(newlocs));   % Found PP intervals
+offset=max(PKS1);     % To deploy PP peaks above the signal
+meanduration=round(medintPP*Fs,0);
+stack=zeros(M,meanduration); % Sets apart memory for storing the matrix M (cardiac cycles)
+qrs=zeros(M,2); % Sets apart memory for the PP peaks curve in 3D
+
+for m=1:M
+    switch(m)
+        case 1
+            first=activity1(1,(1:newlocs(m)-delay+meanduration));
+            L=length(first);
+            stack(m,:)=[first zeros(1,meanduration-L)];
+            qrs(m,:)=[delay+1 activity1(1,newlocs(m))];
+        case M
+            if(length(activity1)-newlocs(m))>0
+                stack(m,:)=activity1(1,(newlocs(m)-delay:newlocs(m)+meanduration-delay-1));
+                qrs(m,:)=[delay+1 activity1(1,newlocs(m))];
+            else
+                stack(m,:)=activity1(1,(newlocs(m)-delay:end));
+                qrs(m,:)=[delay+1 activity1(1,newlocs(m))];
+            end
+        otherwise
+            stack(m,:)=activity1(1,(newlocs(m)-delay:newlocs(m)+meanduration-delay-1));
+            % Stores a cardiac cycle, since 0.4*Fs seconds before PP peak
+            % until the duration, given by the minimum duration of all PP
+            % found intervals 
+            qrs(m,:)=[delay+1 activity1(1,newlocs(m))]; 
+            % Saves P peaks to deploy above 3D P peak
+    end     
+end
+
+figure(8)
+[X,Y] = meshgrid(1:meanduration,1:M); % Generates a mesh in x-y for drawing the 3D surface
+surf(Y,X,stack);hold on;grid on; % Draws all cycles in 3D
+shading interp
+% Draws the curve of PP peaks above 3D PPG
+plot3(1:M,qrs(:,1),qrs(:,2)+offset,'go-','MarkerFaceColor','g')
+view(120, 30);%vision of the signal in 120 degrees
+
+%Obtención de la onda PPG promedio
+ppg_prom = mean(stack);
+figure(9)
+plot((0:length(stack)-1)/Fs,ppg_prom);
+
+% Modelo del pulso PPG
+
+a = lpc(ppg_prom,2);
+est_PPG1 = filter([0 -a(2:end)],1,activity1(1,:));
+figure(10)
+%plot([0:length(stack)-1]/Fs,ECG_prom,[0:length(stack)-1]/Fs,est_ECG)
+plot((0:length(activity1)-1)/Fs, activity1(1,:),'LineWidth',2),hold on,
+plot((0:length(activity1)-1)/Fs,est_PPG1),grid on, axis tight
+legend('PPG','PPG Estimada');
