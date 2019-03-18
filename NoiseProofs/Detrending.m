@@ -23,4 +23,5 @@ function valoresmedia = Detrending(signal,n)
         y=detrend(signal,'linear',bp);
         valoresmedia=signal-y;
     end
+    plot(valoresmedia)
 end
