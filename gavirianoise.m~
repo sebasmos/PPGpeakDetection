@@ -91,29 +91,27 @@ figure(7)
 plot(tfin,activity6(realization,:)),title('Detrended signal for activity 6'), xlabel('Time (s)'),grid on, axis tight,
 
 %% WE ESTABLISH THE MATRIX THAT WILL ALLOW TO PARAMETRIZE FINDPEAKS
-% P=[0.11 0.5 0.005 0.4 0.11 0.5 0.01 0.4
-%    0.11 0.5 0.005 0.4 0.11 0.5 0.07 0.45
-%    0.1 0.5 0.005 0.4 0.07	0.5	0.05 0.45
-%    0.07 0.3 0.06 0.4 0.05	0.5	0.01 0.45
-%    0.07 0.3 0.06 0.4 0.07	0.5	0.05 0.45
-%    0.11 0.5 0.05 0.4 0.07	0.5	0.04 0.4
-%    0.13 0.5 0.005 0.45 0.07 0.5 0.04 0.4
-%    0.13 0.5 0.005 0.45 0.5 0.5 0.05 0.45
-%    0.1 0.5 0.005 0.45 0.01 0.5 0.04 0.47
-%    0.1 0.5 0.02 0.4 0.07 0.5 0.05 0.47
-%    0.1 0.5 0.005 0.4 0.01 0.5 0.025 0.35
-%    0.12 0.5 0.005 0.4 0.01 0.3 0.04 0.3 
+P=[0.11 0.5 0.005 0.4 0.11 0.5 0.01 0.4 0.1 0.5 0.03 0.35 0.07 0.8 0.05 0.3 0.07 0.8 0.07 0.3 0.11 1 0.01 0.3;
+   0.11 0.5 0.005 0.4 0.11 0.5 0.07 0.45 0.07 0.8 0.094 0.28 0.05 0.8 0.04 0.3 0.07 0.8 0.08 0.35 0.07 1 0.05 0.32;
+   0.1 0.5 0.005 0.4 0.07 0.5 0.05 0.45 0.1 0.8 0.05 0.35 0.05 0.8 0.04 0.3 0.07 0.8 0.05 0.35 0.07 0.5 0.005 0.35;
+   0.07 0.3 0.06 0.4 0.05 0.5 0.01 0.45 0.1 0.5 0.05 0.35 0.07 0.8 0.04 0.3 0.07 0.5 0.09 0.3 0.07 0.5 0.005 0.35;
+   0.07 0.3 0.06 0.4 0.07 0.5 0.05 0.45 0.07 0.3 0.05 0.35 0.07 0.3 0.05 0.3 0.07 0.3 0.05 0.3 0.11 0.5 0.05 0.3;
+   0.11 0.5 0.05 0.4 0.07 0.5 0.04 0.4 0.09 0.5 0.05 0.35 0.07 0.3 0.05 0.3 0.07 0.5 0.05 0.3 0.11 0.5 0.05 0.3;
+   0.13 0.5 0.005 0.45 0.07 0.5 0.04 0.4 0.05 0.5 0.04 0.3 0.07 0.3 0.04 0.35 0.1 1 0.04 0.3 0.11 0.5 0.04 0.3;
+   0.13 0.5 0.005 0.45 0.5 0.5 0.05 0.45 0.05 0.5 0.04 0.36 0.07 0.5 0.04 0.38 0.05 1 0.062 0.3 0.1 0.5 0.04 0.35;
+   0.1 0.5 0.005 0.45 0.01 0.5 0.04 0.47 0.05 0.5 0.04 0.3 0.07 0.3 0.05 0.3 0.05 1 0.04 0.3 0.11 0.5 0.05 0.3;
+   0.1 0.5 0.02 0.4 0.07 0.5 0.05 0.47 0.05 0.3 0.05 0.3 0.07 0.3 0.05 0.25 0.05 1 0.065 0.3 0.11 0.5 0.04 0.2;
+   0.1 0.5 0.005 0.4 0.01 0.5 0.025 0.35 0.05 0.3 0.04 0.3 0.07 0.3 0.04 0.3 0.05 1 0.051 0.3 0.11 0.5 0.04 0.3;
+   0.12 0.5 0.005 0.4 0.01 0.3 0.04 0.35 0.1 0.3 0.04 0.3 0.07 0.3 0.07 0.25 0.05 1 0.055 0.3 0.11 0.5 0.04 0.3];
 
-%% FOR ACTIVITY 1 (INITIAL 30 SECONDS):
- addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/NoiseProofs');
- 
- %for k=1:12 
- [PKS1,LOCS1]=GetPeakPoints(activity2(12,:),Fs,0.01,0.3,0.035,0.3);
- peaks=length(PKS1);
- %end
+%% FOR ACTIVITY 1: 30 SECONDS OF REST
+noise=[]; %matrix which allows us to save noise from this activity, then 
+          %we'll average it.
+for i=1:12
+    noise(i,:)=GetLPCNoise(activity1(i,:),sactivity1(i,:),P(i,(1:i*4)),Fs)
+end
 
  
-%% IN THIS SECTION WE GENERATE THE AVERAGE PPG FORM FOR EACH ACTIVITY
 
 %% APPROXIMATION 1: minimum PP interval
 % 
@@ -169,74 +167,3 @@ plot(tfin,activity6(realization,:)),title('Detrended signal for activity 6'), xl
 % figure(9)
 % plot((0:length(stack)-1)/Fs,ppg_prom);
 
-
-%% APPROXIMATION 2: mean PP interval duration
-
-intPP=diff(LOCS1); % PP interval duration
-medintPP=mean(diff(LOCS1)); %Average PP interval duration
-fprintf('El intervalo PP promedio es %d ',medintPP);
-fprintf('\n es decir que el ciclo PPG comienza aproximadamente %d segundos antes del pico \n',round(medintPP/2,1));
-samPP=round(intPP*Fs,0); % We obtain the durations of the peaks in samples number
-newlocs=LOCS1*Fs; %Positions of the peaks in samples number
-delay=round(round(medintPP/2,1)*Fs); %And delay time before the peak in samples number
-M=length(diff(newlocs));   % Found PP intervals
-offset=max(PKS1);     % To deploy PP peaks above the signal
-meanduration=round(medintPP*Fs,0);
-stack=zeros(M,meanduration); % Sets apart memory for storing the matrix M (cardiac cycles)
-qrs=zeros(M,2); % Sets apart memory for the PP peaks curve in 3D
-
-for m=1:M
-    switch(m)
-        case 1
-            first=activity1(1,(1:newlocs(m)-delay+meanduration));
-            L=length(first);
-            stack(m,:)=[first zeros(1,meanduration-L)];
-            qrs(m,:)=[delay+1 activity1(1,newlocs(m))];
-        case M
-            if(length(activity1)-newlocs(m))>0
-                stack(m,:)=activity1(1,(newlocs(m)-delay:newlocs(m)+meanduration-delay-1));
-                qrs(m,:)=[delay+1 activity1(1,newlocs(m))];
-            else
-                stack(m,:)=activity1(1,(newlocs(m)-delay:end));
-                qrs(m,:)=[delay+1 activity1(1,newlocs(m))];
-            end
-        otherwise
-            stack(m,:)=activity1(1,(newlocs(m)-delay:newlocs(m)+meanduration-delay-1));
-            % Stores a cardiac cycle, since 0.4*Fs seconds before PP peak
-            % until the duration, given by the minimum duration of all PP
-            % found intervals 
-            qrs(m,:)=[delay+1 activity1(1,newlocs(m))]; 
-            % Saves P peaks to deploy above 3D P peak
-    end     
-end
-
-figure(9)
-[X,Y] = meshgrid(1:meanduration,1:M); % Generates a mesh in x-y for drawing the 3D surface
-surf(Y,X,stack);hold on;grid on; % Draws all cycles in 3D
-shading interp
-% Draws the curve of PP peaks above 3D PPG
-plot3(1:M,qrs(:,1),qrs(:,2)+offset,'go-','MarkerFaceColor','g')
-title('Ondas PPG intervalo promedio en stack')
-view(120, 30);%vision of the signal in 120 degrees
-
-%Obtención de la onda PPG promedio
-ppg_prom = mean(stack);
-figure(10)
-plot((0:length(stack)-1)/Fs,ppg_prom),grid on, axis tight
-title('Onda PPG promedio'),xlabel('Tiempo(seg)')
-
-% Modelo del pulso PPG
-
-a = lpc(ppg_prom,2);
-est_PPG1 = filter([0 -a(2:end)],1,activity1(1,:));
-figure(11)
-%plot([0:length(stack)-1]/Fs,ECG_prom,[0:length(stack)-1]/Fs,est_ECG)
-plot((0:length(activity1)-1)/Fs, activity1(1,:),'LineWidth',2),hold on,
-plot((0:length(activity1)-1)/Fs,est_PPG1),grid on, axis tight
-legend('PPG','PPG Estimada'),
-title('Estimación de la onda PPG a partir de los coeficientes de autoregresión')
-xlabel('Tiempo (seg)')
-
-%% SACAMOS EL RUIDO PARA LA ACTIVIDAD 1 EN LA X REALIZACIÓN
-
-noise1=sactivity1(1,:)-est_PPG1;
