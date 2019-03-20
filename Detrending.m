@@ -10,7 +10,7 @@ function y = Detrending(signal,n)
             aux=aux+incremento;
         end
         y=detrend(signal,'linear',bp);
-        %valoresmedia=signal-y;
+        valoresmedia=signal-y;
     else
         incremento=450;
         j=1;
@@ -21,6 +21,6 @@ function y = Detrending(signal,n)
             j=j+1;
         end
         y=detrend(signal,'linear',bp);
-        %valoresmedia=signal-y;
+        valoresmedia=signal-y;
     end
 end

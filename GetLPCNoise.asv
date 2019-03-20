@@ -84,7 +84,7 @@ function arnoise = GetLPCNoise(DetrendedActivity,Activity,params,Fs)
     ppg_prom = mean(stack);
     figure(10)
     plot((0:length(stack)-1)/Fs,ppg_prom),grid on, axis tight
-    title('Mean PPG signal'),xlabel('Time(seg)')
+    title('Me'),xlabel('Tiempo(seg)')
 
     % Get PPG model
     a = lpc(ppg_prom,2);
@@ -92,7 +92,7 @@ function arnoise = GetLPCNoise(DetrendedActivity,Activity,params,Fs)
     figure(11)
     plot((0:length(DetrendedActivity)-1)/Fs, DetrendedActivity,'LineWidth',2),hold on,
     plot((0:length(DetrendedActivity)-1)/Fs,est_PPG1),grid on, axis tight
-    legend('PPG','PPG predicted'),
+    legend('PPG','PPG Estimada'),
     title('Estimación de la onda PPG a partir de los coeficientes de autoregresión')
     xlabel('Tiempo (seg)')
     
