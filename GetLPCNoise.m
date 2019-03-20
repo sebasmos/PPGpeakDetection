@@ -59,33 +59,33 @@ addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/Noi
     end     
     end
     
-    figure(9)
-    [X,Y] = meshgrid(1:meanduration,1:M); % Generates a mesh in x-y for drawing the 3D surface
-    surf(Y,X,stack);hold on;grid on; % Draws all cycles in 3D
-    shading interp
-    % Draws the curve of PP peaks above 3D PPG
-    plot3(1:M,qrs(:,1),qrs(:,2)+offset,'go-','MarkerFaceColor','g')
-    title('Ondas PPG intervalo promedio en stack')
-    view(120, 30);%vision of the signal in 120 degrees
+%     figure(9)
+%     [X,Y] = meshgrid(1:meanduration,1:M); % Generates a mesh in x-y for drawing the 3D surface
+%     surf(Y,X,stack);hold on;grid on; % Draws all cycles in 3D
+%     shading interp
+%     % Draws the curve of PP peaks above 3D PPG
+%     plot3(1:M,qrs(:,1),qrs(:,2)+offset,'go-','MarkerFaceColor','g')
+%     title('Ondas PPG intervalo promedio en stack')
+%     view(120, 30);%vision of the signal in 120 degrees
 
     %Obtención de la onda PPG promedio
     ppg_prom = mean(stack);
-    figure(10)
-    plot((0:length(stack)-1)/Fs,ppg_prom),grid on, axis tight
-    title('Onda PPG promedio'),xlabel('Tiempo(seg)')
+%     figure(10)
+%     plot((0:length(stack)-1)/Fs,ppg_prom),grid on, axis tight
+%     title('Onda PPG promedio'),xlabel('Tiempo(seg)')
 
     % Modelo de la señal PPG para la actividad
 
     a = lpc(ppg_prom,2);
     est_PPG1 = filter([0 -a(2:end)],1,activity);
-    figure(11)
-    %plot([0:length(stack)-1]/Fs,ECG_prom,[0:length(stack)-1]/Fs,est_ECG)
-    plot((0:length(activity)-1)/Fs, activity,'LineWidth',2),hold on,
-    plot((0:length(activity)-1)/Fs,est_PPG1),grid on, axis tight
-    legend('PPG','PPG Estimada'),
-    title('Estimación de la onda PPG a partir de los coeficientes de autoregresión')
-    xlabel('Tiempo (seg)')
-    
+%     figure(11)
+%     %plot([0:length(stack)-1]/Fs,ECG_prom,[0:length(stack)-1]/Fs,est_ECG)
+%     plot((0:length(activity)-1)/Fs, activity,'LineWidth',2),hold on,
+%     plot((0:length(activity)-1)/Fs,est_PPG1),grid on, axis tight
+%     legend('PPG','PPG Estimada'),
+%     title('Estimación de la onda PPG a partir de los coeficientes de autoregresión')
+%     xlabel('Tiempo (seg)')
+%     
     %Obtención del ruido a partir de la señal generada
     
     arnoise=sactivity-est_PPG1;

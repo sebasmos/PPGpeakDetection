@@ -108,10 +108,17 @@ P=[0.11 0.5 0.005 0.4 0.11 0.5 0.01 0.4 0.1 0.5 0.03 0.35 0.07 0.8 0.05 0.3 0.07
 noise=[]; %matrix which allows us to save noise from this activity, then 
           %we'll average it.
 for i=1:12
-    noise(i,:)=GetLPCNoise(activity1(i,:),sactivity1(i,:),P(i,(1:i*4)),Fs)
+    noise(i,:)=GetLPCNoise(activity1(i,:),sactivity1(i,:),P(i,(1:4)),Fs);
 end
+%% VISUALIZE ALL NOISES AND MEAN NOISE
+t=(0:length(activity1)-1)/Fs;
+avnoise=mean(noise);
+figure(8)
+subplot(2,1,1),plot(t,noise),title('Ruidos en la actividad X de las 12 realizaciones'),xlabel('Tiempo (seg)')
+subplot(2,1,2),plot(t,avnoise),title('Promedio de los ruidos en la actividad X'),xlabel('Tiempo (seg)')
 
- 
+%% VISUALIZE ORIGINAL SIGNAL 
+
 
 %% APPROXIMATION 1: minimum PP interval
 % 
