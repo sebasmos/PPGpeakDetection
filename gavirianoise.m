@@ -1,11 +1,11 @@
 %% GAVIRIA'S APPROACH:
-%As the third approach of a signal's noise a linear predictor is used to be
-%feed with the mean of the PPG artifitial noise. 
+%As the third approach of a signal's noise, a linear predictor is used to be
+%feed with the mean of the PPG signal. 
 %As exemplified by Gavirias's notes in ECG linear predictor, the RR interval
 %is used to get an average period in the ECG example and since the PPG signal 
 %has 2 main peaks:  M & Q, we'll get a similar approach using the MM interval 
-%for each one of the 6 activity and thus, we will be able to describe every 
-%movement(since the heart rate varies differently over time with each activity).
+%for each one of the 6 activity. Then we will be able to describe every 
+%activity and therefore, every movement (since the heart rate varies differently over time with each activity).
 
 %Finally, we'll feed the linear predictor with the PPG average signal and substract 
 %this from the original, obtaining a first approach of 'artifitial noise'.
