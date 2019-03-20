@@ -108,26 +108,39 @@ P=[0.11 0.5 0.005 0.4 0.11 0.5 0.01 0.4 0.1 0.5 0.03 0.35 0.07 0.8 0.05 0.3 0.07
    0.1 0.5 0.005 0.4 0.01 0.5 0.025 0.35 0.05 0.3 0.04 0.3 0.07 0.3 0.04 0.3 0.05 1 0.051 0.3 0.11 0.5 0.04 0.3;
    0.12 0.5 0.005 0.4 0.01 0.3 0.04 0.35 0.1 0.3 0.04 0.3 0.07 0.3 0.07 0.25 0.05 1 0.055 0.3 0.11 0.5 0.04 0.3];
 
-%% ACTIVITY 1: REST FOR 30s
-noise=[]; %matrix which allows us to save noise from this activity, then 
+%% OBTAINING NOISE FROM ALL ACTIVITIES
+noise=zeros(12,35989); %matrix which allows us to save noise from this activity, then 
           %we'll average it.
 for i=1:12
-    fprintf('Parametros: %d',P(i,(5:8)));
-    noise(i,:)=GetLPCNoise(DetrendedActivity2(i,:),Activity2(i,:),P(i,(5:8)),Fs);
+    noise(i,(1:3750))=GetLPCNoise(DetrendedActivity1(i,:),Activity1(i,:),P(i,(1:4)),Fs);
+    noise(i,(3751:11250))=GetLPCNoise(DetrendedActivity2(i,:),Activity2(i,:),P(i,(5:8)),Fs);
+    noise(i,(11251:18750))=GetLPCNoise(DetrendedActivity3(i,:),Activity3(i,:),P(i,(9:12)),Fs);
+    noise(i,(18751:26250))=GetLPCNoise(DetrendedActivity4(i,:),Activity4(i,:),P(i,(13:16)),Fs);
+    noise(i,(26251:33750))=GetLPCNoise(DetrendedActivity5(i,:),Activity5(i,:),P(i,(17:20)),Fs);
+    noise(i,(33751:35989))=GetLPCNoise(DetrendedActivity6(i,:),Activity6(i,:),P(i,(21:24)),Fs);
 end
 
-%% VISUALIZE ALL NOISES AND MEAN NOISE
-t=(0:length(Activity2)-1)/Fs;
-avnoise=mean(noise);
+TotalNoise=mean(noise);
+NoiseActivity1=TotalNoise(1:3750);
+NoiseActivity2=TotalNoise(3751:11250);
+NoiseActivity3=TotalNoise(11251:18750);
+NoiseActivity4=TotalNoise(18751:26250);
+NoiseActivity5=TotalNoise(26251:33750);
+NoiseActivity6=TotalNoise(33751:end);
+
+%% IN CASE YOU WANT TO VISUALIZE MEAN NOISE (USE t30s, t60s AND tfin AS X AXIS)
 figure(8)
-subplot(2,1,1),plot(t,noise),title('Ruidos en la actividad X de las 12 realizaciones'),xlabel('Tiempo (seg)'),grid on,axis tight
-subplot(2,1,2),plot(t,avnoise),title('Promedio de los ruidos en la actividad X'),xlabel('Tiempo (seg)'), grid on,axis tight
+subplot(3,1,1),plot(t30s,NoiseActivity1),title('Ruido promedio en la actividad 1'),xlabel('Tiempo (seg)'),grid on,axis tight
+subplot(3,1,2),plot(t60s,NoiseActivity2),title('Ruido promedio en la actividad 2'),xlabel('Tiempo (seg)'), grid on,axis tight
+subplot(3,1,3),plot(tfin,NoiseActivity6),title('Ruido promedio en la actividad 6'),xlabel('Tiempo (seg)'), grid on,axis tight
 
 %% VISUALIZE ORIGINAL SIGNAL WITH THE NOISE SUBSTRACTED
-CleanedSignal=Activity2(1,:)-avnoise;
+CleanedSignal=Activity2(1,:)-NoiseActivity2;
 figure(9)
-subplot(2,1,1),plot(t,Activity2(1,:),t,avnoise),title('Señal original en la actividad 1'),xlabel('Tiempo (seg)'), grid on,axis tight
-subplot(2,1,2),plot(t,CleanedSignal),title('Señal restando el ruido promedio'),xlabel('Tiempo (seg)'),grid on, axis tight
+subplot(2,1,1),plot(t60s,Activity2(1,:),t60s,avnoise),title('Señal original en la actividad 1')
+legend('Señal original','Ruido promedio'),xlabel('Tiempo (seg)'), grid on,axis tight
+subplot(2,1,2),plot(t60s,CleanedSignal),title('Señal restando el ruido promedio')
+xlabel('Tiempo (seg)'),grid on, axis tight
 
 
 %% APPROXIMATION 1: minimum PP interval

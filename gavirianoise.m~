@@ -102,20 +102,31 @@ P=[0.11 0.5 0.005 0.4 0.11 0.5 0.01 0.4 0.1 0.5 0.03 0.35 0.07 0.8 0.05 0.3 0.07
    0.07 0.3 0.06 0.4 0.07 0.5 0.05 0.45 0.07 0.3 0.05 0.35 0.07 0.3 0.05 0.3 0.07 0.3 0.05 0.3 0.11 0.5 0.05 0.3;
    0.11 0.5 0.05 0.4 0.07 0.5 0.04 0.4 0.09 0.5 0.05 0.35 0.07 0.3 0.05 0.3 0.07 0.5 0.05 0.3 0.11 0.5 0.05 0.3;
    0.13 0.5 0.005 0.45 0.07 0.5 0.04 0.4 0.05 0.5 0.04 0.3 0.07 0.3 0.04 0.35 0.1 1 0.04 0.3 0.11 0.5 0.04 0.3;
-   0.13 0.5 0.005 0.45 0.5 0.5 0.05 0.45 0.05 0.5 0.04 0.36 0.07 0.5 0.04 0.38 0.05 1 0.062 0.3 0.1 0.5 0.04 0.35;
+   0.13 0.5 0.005 0.45 0.05 0.5 0.05 0.45 0.05 0.5 0.04 0.36 0.07 0.5 0.04 0.38 0.05 1 0.062 0.3 0.1 0.5 0.04 0.35;
    0.1 0.5 0.005 0.45 0.01 0.5 0.04 0.47 0.05 0.5 0.04 0.3 0.07 0.3 0.05 0.3 0.05 1 0.04 0.3 0.11 0.5 0.05 0.3;
    0.1 0.5 0.02 0.4 0.07 0.5 0.05 0.47 0.05 0.3 0.05 0.3 0.07 0.3 0.05 0.25 0.05 1 0.065 0.3 0.11 0.5 0.04 0.2;
    0.1 0.5 0.005 0.4 0.01 0.5 0.025 0.35 0.05 0.3 0.04 0.3 0.07 0.3 0.04 0.3 0.05 1 0.051 0.3 0.11 0.5 0.04 0.3;
    0.12 0.5 0.005 0.4 0.01 0.3 0.04 0.35 0.1 0.3 0.04 0.3 0.07 0.3 0.07 0.25 0.05 1 0.055 0.3 0.11 0.5 0.04 0.3];
 
-%% ACTIVITY 1: REST FOR 30s
+%% OBTAINING NOISE FROM ALL ACTIVITIES
 noise=[]; %matrix which allows us to save noise from this activity, then 
           %we'll average it.
 for i=1:12
-    noise(i,:)=GetLPCNoise(DetrendedActivity2(i,:),Activity2(i,:),P(i,(5:8)),Fs);
-    disp()
+    noise(i,(1:3750))=GetLPCNoise(DetrendedActivity1(i,:),Activity1(i,:),P(i,(1:4)),Fs);
+    noise(i,(3751:11250))=GetLPCNoise(DetrendedActivity2(i,:),Activity2(i,:),P(i,(5:8)),Fs);
+    noise(i,(11251:18750))=GetLPCNoise(DetrendedActivity3(i,:),Activity3(i,:),P(i,(9:12)),Fs);
+    noise(i,(18751:26250))=GetLPCNoise(DetrendedActivity4(i,:),Activity4(i,:),P(i,(13:16)),Fs);
+    noise(i,(26251:33750))=GetLPCNoise(DetrendedActivity5(i,:),Activity5(i,:),P(i,(17:20)),Fs);
+    noise(i,(33750:35989))=GetLPCNoise(DetrendedActivity6(i,:),Activity6(i,:),P(i,(21:24)),Fs);
 end
 
+TotalNoise=mean(noise);
+NoiseActivity1=TotalNoise(1:3750);
+NoiseActivity2=TotalNoise(3751:11250);
+NoiseActivity3=TotalNoise(1:3750);
+NoiseActivity4=TotalNoise(1:3750);
+NoiseActivity5=TotalNoise(1:3750);
+NoiseActivity6=TotalNoise(1:3750);
 %% VISUALIZE ALL NOISES AND MEAN NOISE
 t=(0:length(Activity2)-1)/Fs;
 avnoise=mean(noise);

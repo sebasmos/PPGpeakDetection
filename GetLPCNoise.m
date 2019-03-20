@@ -27,8 +27,8 @@ function arnoise = GetLPCNoise(DetrendedActivity,Activity,params,Fs)
     % Get MM interval duration in number of samples (vector)
     intMM=diff((LOCS)); 
     MeanMMInterval=round(mean(intMM),1); %Average MM interval duration in number of samples
-    fprintf('El intervalo MM promedio es %d segundos',MeanMMInterval);
-    fprintf('\n es decir que el ciclo PPG comienza aproximadamente %d segundos antes del pico \n',MeanMMInterval/2);
+%     fprintf('El intervalo MM promedio es %d segundos',MeanMMInterval);
+%     fprintf('\n es decir que el ciclo PPG comienza aproximadamente %d segundos antes del pico \n',MeanMMInterval/2);
     samPP=round(intMM*Fs,0); % We obtain the durations of the peaks in samples number
     newlocs=round(LOCS*Fs,0); %Positions of the peaks in samples number
     delay=round(round(MeanMMInterval/2,1)*Fs); %And delay time before the peak in samples number
