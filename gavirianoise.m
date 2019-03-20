@@ -102,7 +102,7 @@ P=[0.11 0.5 0.005 0.4 0.11 0.5 0.01 0.4 0.1 0.5 0.03 0.35 0.07 0.8 0.05 0.3 0.07
    0.07 0.3 0.06 0.4 0.07 0.5 0.05 0.45 0.07 0.3 0.05 0.35 0.07 0.3 0.05 0.3 0.07 0.3 0.05 0.3 0.11 0.5 0.05 0.3;
    0.11 0.5 0.05 0.4 0.07 0.5 0.04 0.4 0.09 0.5 0.05 0.35 0.07 0.3 0.05 0.3 0.07 0.5 0.05 0.3 0.11 0.5 0.05 0.3;
    0.13 0.5 0.005 0.45 0.07 0.5 0.04 0.4 0.05 0.5 0.04 0.3 0.07 0.3 0.04 0.35 0.1 1 0.04 0.3 0.11 0.5 0.04 0.3;
-   0.13 0.5 0.005 0.45 0.5 0.5 0.05 0.45 0.05 0.5 0.04 0.36 0.07 0.5 0.04 0.38 0.05 1 0.062 0.3 0.1 0.5 0.04 0.35;
+   0.13 0.5 0.005 0.45 0.05 0.5 0.05 0.45 0.05 0.5 0.04 0.36 0.07 0.5 0.04 0.38 0.05 1 0.062 0.3 0.1 0.5 0.04 0.35;
    0.1 0.5 0.005 0.45 0.01 0.5 0.04 0.47 0.05 0.5 0.04 0.3 0.07 0.3 0.05 0.3 0.05 1 0.04 0.3 0.11 0.5 0.05 0.3;
    0.1 0.5 0.02 0.4 0.07 0.5 0.05 0.47 0.05 0.3 0.05 0.3 0.07 0.3 0.05 0.25 0.05 1 0.065 0.3 0.11 0.5 0.04 0.2;
    0.1 0.5 0.005 0.4 0.01 0.5 0.025 0.35 0.05 0.3 0.04 0.3 0.07 0.3 0.04 0.3 0.05 1 0.051 0.3 0.11 0.5 0.04 0.3;
@@ -112,20 +112,21 @@ P=[0.11 0.5 0.005 0.4 0.11 0.5 0.01 0.4 0.1 0.5 0.03 0.35 0.07 0.8 0.05 0.3 0.07
 noise=[]; %matrix which allows us to save noise from this activity, then 
           %we'll average it.
 for i=1:12
-    noise(i,:)=GetLPCNoise(DetrendedActivity1(i,:),Activity1(i,:),P(i,(1:4)),Fs);
+    fprintf('Parametros: %d',P(i,(5:8)));
+    noise(i,:)=GetLPCNoise(DetrendedActivity2(i,:),Activity2(i,:),P(i,(5:8)),Fs);
 end
 
 %% VISUALIZE ALL NOISES AND MEAN NOISE
-t=(0:length(Activity1)-1)/Fs;
+t=(0:length(Activity2)-1)/Fs;
 avnoise=mean(noise);
 figure(8)
 subplot(2,1,1),plot(t,noise),title('Ruidos en la actividad X de las 12 realizaciones'),xlabel('Tiempo (seg)'),grid on,axis tight
 subplot(2,1,2),plot(t,avnoise),title('Promedio de los ruidos en la actividad X'),xlabel('Tiempo (seg)'), grid on,axis tight
 
 %% VISUALIZE ORIGINAL SIGNAL WITH THE NOISE SUBSTRACTED
-CleanedSignal=Activity1(1,:)-avnoise;
+CleanedSignal=Activity2(1,:)-avnoise;
 figure(9)
-subplot(2,1,1),plot(t,Activity1(1,:),t,avnoise),title('Señal original en la actividad 1'),xlabel('Tiempo (seg)'), grid on,axis tight
+subplot(2,1,1),plot(t,Activity2(1,:),t,avnoise),title('Señal original en la actividad 1'),xlabel('Tiempo (seg)'), grid on,axis tight
 subplot(2,1,2),plot(t,CleanedSignal),title('Señal restando el ruido promedio'),xlabel('Tiempo (seg)'),grid on, axis tight
 
 

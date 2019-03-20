@@ -16,7 +16,7 @@
 % 4. param(4): MinPeakDistance
 function arnoise = GetLPCNoise(DetrendedActivity,Activity,params,Fs)
 
-    addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\Training_data\NoiseProofs');
+    addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/NoiseProofs');
  
     % Get peaks values and location over sample values
     [PKS,LOCS]=GetPeakPoints(DetrendedActivity,Fs,params(1),params(2),params(3),params(4));
@@ -71,14 +71,14 @@ function arnoise = GetLPCNoise(DetrendedActivity,Activity,params,Fs)
     end     
     end
     
-    figure(9)
-    [X,Y] = meshgrid(1:meanduration,1:M); % Generates a mesh in x-y for drawing the 3D surface
-    surf(Y,X,stack);hold on;grid on; % Draws all cycles in 3D
-    shading interp
-    % Draws the curve of PP peaks above 3D PPG
-    plot3(1:M,qrs(:,1),qrs(:,2)+offset,'go-','MarkerFaceColor','g')
-    title('Mean PPG signal in stack')
-    view(120, 30);%vision of the signal in 120 degrees
+%     figure(9)
+%     [X,Y] = meshgrid(1:meanduration,1:M); % Generates a mesh in x-y for drawing the 3D surface
+%     surf(Y,X,stack);hold on;grid on; % Draws all cycles in 3D
+%     shading interp
+%     % Draws the curve of PP peaks above 3D PPG
+%     plot3(1:M,qrs(:,1),qrs(:,2)+offset,'go-','MarkerFaceColor','g')
+%     title('Mean PPG signal in stack')
+%     view(120, 30);%vision of the signal in 120 degrees
 
     %Get mean PPG
     ppg_prom = mean(stack);
@@ -91,12 +91,12 @@ function arnoise = GetLPCNoise(DetrendedActivity,Activity,params,Fs)
     % Get PPG model
     a = lpc(ppg_prom,2);
     est_PPG1 = filter([0 -a(2:end)],1,DetrendedActivity);
-    figure(11)
-    plot((0:length(DetrendedActivity)-1)/Fs, DetrendedActivity,'LineWidth',2),hold on,
-    plot((0:length(DetrendedActivity)-1)/Fs,est_PPG1),grid on, axis tight
-    legend('PPG','PPG predicted'),
-    title('Estimación de la onda PPG a partir de los coeficientes de autoregresión')
-    xlabel('Tiempo (seg)')
+%     figure(11)
+%     plot((0:length(DetrendedActivity)-1)/Fs, DetrendedActivity,'LineWidth',2),hold on,
+%     plot((0:length(DetrendedActivity)-1)/Fs,est_PPG1),grid on, axis tight
+%     legend('PPG','PPG predicted'),
+%     title('Estimación de la onda PPG a partir de los coeficientes de autoregresión')
+%     xlabel('Tiempo (seg)')
    
     arnoise=Activity-est_PPG1;
 end
