@@ -1,18 +1,15 @@
 %% GAVIRIA'S APPROACH:
-%As the third approach of a signal's noise, a linear predictor is used to be
-%feed with the mean of the PPG signal. 
+%As the third approach of a signal's noise a linear predictor is used to be
+%feed with the mean of the PPG artifitial noise. 
 %As exemplified by Gavirias's notes in ECG linear predictor, the RR interval
 %is used to get an average period in the ECG example and since the PPG signal 
 %has 2 main peaks:  M & Q, we'll get a similar approach using the MM interval 
-%for each one of the 6 activity. Then we will be able to describe every 
-%activity and therefore, every movement (since the heart rate varies differently over time with each activity).
+%for each one of the 6 activity and thus, we will be able to describe every 
+%movement(since the heart rate varies differently over time with each activity).
 
 %Finally, we'll feed the linear predictor with the PPG average signal and substract 
 %this from the original, obtaining a first approach of 'artifitial noise'.
 
-clc
-clear all
-close all
 % Get and save signals in 'Realizaciones'
 for k = 1:12
     if k >= 10
@@ -64,7 +61,7 @@ Activity3=sNorm(:,(11251:18750));
 Activity4=sNorm(:,(18751:26250));
 Activity5=sNorm(:,(26251:33750));
 Activity6=sNorm(:,(33751:end));
-%% Detrend activities.
+%% Detrend drift baseline with 5 deviations: Zero-centered
 nRest = 5;
 nRun = 10;
 for k=1:12
@@ -109,25 +106,21 @@ P=[0.11 0.5 0.005 0.4 0.11 0.5 0.01 0.4 0.1 0.5 0.03 0.35 0.07 0.8 0.05 0.3 0.07
    0.12 0.5 0.005 0.4 0.01 0.3 0.04 0.35 0.1 0.3 0.04 0.3 0.07 0.3 0.07 0.25 0.05 1 0.055 0.3 0.11 0.5 0.04 0.3];
 
 %% ACTIVITY 1: REST FOR 30s
-noise=[]; %matrix which allows us to save noise from this activity, then 
+Noise1=[]; %matrix which allows us to save noise from this activity, then 
           %we'll average it.
 for i=1:12
-    noise(i,:)=GetLPCNoise(DetrendedActivity1(i,:),Activity1(i,:),P(i,(1:4)),Fs);
+    Noise1(i,:)=GetLPCNoise(DetrendedActivity1(i,:),Activity1(i,:),P(i,(1:4)),Fs);
+    Noise2(i,:)=GetLPCNoise(DetrendedActivity2(i,:),Activity2(i,:),P(i,(1:4)),Fs);
+    Noise3(i,:)=GetLPCNoise(DetrendedActivity3(i,:),Activity3(i,:),P(i,(1:4)),Fs);
+    Noise4(i,:)=GetLPCNoise(DetrendedActivity4(i,:),Activity4(i,:),P(i,(1:4)),Fs);
+    Noise5(i,:)=GetLPCNoise(DetrendedActivity5(i,:),Activity5(i,:),P(i,(1:4)),Fs);
+    Noise6(i,:)=GetLPCNoise(DetrendedActivity6(i,:),Activity6(i,:),P(i,(1:4)),Fs);
 end
-
-%% VISUALIZE ALL NOISES AND MEAN NOISE
-t=(0:length(Activity1)-1)/Fs;
-avnoise=mean(noise);
-figure(8)
-subplot(2,1,1),plot(t,noise),title('Ruidos en la actividad X de las 12 realizaciones'),xlabel('Tiempo (seg)'),grid on,axis tight
-subplot(2,1,2),plot(t,avnoise),title('Promedio de los ruidos en la actividad X'),xlabel('Tiempo (seg)'), grid on,axis tight
-
-%% VISUALIZE ORIGINAL SIGNAL WITH THE NOISE SUBSTRACTED
-CleanedSignal=Activity1(1,:)-avnoise;
-figure(9)
-subplot(2,1,1),plot(t,Activity1(1,:),t,avnoise),title('Señal original en la actividad 1'),xlabel('Tiempo (seg)'), grid on,axis tight
-subplot(2,1,2),plot(t,CleanedSignal),title('Señal restando el ruido promedio'),xlabel('Tiempo (seg)'),grid on, axis tight
-
+%%
+t=(0:length(DetrendedActivity1)-1)/Fs;
+figure
+plot(t,Noise1)
+ 
 
 %% APPROXIMATION 1: minimum PP interval
 % 
