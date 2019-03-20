@@ -112,34 +112,8 @@ P=[0.11 0.5 0.005 0.4 0.11 0.5 0.01 0.4 0.1 0.5 0.03 0.35 0.07 0.8 0.05 0.3 0.07
 Noise1=[]; %matrix which allows us to save noise from this activity, then 
           %we'll average it.
 for i=1:12
-    switch(i)
-        case 1
-         Noise1(i,:)=GetLPCNoise(DetrendedActivity1(i,:),Activity1(i,:),P(1,(1:4)),Fs);
-        case 2
-         Noise1(i,:)=GetLPCNoise(DetrendedActivity1(i,:),Activity1(i,:),P(1,(5:8)),Fs);         
-        case 3
-         Noise1(i,:)=GetLPCNoise(DetrendedActivity1(i,:),Activity1(i,:),P(1,(9:12)),Fs);         
-        case 4
-         Noise1(i,:)=GetLPCNoise(DetrendedActivity1(i,:),Activity1(i,:),P(1,(13:16)),Fs);       
-        case 5
-         Noise1(i,:)=GetLPCNoise(DetrendedActivity1(i,:),Activity1(i,:),P(1,(17:20)),Fs);       
-        case 6
-         Noise1(i,:)=GetLPCNoise(DetrendedActivity1(i,:),Activity1(i,:),P(1,(21:24)),Fs);       
-        case 7
-         Noise1(i,:)=GetLPCNoise(DetrendedActivity1(i,:),Activity1(i,:),P(7,(1:4)),Fs);       
-        case 8
-         Noise1(i,:)=GetLPCNoise(DetrendedActivity1(i,:),Activity1(i,:),P(7,(5:8)),Fs);       
-        case 9
-         Noise1(i,:)=GetLPCNoise(DetrendedActivity1(i,:),Activity1(i,:),P(7,(9:12)),Fs);       
-        case 10
-         Noise1(i,:)=GetLPCNoise(DetrendedActivity1(i,:),Activity1(i,:),P(7,(13:16)),Fs);       
-        case 11
-         Noise1(i,:)=GetLPCNoise(DetrendedActivity1(i,:),Activity1(i,:),P(7,(17:20)),Fs);       
-        otherwise
-         Noise1(i,:)=GetLPCNoise(DetrendedActivity1(i,:),Activity1(i,:),P(7,(21:24)),Fs);
-    end
+    Noise1(i,:)=GetLPCNoise(DetrendedActivity1(i,:),Activity1(i,:),P(i,(1:4)),Fs);
 end
-%%
 t=(0:length(DetrendedActivity1)-1)/Fs;
 figure
 plot(t,Noise1)
