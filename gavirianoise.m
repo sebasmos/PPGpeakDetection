@@ -37,25 +37,25 @@ for k=1:12
     sNorm(k,:) = (s2(k,:)-min(s2(k,:)))/(max(s2(k,:))-min(s2(k,:)));
 end
 
-% Just plotting it, this can be commented.
-    [a,b]=size(sNorm);
-    t=(0:b-1)/Fs;
-    hax=axes;
-    SP1=3750/Fs;
-    SP2=SP1+7500/Fs;
-    SP3=SP2+7500/Fs;
-    SP4=SP3+7500/Fs;
-    SP5=SP4+7500/Fs;
-    SP6=SP5+3750/Fs;
-    figure(1),plot(t,sNorm(1,:))
-    grid on, axis tight, xlabel('Tiempo'),ylabel('PPGsignal'),hold on,
-    line([SP1 SP1],get(hax,'YLim'),'Color',[1 0 0]);
-    line([SP2 SP2],get(hax,'YLim'),'Color',[1 0 0]);
-    line([SP3 SP3],get(hax,'YLim'),'Color',[1 0 0]);
-    line([SP4 SP4],get(hax,'YLim'),'Color',[1 0 0]);
-    line([SP5 SP5],get(hax,'YLim'),'Color',[1 0 0]);
-    line([SP6 SP6],get(hax,'YLim'),'Color',[1 0 0]);
-    
+% % Just plotting it, this can be commented.
+%     [a,b]=size(sNorm);
+%     t=(0:b-1)/Fs;
+%     hax=axes;
+%     SP1=3750/Fs;
+%     SP2=SP1+7500/Fs;
+%     SP3=SP2+7500/Fs;
+%     SP4=SP3+7500/Fs;
+%     SP5=SP4+7500/Fs;
+%     SP6=SP5+3750/Fs;
+%     figure(1),plot(t,sNorm(1,:))
+%     grid on, axis tight, xlabel('Tiempo'),ylabel('PPGsignal'),hold on,
+%     line([SP1 SP1],get(hax,'YLim'),'Color',[1 0 0]);
+%     line([SP2 SP2],get(hax,'YLim'),'Color',[1 0 0]);
+%     line([SP3 SP3],get(hax,'YLim'),'Color',[1 0 0]);
+%     line([SP4 SP4],get(hax,'YLim'),'Color',[1 0 0]);
+%     line([SP5 SP5],get(hax,'YLim'),'Color',[1 0 0]);
+%     line([SP6 SP6],get(hax,'YLim'),'Color',[1 0 0]);
+%     
     
 %% Separate Activities
 Activity1=sNorm(:,(1:3750));
@@ -81,18 +81,18 @@ t30s=(0:length(DetrendedActivity1)-1)/Fs;
 t60s=(0:length(DetrendedActivity2)-1)/Fs;
 tfin=(0:length(DetrendedActivity6)-1)/Fs;
 realization=1; %change this value to update realization.
-figure(2)
-plot(t30s,DetrendedActivity1(realization,:)),title('Detrended signal for activity 1'), xlabel('Time (s)'),grid on, axis tight,
-figure(3)
-plot(t60s,DetrendedActivity2(realization,:)),title('Detrended signal for activity 2'), xlabel('Time (s)'),grid on, axis tight,
-figure(4)
-plot(t60s,DetrendedActivity3(realization,:)),title('Detrended signal for activity 3'), xlabel('Time (s)'),grid on, axis tight,
-figure(5)
-plot(t60s,DetrendedActivity4(realization,:)),title('Detrended signal for activity 4'), xlabel('Time (s)'),grid on, axis tight,
-figure(6)
-plot(t60s,DetrendedActivity5(realization,:)),title('Detrended signal for activity 5'), xlabel('Time (s)'),grid on, axis tight,
-figure(7)
-plot(tfin,DetrendedActivity6(realization,:)),title('Detrended signal for activity 6'), xlabel('Time (s)'),grid on, axis tight,
+% figure(2)
+% plot(t30s,DetrendedActivity1(realization,:)),title('Detrended signal for activity 1'), xlabel('Time (s)'),grid on, axis tight,
+% figure(3)
+% plot(t60s,DetrendedActivity2(realization,:)),title('Detrended signal for activity 2'), xlabel('Time (s)'),grid on, axis tight,
+% figure(4)
+% plot(t60s,DetrendedActivity3(realization,:)),title('Detrended signal for activity 3'), xlabel('Time (s)'),grid on, axis tight,
+% figure(5)
+% plot(t60s,DetrendedActivity4(realization,:)),title('Detrended signal for activity 4'), xlabel('Time (s)'),grid on, axis tight,
+% figure(6)
+% plot(t60s,DetrendedActivity5(realization,:)),title('Detrended signal for activity 5'), xlabel('Time (s)'),grid on, axis tight,
+% figure(7)
+% plot(tfin,DetrendedActivity6(realization,:)),title('Detrended signal for activity 6'), xlabel('Time (s)'),grid on, axis tight,
 
 %% WE ESTABLISH THE MATRIX THAT WILL ALLOW TO PARAMETRIZE FINDPEAKS
 P=[0.11 0.5 0.005 0.4 0.11 0.5 0.01 0.4 0.1 0.5 0.03 0.35 0.07 0.8 0.05 0.3 0.07 0.8 0.07 0.3 0.11 1 0.01 0.3;
@@ -140,30 +140,30 @@ CleanedSignal6 = Activity6-NoiseActivity6;
 %% Initial Conditions
 % Parameters for findpeaks Function
 % MinPeakWidth
-MinPeakWidthRest1 = 0.11;
-MinPeakWidthRun_2 = 0.11;
-MinPeakWidthRun_3 = 0.1;
-MinPeakWidthRun_4 = 0.07;
+MinPeakWidthRest1 = 0.12;
+MinPeakWidthRun_2 = 0.01;
+MinPeakWidthRun_3 = 0.01;
+MinPeakWidthRun_4 = 0.01;
 MinPeakWidthRun_5 = 0.07;
-MinPeakWidthRest6 = 0.07;
+MinPeakWidthRest6 = 0.05;
 % MaxWidthPeak in PPG
 MaxWidthRest1 = 0.5;
 MaxWidthRun2 = 0.5;
 MaxWidthRun3 = 0.3;
 MaxWidthRun4 = 0.3;
-MaxWidthRun5 = 0.3;
+MaxWidthRun5 = 1;
 MaxWidthRest6 = 0.5;
 % Prominence in PPG
 ProminenceInRest = 0.005;
-ProminenceRunning = 0.05;
+ProminenceRunning = 0.04;
 %% INITIAL CONDITIONS FOR ECG
 % Min Width in ECG
-MinHeightECGRest1 = 0.5;
-MinHeightECGRun2 = 0.53;
-MinHeightECGRun3 = 0.5;
-MinHeightECGRun4 = 0.5;
-MinHeightECGRun5 = 0.45;
-MinHeightECGRest6 = 0.5;
+MinHeightECGRest1 = 0.35;
+MinHeightECGRun2 = 0.35;
+MinHeightECGRun3 = 0.25;
+MinHeightECGRun4 = 0.35;
+MinHeightECGRun5 = 0.35;
+MinHeightECGRest6 = 0.3;
 %Min Dist in ECG
 minDistRest1 = 50;
 minDistRun2 = 15;
@@ -172,16 +172,19 @@ minDistRun4 = 25;
 minDistRun5 = 30;
 minDistRest6 = 30;
 % For ECG analysis, please update ECG name
-ecgName = 'DATA_01_TYPE02.mat';
+ecgName = 'DATA_12_TYPE02.mat';
 % K represents the number of realizations to extract error individually
-k = 1;
+k = 12;
+%% W values according the realization: P(k,W)
+% Realization 1: W = 4
+W = 4;
 findLPErrors(sNorm(k,:),Activity1(k,:),Activity2(k,:),Activity3(k,:),Activity4(k,:),Activity5(k,:),Activity6(k,:),...
     CleanedSignal1(k,:),CleanedSignal2(k,:),CleanedSignal3(k,:),CleanedSignal4(k,:),CleanedSignal5(k,:),CleanedSignal6(k,:), ...
     Fs,MinPeakWidthRest1,MinPeakWidthRun_2,MinPeakWidthRun_3,MinPeakWidthRun_4,MinPeakWidthRun_5,MinPeakWidthRest6,...
     MaxWidthRest1,MaxWidthRun2,MaxWidthRun3,MaxWidthRun4,MaxWidthRun5,MaxWidthRest6,...
     ProminenceInRest,ProminenceRunning, ecgName,MinHeightECGRest1,MinHeightECGRest6,...
     MinHeightECGRun2,MinHeightECGRun3,MinHeightECGRun4,MinHeightECGRun5,minDistRest1,minDistRest6,...
-    minDistRun2,minDistRun3,minDistRun4,minDistRun5,P(k,4))
+    minDistRun2,minDistRun3,minDistRun4,minDistRun5,0.4)
 
 
 
