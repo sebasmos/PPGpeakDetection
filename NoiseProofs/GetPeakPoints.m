@@ -4,7 +4,7 @@ function [PKS1ruido,LOCS1ruido] = GetPeakPoints(CorruptedSignal1,Fs,minPW,maxPW,
               'Annotate','extents','MinPeakProminence',minPP);
 % figure
 % findpeaks(CorruptedSignal1,Fs,'MinPeakWidth',minPW,'MaxPeakWidth',maxPW, ...
-%               'Annotate','extents','MinPeakProminence',minPP,'MinPeakDistance',minDD)
+%               'Annotate','extents','MinPeakProminence',minPP)
 % hold on
 % plot(LOCS1ruido,PKS1ruido,'o')   
 % xlabel('Tiempo');

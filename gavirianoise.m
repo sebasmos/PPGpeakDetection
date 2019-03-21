@@ -128,6 +128,7 @@ NoiseActivity4=TotalNoise(18751:26250);
 NoiseActivity5=TotalNoise(26251:33750);
 NoiseActivity6=TotalNoise(33751:end);
 
+
 % Sectionally take off noise from each correspondent activity.
 CleanedSignal1 = Activity1-NoiseActivity1;
 CleanedSignal2 = Activity2-NoiseActivity2;
@@ -135,6 +136,59 @@ CleanedSignal3 = Activity3-NoiseActivity3;
 CleanedSignal4 = Activity4-NoiseActivity4;
 CleanedSignal5 = Activity5-NoiseActivity5;
 CleanedSignal6 = Activity6-NoiseActivity6;
+
+%% Initial Conditions
+% Parameters for findpeaks Function
+% MinPeakWidth
+MinPeakWidthRest1 = 0.11;
+MinPeakWidthRun_2 = 0.11;
+MinPeakWidthRun_3 = 0.1;
+MinPeakWidthRun_4 = 0.07;
+MinPeakWidthRun_5 = 0.07;
+MinPeakWidthRest6 = 0.07;
+% MaxWidthPeak in PPG
+MaxWidthRest1 = 0.5;
+MaxWidthRun2 = 0.5;
+MaxWidthRun3 = 0.3;
+MaxWidthRun4 = 0.3;
+MaxWidthRun5 = 0.3;
+MaxWidthRest6 = 0.5;
+% Prominence in PPG
+ProminenceInRest = 0.005;
+ProminenceRunning = 0.05;
+%% INITIAL CONDITIONS FOR ECG
+% Min Width in ECG
+MinHeightECGRest1 = 0.5;
+MinHeightECGRun2 = 0.53;
+MinHeightECGRun3 = 0.5;
+MinHeightECGRun4 = 0.5;
+MinHeightECGRun5 = 0.45;
+MinHeightECGRest6 = 0.5;
+%Min Dist in ECG
+minDistRest1 = 50;
+minDistRun2 = 15;
+minDistRun3 = 33;
+minDistRun4 = 25;
+minDistRun5 = 30;
+minDistRest6 = 30;
+% For ECG analysis, please update ECG name
+ecgName = 'DATA_01_TYPE02.mat';
+% K represents the number of realizations to extract error individually
+k = 1;
+findLPErrors(sNorm(k,:),Activity1(k,:),Activity2(k,:),Activity3(k,:),Activity4(k,:),Activity5(k,:),Activity6(k,:),...
+    CleanedSignal1(k,:),CleanedSignal2(k,:),CleanedSignal3(k,:),CleanedSignal4(k,:),CleanedSignal5(k,:),CleanedSignal6(k,:), ...
+    Fs,MinPeakWidthRest1,MinPeakWidthRun_2,MinPeakWidthRun_3,MinPeakWidthRun_4,MinPeakWidthRun_5,MinPeakWidthRest6,...
+    MaxWidthRest1,MaxWidthRun2,MaxWidthRun3,MaxWidthRun4,MaxWidthRun5,MaxWidthRest6,...
+    ProminenceInRest,ProminenceRunning, ecgName,MinHeightECGRest1,MinHeightECGRest6,...
+    MinHeightECGRun2,MinHeightECGRun3,MinHeightECGRun4,MinHeightECGRun5,minDistRest1,minDistRest6,...
+    minDistRun2,minDistRun3,minDistRun4,minDistRun5,P(k,4))
+
+
+
+
+
+
+
 % %% IN CASE YOU WANT TO VISUALIZE MEAN NOISE (USE t30s, t60s AND tfin AS X AXIS)
 % figure(8)
 % subplot(3,1,1),plot(t30s,NoiseActivity1),title('Ruido promedio en la actividad 1'),xlabel('Tiempo (seg)'),grid on,axis tight
