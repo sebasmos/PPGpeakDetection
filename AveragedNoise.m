@@ -154,3 +154,15 @@ Fs = 125;
  title('ESPECTRO DE FRECUENCIA DE LA SEÑAL ORIGINAL')
  grid on, axis tight
 
+%% Grafica del espectro de potencia EMG
+
+Npuntos = 2^nextpow2(length(mediamuestral));
+[P,F] = pwelch(mediamuestral,ones(Npuntos/16,1),Npuntos/32,Npuntos,2,'power');
+figure
+semilogx(F,10*log10(P))
+xlabel(['Frequency in ' 'Hz'])
+ylabel('Power Spectrum (dB)')
+grid on
+axis tight
+ax= axis;
+axis([F(2) ax(2:4)])

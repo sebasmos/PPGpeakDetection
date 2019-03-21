@@ -16,7 +16,7 @@
 % 4. param(4): MinPeakDistance
 function arnoise = GetLPCNoise(DetrendedActivity,Activity,params,Fs)
 
-    addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/NoiseProofs');
+    addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\Training_data\NoiseProofs');
  
     % Get peaks values and location over sample values
     [PKS,LOCS]=GetPeakPoints(DetrendedActivity,Fs,params(1),params(2),params(3),params(4));

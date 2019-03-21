@@ -7,40 +7,40 @@ clc
 %% Initial Conditions
 % Parameters for findpeaks Function
 % MinPeakWidth
-MinPeakWidthRest1 = 0.1;
-MinPealWidthRun_2 = 0.07;
-MinPealWidthRun_3 = 0.05;
+MinPeakWidthRest1 = 0.11;
+MinPealWidthRun_2 = 0.11;
+MinPealWidthRun_3 = 0.1;
 MinPealWidthRun_4 = 0.07;
-MinPealWidthRun_5 = 0.05;
-MinPeakWidthRest6 = 0.1;
+MinPealWidthRun_5 = 0.07;
+MinPeakWidthRest6 = 0.07;
 % MaxWidthPeak in PPG
 MaxWidthRest1 = 0.5;
-MaxWidthRun2 = 0.3;
+MaxWidthRun2 = 0.5;
 MaxWidthRun3 = 0.3;
 MaxWidthRun4 = 0.3;
-MaxWidthRun5 = 1;
+MaxWidthRun5 = 0.3;
 MaxWidthRest6 = 0.5;
 % Prominence in PPG
 ProminenceInRest = 0.005;
 ProminenceRunning = 0.05;
 %% INITIAL CONDITIONS FOR ECG
 % Min Width in ECG
-MinWidthECGRest1 = 0.3;
-MinWidthECGRun2 = 0.35;
-MinWidthECGRun3 = 0.4;
-MinWidthECGRun4 = 0.35;
-MinWidthECGRun5 = 0.35;
-MinWidthECGRest6 = 0.35;
+MinHeightECGRest1 = 0.5;
+MinHeightECGRun2 = 0.53;
+MinHeightECGRun3 = 0.5;
+MinHeightECGRun4 = 0.5;
+MinHeightECGRun5 = 0.45;
+MinHeightECGRest6 = 0.5;
 %Min Dist in ECG
-minDistRest1 = 0.15;
-minDistRun2 = 0.15;
-minDistRun3 = 0.2;
-minDistRun4 = 0.15;
-minDistRun5 = 0.15;
-minDistRest6 = 0.15;
+minDistRest1 = 50;
+minDistRun2 = 15;
+minDistRun3 = 33;
+minDistRun4 = 25;
+minDistRun5 = 30;
+minDistRest6 = 30;
 %% PROOF 1: Cleaning corrupted signal with Savitzky-Golay filter.
 % Random sample signal: 
-ppg = load('DATA_10_TYPE02.mat');
+ppg = load('DATA_01_TYPE02.mat');
 ppgSig = ppg.sig;
 ppgFullSignal = ppgSig(2,(1:length(mediamuestral)));% match sizes 
 % Sample Frequency
@@ -64,8 +64,6 @@ CleanedSignal3 = ppgFullSignal(1,(11251:18750))-ruido3;
 CleanedSignal4 = ppgFullSignal(1,(18751:26250))-ruido4;
 CleanedSignal5 = ppgFullSignal(1,(26251:33750))-ruido5;
 CleanedSignal6 = ppgFullSignal(1,(33751:min(TamRealizaciones)))-ruido6;
-
-% 1. ORIGINAL en reposo vs sin ruido
 
 % 1. ORIGINAL en reposo vs sin ruido
 [PKS1Original,LOCS1Original] = GetPeakPoints(ppgFullSignal(1,(1:3750)),...
@@ -132,7 +130,7 @@ ErrorFromBPM = [EBPM1 EBPM2 EBPM3 EBPM4 EBPM5 EBPM6];
 
 %% PROOF 2: ECG peaks detection
 % Random sample signal: 
-ecg = load('DATA_10_TYPE02.mat');
+ecg = load('DATA_01_TYPE02.mat');
 ecgSig = ecg.sig;
 ecgFullSignal = ecgSig(1,(1:length(mediamuestral)));% match sizes 
 % Normalize with min-max method
@@ -142,12 +140,12 @@ ecgFullSignal = (ecgFullSignal-min(ecgFullSignal))./(max(ecgFullSignal)-min(ecgF
 ecgF = (abs(ecgFullSignal)).^2;
 t = (0:length(ecgFullSignal)-1)/Fs;   
 
-[ECG1Peaks,ECG1Locs] = GetECGPeakPoints(ecgF(1,(1:3750)),MinWidthECGRest1,minDistRest1);
-[ECG2Peaks,ECG2Locs] = GetECGPeakPoints(ecgF(1,(3751:11250)),MinWidthECGRun2,minDistRun2);
-[ECG3Peaks,ECG3Locs] = GetECGPeakPoints(ecgF(1,(11251:18750)),MinWidthECGRun3,minDistRun3);
-[ECG4Peaks,ECG4Locs] = GetECGPeakPoints(ecgF(1,(18751:26250)),MinWidthECGRun4,minDistRun4);
-[ECG5Peaks,ECG5Locs] = GetECGPeakPoints(ecgF(1,(26251:33750)),MinWidthECGRun5,minDistRun5);
-[ECG6Peaks,ECG6Locs] = GetECGPeakPoints(ecgF(1,(33751:end)),MinWidthECGRest6,minDistRest6);
+[ECG1Peaks,ECG1Locs] = GetECGPeakPoints(ecgF(1,(1:3750)),MinHeightECGRest1,minDistRest1);
+[ECG2Peaks,ECG2Locs] = GetECGPeakPoints(ecgF(1,(3751:11250)),MinHeightECGRun2,minDistRun2);
+[ECG3Peaks,ECG3Locs] = GetECGPeakPoints(ecgF(1,(11251:18750)),MinHeightECGRun3,minDistRun3);
+[ECG4Peaks,ECG4Locs] = GetECGPeakPoints(ecgF(1,(18751:26250)),MinHeightECGRun4,minDistRun4);
+[ECG5Peaks,ECG5Locs] = GetECGPeakPoints(ecgF(1,(26251:33750)),MinHeightECGRun5,minDistRun5);
+[ECG6Peaks,ECG6Locs] = GetECGPeakPoints(ecgF(1,(33751:end)),MinHeightECGRest6,minDistRest6);
 
 peaksECG1 = length(ECG1Locs);
 peaksECG2 = length(ECG2Locs);

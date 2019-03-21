@@ -1,7 +1,7 @@
 
 function [PKS1ruido,LOCS1ruido] = GetPeakPoints(CorruptedSignal1,Fs,minPW,maxPW,minPP)
 [PKS1ruido,LOCS1ruido]=findpeaks(CorruptedSignal1,Fs,'MinPeakWidth',minPW,'MaxPeakWidth',maxPW, ...
-              'Annotate','extents','MinPeakProminence',minPP);
+              'Annotate','extents','MinPeakProminence',minPP,'MinPeakDistance',minDD);
 % figure
 % findpeaks(CorruptedSignal1,Fs,'MinPeakWidth',minPW,'MaxPeakWidth',maxPW, ...
 %               'Annotate','extents','MinPeakProminence',minPP,'MinPeakDistance',minDD)

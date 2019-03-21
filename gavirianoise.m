@@ -128,19 +128,26 @@ NoiseActivity4=TotalNoise(18751:26250);
 NoiseActivity5=TotalNoise(26251:33750);
 NoiseActivity6=TotalNoise(33751:end);
 
-%% IN CASE YOU WANT TO VISUALIZE MEAN NOISE (USE t30s, t60s AND tfin AS X AXIS)
-figure(8)
-subplot(3,1,1),plot(t30s,NoiseActivity1),title('Ruido promedio en la actividad 1'),xlabel('Tiempo (seg)'),grid on,axis tight
-subplot(3,1,2),plot(t60s,NoiseActivity2),title('Ruido promedio en la actividad 2'),xlabel('Tiempo (seg)'), grid on,axis tight
-subplot(3,1,3),plot(tfin,NoiseActivity6),title('Ruido promedio en la actividad 6'),xlabel('Tiempo (seg)'), grid on,axis tight
+% Sectionally take off noise from each correspondent activity.
+CleanedSignal1 = Activity1-NoiseActivity1;
+CleanedSignal2 = Activity2-NoiseActivity2;
+CleanedSignal3 = Activity3-NoiseActivity3;
+CleanedSignal4 = Activity4-NoiseActivity4;
+CleanedSignal5 = Activity5-NoiseActivity5;
+CleanedSignal6 = Activity6-NoiseActivity6;
+% %% IN CASE YOU WANT TO VISUALIZE MEAN NOISE (USE t30s, t60s AND tfin AS X AXIS)
+% figure(8)
+% subplot(3,1,1),plot(t30s,NoiseActivity1),title('Ruido promedio en la actividad 1'),xlabel('Tiempo (seg)'),grid on,axis tight
+% subplot(3,1,2),plot(t60s,NoiseActivity2),title('Ruido promedio en la actividad 2'),xlabel('Tiempo (seg)'), grid on,axis tight
+% subplot(3,1,3),plot(tfin,NoiseActivity6),title('Ruido promedio en la actividad 6'),xlabel('Tiempo (seg)'), grid on,axis tight
 
-%% VISUALIZE ORIGINAL SIGNAL WITH THE NOISE SUBSTRACTED
-CleanedSignal=Activity2(1,:)-NoiseActivity2;
-figure(9)
-subplot(2,1,1),plot(t60s,Activity2(1,:),t60s,avnoise),title('Señal original en la actividad 1')
-legend('Señal original','Ruido promedio'),xlabel('Tiempo (seg)'), grid on,axis tight
-subplot(2,1,2),plot(t60s,CleanedSignal),title('Señal restando el ruido promedio')
-xlabel('Tiempo (seg)'),grid on, axis tight
+% %% VISUALIZE ORIGINAL SIGNAL WITH THE NOISE SUBSTRACTED
+% CleanedSignal2=Activity2(1,:)-NoiseActivity2;
+% figure(9)
+% subplot(2,1,1),plot(t60s,Activity2(1,:),t60s,NoiseActivity2),title('Senal original en la actividad 1')
+% legend('Señal original','Ruido promedio'),xlabel('Tiempo (seg)'), grid on,axis tight
+% subplot(2,1,2),plot(t60s,CleanedSignal2),title('Señal restando el ruido promedio')
+% xlabel('Tiempo (seg)'),grid on, axis tight
 
 
 %% APPROXIMATION 1: minimum PP interval
