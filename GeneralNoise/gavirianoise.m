@@ -128,7 +128,6 @@ NoiseActivity4=TotalNoise(18751:26250);
 NoiseActivity5=TotalNoise(26251:33750);
 NoiseActivity6=TotalNoise(33751:end);
 
-
 % Sectionally take off noise from each correspondent activity.
 CleanedSignal1 = Activity1-NoiseActivity1;
 CleanedSignal2 = Activity2-NoiseActivity2;
