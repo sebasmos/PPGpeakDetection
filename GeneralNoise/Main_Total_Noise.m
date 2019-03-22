@@ -31,12 +31,12 @@ FramesSavitzky=1001;
 MinPeakWidthRest1 = 0.12;
 MinPeakWidthRun_2 = 0.01;
 MinPeakWidthRun_3 = 0.01;
-MinPeakWidthRun_4 = 0.01;
-MinPeakWidthRun_5 = 0.07;
-MinPeakWidthRest6 = 0.05;
+MinPeakWidthRun_4 = 0.14;
+MinPeakWidthRun_5 = 0.14;
+MinPeakWidthRest6 = 0.14;
 % MaxWidthPeak in PPG
 MaxWidthRest1 = 0.5;
-MaxWidthRun2 = 0.5;
+MaxWidthRun2 = 0.3;
 MaxWidthRun3 = 0.3;
 MaxWidthRun4 = 0.3;
 MaxWidthRun5 = 1;
@@ -47,18 +47,18 @@ ProminenceRunning = 0.04;
 %% INITIAL CONDITIONS FOR ECG
 % Min Width in ECG
 MinHeightECGRest1 = 0.35;
-MinHeightECGRun2 = 0.35;
-MinHeightECGRun3 = 0.25;
-MinHeightECGRun4 = 0.35;
+MinHeightECGRun2 = 0.4;
+MinHeightECGRun3 = 0.35;
+MinHeightECGRun4 = 0.25;
 MinHeightECGRun5 = 0.35;
 MinHeightECGRest6 = 0.3;
 %Min Dist in ECG
 minDistRest1 = 50;
-minDistRun2 = 15;
-minDistRun3 = 33;
-minDistRun4 = 25;
-minDistRun5 = 30;
-minDistRest6 = 30;
+minDistRun2 = 35;
+minDistRun3 = 53;
+minDistRun4 = 20;
+minDistRun5 = 35;
+minDistRest6 = 35;
 
 for k = 1:12
     if k >= 10
@@ -160,57 +160,77 @@ tfin=(0:length(DetrendedNoise6)-1)/Fs;
     CleanedLP4 = Activity4 - TotalLP(1,(18751:26250));
     CleanedLP5 = Activity5 - TotalLP(1,(26251:33750));
     CleanedLP6 = Activity6 - TotalLP(1,(33751:35989));
-% %% 2. Moving average for artifitial noise modeling
-%     MA(1,(1:3750))      = Function_2_MA(DetrendedNoise1,windowsizeRest);
-%     MA(1,(3751:11250))  = Function_2_MA(DetrendedNoise2,windowsizeRun);
-%     MA(1,(11251:18750)) = Function_2_MA(DetrendedNoise3,windowsizeRun);
-%     MA(1,(18751:26250)) = Function_2_MA(DetrendedNoise4,windowsizeRun);
-%     MA(1,(26251:33750)) = Function_2_MA(DetrendedNoise5,windowsizeRun);
-%     MA(1,(33751:35989)) = Function_2_MA(DetrendedNoise6,windowsizeRest);
-% %   Ruido total 2: o(t) = n(t)+w(t)
-%     TotalMA(1,(1:3750))      = WandererBaseline1 + MA(1,(1:3750));
-%     TotalMA(1,(3751:11250))  = WandererBaseline2 + MA(1,(3751:11250));
-%     TotalMA(1,(11251:18750)) = WandererBaseline3 + MA(1,(11251:18750));
-%     TotalMA(1,(18751:26250)) = WandererBaseline4 + MA(1,(18751:26250));
-%     TotalMA(1,(26251:33750)) = WandererBaseline5 + MA(1,(26251:33750));
-%     TotalMA(1,(33751:35989)) = WandererBaseline6 + MA(1,(33751:35989));
-%     % Cleaning signal with MA
-%     CleanedMA1 = Activity1(k,:) - TotalMA(1,(1:3750));
-%     CleanedMA2 = Activity2(k,:) - TotalMA(1,(3751:11250));
-%     CleanedMA3 = Activity3(k,:) - TotalMA(1,(11251:18750));
-%     CleanedMA4 = Activity4(k,:) - TotalMA(1,(18751:26250));
-%     CleanedMA5 = Activity5(k,:) - TotalMA(1,(26251:33750));
-%     CleanedMA6 = Activity6(k,:) - TotalMA(1,(33751:35989));
-% %% 3. Savitzky smoothing filter.
-%     s(1,(1:3750))      = sgolayfilt(DetrendedNoise1,OrdenSavitzky,FramesSavitzky); 
-%     s(1,(3751:11250))  = sgolayfilt(DetrendedNoise2,OrdenSavitzky,FramesSavitzky); 
-%     s(1,(11251:18750)) = sgolayfilt(DetrendedNoise3,OrdenSavitzky,FramesSavitzky); 
-%     s(1,(18751:26250)) = sgolayfilt(DetrendedNoise4,OrdenSavitzky,FramesSavitzky); 
-%     s(1,(26251:33750)) = sgolayfilt(DetrendedNoise5,OrdenSavitzky,FramesSavitzky); 
-%     s(1,(33751:35989)) = sgolayfilt(DetrendedNoise6,OrdenSavitzky,FramesSavitzky); 
-% %   Ruido total 2: o(t) = n(t)+w(t)
-%     TotalS(1,(1:3750))      = WandererBaseline1 + s(1,(1:3750));
-%     TotalS(1,(3751:11250))  = WandererBaseline2 + s(1,(3751:11250));
-%     TotalS(1,(11251:18750)) = WandererBaseline3 + s(1,(11251:18750));
-%     TotalS(1,(18751:26250)) = WandererBaseline4 + s(1,(18751:26250));
-%     TotalS(1,(26251:33750)) = WandererBaseline5 + s(1,(26251:33750));
-%     TotalS(1,(33751:35989)) = WandererBaseline6 + s(1,(33751:35989));
-%       % Cleaning signal with MA
-%     Cleaneds1 = Activity1(k,:) - TotalS(1,(1:3750));
-%     Cleaneds2 = Activity2(k,:) - TotalS(1,(3751:11250));
-%     Cleaneds3 = Activity3(k,:) - TotalS(1,(11251:18750));
-%     Cleaneds4 = Activity4(k,:) - TotalS(1,(18751:26250));
-%     Cleaneds5 = Activity5(k,:) - TotalS(1,(26251:33750));
-%     Cleaneds6 = Activity6(k,:) - TotalS(1,(33751:35989));
-%  % Plotting noise models
-%  plot(t,TotalLP,t,TotalMA,t,TotalS),title('Final Artificial Noise Models'),ylabel('Magnitude'), xlabel('Time (s)'),grid on, axis tight,
-% legend('Linear Predictor LPC + filtering Model','Moving Average model','Savitzky smoothing Model')
-
-%% ERROR FOR LP
-findLPErrors(sNorm(k,:),Activity1(k,:),Activity2(k,:),Activity3(k,:),Activity4(k,:),Activity5(k,:),Activity6(k,:),...
+    %% ERROR FOR LP
+disp('ERRORES CALCULADOS POR LINEAR PREDICTOR')
+findErrors(sNorm(k,:),Activity1(k,:),Activity2(k,:),Activity3(k,:),Activity4(k,:),Activity5(k,:),Activity6(k,:),...
     CleanedLP1(k,:),CleanedLP2(k,:),CleanedLP3(k,:),CleanedLP4(k,:),CleanedLP5(k,:),CleanedLP6(k,:), ...
     Fs,MinPeakWidthRest1,MinPeakWidthRun_2,MinPeakWidthRun_3,MinPeakWidthRun_4,MinPeakWidthRun_5,MinPeakWidthRest6,...
     MaxWidthRest1,MaxWidthRun2,MaxWidthRun3,MaxWidthRun4,MaxWidthRun5,MaxWidthRest6,...
     ProminenceInRest,ProminenceRunning, ecgName,MinHeightECGRest1,MinHeightECGRest6,...
     MinHeightECGRun2,MinHeightECGRun3,MinHeightECGRun4,MinHeightECGRun5,minDistRest1,minDistRest6,...
     minDistRun2,minDistRun3,minDistRun4,minDistRun5,P(12,W))
+%% 2. Moving average for artifitial noise modeling
+    MA(1,(1:3750))      = Function_2_MA(DetrendedNoise1,windowsizeRest);
+    MA(1,(3751:11250))  = Function_2_MA(DetrendedNoise2,windowsizeRun);
+    MA(1,(11251:18750)) = Function_2_MA(DetrendedNoise3,windowsizeRun);
+    MA(1,(18751:26250)) = Function_2_MA(DetrendedNoise4,windowsizeRun);
+    MA(1,(26251:33750)) = Function_2_MA(DetrendedNoise5,windowsizeRun);
+    MA(1,(33751:35989)) = Function_2_MA(DetrendedNoise6,windowsizeRest);
+%   Ruido total 2: o(t) = n(t)+w(t)
+    TotalMA(1,(1:3750))      = WandererBaseline1 + MA(1,(1:3750));
+    TotalMA(1,(3751:11250))  = WandererBaseline2 + MA(1,(3751:11250));
+    TotalMA(1,(11251:18750)) = WandererBaseline3 + MA(1,(11251:18750));
+    TotalMA(1,(18751:26250)) = WandererBaseline4 + MA(1,(18751:26250));
+    TotalMA(1,(26251:33750)) = WandererBaseline5 + MA(1,(26251:33750));
+    TotalMA(1,(33751:35989)) = WandererBaseline6 + MA(1,(33751:35989));
+    % Cleaning signal with MA
+    CleanedMA1 = Activity1 - TotalMA(1,(1:3750));
+    CleanedMA2 = Activity2 - TotalMA(1,(3751:11250));
+    CleanedMA3 = Activity3 - TotalMA(1,(11251:18750));
+    CleanedMA4 = Activity4 - TotalMA(1,(18751:26250));
+    CleanedMA5 = Activity5 - TotalMA(1,(26251:33750));
+    CleanedMA6 = Activity6 - TotalMA(1,(33751:35989));
+        %% ERROR FOR LP
+    disp('ERRORES CALCULADOS POR MEDIAS MOVILES')
+    findErrors(sNorm(k,:),Activity1(k,:),Activity2(k,:),Activity3(k,:),Activity4(k,:),Activity5(k,:),Activity6(k,:),...
+    CleanedMA1(k,:),CleanedMA2(k,:),CleanedMA3(k,:),CleanedMA4(k,:),CleanedMA5(k,:),CleanedMA6(k,:), ...
+    Fs,MinPeakWidthRest1,MinPeakWidthRun_2,MinPeakWidthRun_3,MinPeakWidthRun_4,MinPeakWidthRun_5,MinPeakWidthRest6,...
+    MaxWidthRest1,MaxWidthRun2,MaxWidthRun3,MaxWidthRun4,MaxWidthRun5,MaxWidthRest6,...
+    ProminenceInRest,ProminenceRunning, ecgName,MinHeightECGRest1,MinHeightECGRest6,...
+    MinHeightECGRun2,MinHeightECGRun3,MinHeightECGRun4,MinHeightECGRun5,minDistRest1,minDistRest6,...
+    minDistRun2,minDistRun3,minDistRun4,minDistRun5,P(12,W))
+%% 3. Savitzky smoothing filter.
+    s(1,(1:3750))      = sgolayfilt(DetrendedNoise1,OrdenSavitzky,FramesSavitzky); 
+    s(1,(3751:11250))  = sgolayfilt(DetrendedNoise2,OrdenSavitzky,FramesSavitzky); 
+    s(1,(11251:18750)) = sgolayfilt(DetrendedNoise3,OrdenSavitzky,FramesSavitzky); 
+    s(1,(18751:26250)) = sgolayfilt(DetrendedNoise4,OrdenSavitzky,FramesSavitzky); 
+    s(1,(26251:33750)) = sgolayfilt(DetrendedNoise5,OrdenSavitzky,FramesSavitzky); 
+    s(1,(33751:35989)) = sgolayfilt(DetrendedNoise6,OrdenSavitzky,FramesSavitzky); 
+%   Ruido total 2: o(t) = n(t)+w(t)
+    TotalS(1,(1:3750))      = WandererBaseline1 + s(1,(1:3750));
+    TotalS(1,(3751:11250))  = WandererBaseline2 + s(1,(3751:11250));
+    TotalS(1,(11251:18750)) = WandererBaseline3 + s(1,(11251:18750));
+    TotalS(1,(18751:26250)) = WandererBaseline4 + s(1,(18751:26250));
+    TotalS(1,(26251:33750)) = WandererBaseline5 + s(1,(26251:33750));
+    TotalS(1,(33751:35989)) = WandererBaseline6 + s(1,(33751:35989));
+      % Cleaning signal with MA
+    Cleaneds1 = Activity1 - TotalS(1,(1:3750));
+    Cleaneds2 = Activity2 - TotalS(1,(3751:11250));
+    Cleaneds3 = Activity3 - TotalS(1,(11251:18750));
+    Cleaneds4 = Activity4 - TotalS(1,(18751:26250));
+    Cleaneds5 = Activity5 - TotalS(1,(26251:33750));
+    Cleaneds6 = Activity6 - TotalS(1,(33751:35989));
+        %% ERROR FOR SAVITZKY
+disp('ERRORES CALCULADOS POR SAVITZKY')
+findErrors(sNorm(k,:),Activity1(k,:),Activity2(k,:),Activity3(k,:),Activity4(k,:),Activity5(k,:),Activity6(k,:),...
+    Cleaneds1(k,:),Cleaneds2(k,:),Cleaneds3(k,:),Cleaneds4(k,:),Cleaneds5(k,:),Cleaneds6(k,:), ...
+    Fs,MinPeakWidthRest1,MinPeakWidthRun_2,MinPeakWidthRun_3,MinPeakWidthRun_4,MinPeakWidthRun_5,MinPeakWidthRest6,...
+    MaxWidthRest1,MaxWidthRun2,MaxWidthRun3,MaxWidthRun4,MaxWidthRun5,MaxWidthRest6,...
+    ProminenceInRest,ProminenceRunning, ecgName,MinHeightECGRest1,MinHeightECGRest6,...
+    MinHeightECGRun2,MinHeightECGRun3,MinHeightECGRun4,MinHeightECGRun5,minDistRest1,minDistRest6,...
+    minDistRun2,minDistRun3,minDistRun4,minDistRun5,P(12,W))
+ % Plotting noise models
+ figure
+ plot(t,TotalLP,t,TotalMA,t,TotalS),title('Final Artificial Noise Models'),ylabel('Magnitude'), xlabel('Time (s)'),grid on, axis tight,
+legend('Linear Predictor LPC + filtering Model','Moving Average model','Savitzky smoothing Model')
+

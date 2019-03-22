@@ -1,5 +1,5 @@
 
-function [ErroresTotales] = findLPErrors(mediamuestral,Activity1,Activity2,Activity3,Activity4,Activity5,Activity6,...
+function [ErroresTotales] = findErrors(mediamuestral,Activity1,Activity2,Activity3,Activity4,Activity5,Activity6,...
     CleanedSignal1,CleanedSignal2,CleanedSignal3,CleanedSignal4,CleanedSignal5,CleanedSignal6,...
     Fs,MinPeakWidthRest1,MinPeakWidthRun_2,MinPeakWidthRun_3,MinPeakWidthRun_4,MinPeakWidthRun_5,MinPeakWidthRest6,...
     MaxWidthRest1,MaxWidthRun2,MaxWidthRun3,MaxWidthRun4,MaxWidthRun5,MaxWidthRest6,...
@@ -104,13 +104,13 @@ ECGERROR5 = 100*abs(FindPeaks5-peaksECG5)./peaksECG5;
 ECGERROR6 = 100*abs(FindPeaks6-peaksECG6)./peaksECG6;
 ErrorFromECG = [ECGERROR1 ECGERROR2 ECGERROR3 ECGERROR4 ECGERROR5 ECGERROR6];
 
-FindPeaksOriginalPeaks = [length(LOCS1Original) length(LOCS2Original) length(LOCS3Original) length(LOCS4Original) length(LOCS5Original) length(LOCS6Original)]
+FindPeaksOriginalPeaks = [length(LOCS1Original) length(LOCS2Original) length(LOCS3Original) length(LOCS4Original) length(LOCS5Original) length(LOCS6Original)];
 
-FindPeakDenoisedPeaks = [length(PKS1ruido) length(PKS2ruido) length(PKS3ruido) length(PKS4ruido) length(PKS5ruido) length(PKS6ruido)] 
+FindPeakDenoisedPeaks = [length(PKS1ruido) length(PKS2ruido) length(PKS3ruido) length(PKS4ruido) length(PKS5ruido) length(PKS6ruido)] ;
 
-showBPMPeaks = [bpm1 bpm(2,realizacion) bpm(3,realizacion) bpm(4,realizacion) bpm(5,realizacion) bpm6]
+showBPMPeaks = [bpm1 bpm(2,realizacion) bpm(3,realizacion) bpm(4,realizacion) bpm(5,realizacion) bpm6];
 
-showECGPeaks = [peaksECG1 peaksECG2 peaksECG3 peaksECG4 peaksECG5 peaksECG6  ]
+showECGPeaks = [peaksECG1 peaksECG2 peaksECG3 peaksECG4 peaksECG5 peaksECG6  ];
 disp('CALCULO % ERRORES: Fila 1 (FindPeaks), Fila 2 (BPM), Fila 3 (ECG)')
 ErroresTotales = [ErrorFromFindPeaks;ErrorFromBPM;ErrorFromECG];
 
