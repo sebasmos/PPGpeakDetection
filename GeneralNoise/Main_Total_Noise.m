@@ -1,4 +1,3 @@
-
 clc
 clear all
 close all
@@ -233,4 +232,3 @@ findErrors(sNorm(k,:),Activity1(k,:),Activity2(k,:),Activity3(k,:),Activity4(k,:
  figure
  plot(t,TotalLP,t,TotalMA,t,TotalS),title('Final Artificial Noise Models'),ylabel('Magnitude'), xlabel('Time (s)'),grid on, axis tight,
 legend('Linear Predictor LPC + filtering Model','Moving Average model','Savitzky smoothing Model')
-
