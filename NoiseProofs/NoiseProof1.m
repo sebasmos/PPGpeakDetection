@@ -33,30 +33,30 @@ CleanedSignal6 = ppgFullSignal(1,(33751:min(TamRealizaciones)))-ruido6;
 
 % 1. ORIGINAL en reposo vs sin ruido
 [PKS1Original,LOCS1Original] = GetPeakPoints(ppgFullSignal(1,(1:3750)),Fs,0.11,0.5,0.05);
-[PKS1ruido,LOCS1ruido] = GetPeakPoints(CleanedSignal1,Fs,0.11,0.5,0.05);
+[PKS1Cleaned,LOCS1Cleaned] = GetPeakPoints(CleanedSignal1,Fs,0.11,0.5,0.05);
 % 2. CORRIENDO 1min se�al original vs sin ruido
 [PKS2Original,LOCS2Original] = GetPeakPoints(ppgFullSignal(1,(3751:11250)),Fs,0.11,0.5,0.07);
-[PKS2ruido,LOCS2ruido] = GetPeakPoints(CleanedSignal2,Fs,0.11,0.5,0.07);
+[PKS2Cleaned,LOCS2Cleaned] = GetPeakPoints(CleanedSignal2,Fs,0.11,0.5,0.07);
 % 3. CORRIENDO 1min se�al original vs sin ruido
 [PKS3Original,LOCS3Original] = GetPeakPoints(ppgFullSignal(1,(11251:18750)),Fs,0.07,0.3,0.05);
-[PKS3ruido,LOCS3ruido] = GetPeakPoints(CleanedSignal3,Fs,0.07,0.3,0.05);
+[PKS3Cleaned,LOCS3Cleaned] = GetPeakPoints(CleanedSignal3,Fs,0.07,0.3,0.05);
 % 4. CORRIENDO 1min se�al original vs sin ruido
 [PKS4Original,LOCS4Original] = GetPeakPoints(ppgFullSignal(1,(18751:26250)),Fs,0.05,0.3,0.05);
-[PKS4ruido,LOCS4ruido] = GetPeakPoints(CleanedSignal4,Fs,0.05,0.3,0.05);
+[PKS4Cleaned,LOCS4Cleaned] = GetPeakPoints(CleanedSignal4,Fs,0.05,0.3,0.05);
 % 5. CORRIENDO 1min se�al original vs sin ruido
 [PKS5Original,LOCS5Original] = GetPeakPoints(ppgFullSignal(1,(26251:33750)),Fs,0.07,0.3,0.08);
-[PKS5ruido,LOCS5ruido] = GetPeakPoints(CleanedSignal5,Fs,0.07,0.3,0.08);
+[PKS5Cleaned,LOCS5Cleaned] = GetPeakPoints(CleanedSignal5,Fs,0.07,0.3,0.08);
 % 6. REST 30s se�al original vs sin ruido
 [PKS6Original,LOCS6Original] = GetPeakPoints(ppgFullSignal(1,(33751:end)),Fs,0.07,0.5,0.04);
-[PKS6ruido,LOCS6ruido] = GetPeakPoints(CleanedSignal6,Fs,0.07,0.5,0.04);
+[PKS6Cleaned,LOCS6Cleaned] = GetPeakPoints(CleanedSignal6,Fs,0.07,0.5,0.04);
 
 %% Error using HeartBeats from findpeaks
-ErrorFindP1 = 100*abs(length(LOCS1ruido)-length(LOCS1Original))./length(LOCS1Original);
-ErrorFindP2 = 100*abs(length(LOCS2ruido)-length(LOCS2Original))./length(LOCS2Original);
-ErrorFindP3 = 100*abs(length(LOCS3ruido)-length(LOCS3Original))./length(LOCS3Original);
-ErrorFindP4 = 100*abs(length(LOCS4ruido)-length(LOCS4Original))./length(LOCS4Original);
-ErrorFindP5 = 100*abs(length(LOCS5ruido)-length(LOCS5Original))./length(LOCS5Original);
-ErrorFindP6 = 100*abs(length(LOCS6ruido)-length(LOCS6Original))./length(LOCS6Original);
+ErrorFindP1 = 100*abs(length(LOCS1Cleaned)-length(LOCS1Original))./length(LOCS1Original);
+ErrorFindP2 = 100*abs(length(LOCS2Cleaned)-length(LOCS2Original))./length(LOCS2Original);
+ErrorFindP3 = 100*abs(length(LOCS3Cleaned)-length(LOCS3Original))./length(LOCS3Original);
+ErrorFindP4 = 100*abs(length(LOCS4Cleaned)-length(LOCS4Original))./length(LOCS4Original);
+ErrorFindP5 = 100*abs(length(LOCS5Cleaned)-length(LOCS5Original))./length(LOCS5Original);
+ErrorFindP6 = 100*abs(length(LOCS6Cleaned)-length(LOCS6Original))./length(LOCS6Original);
 ErrorFromFindPeaks = [ErrorFindP1 ErrorFindP2 ErrorFindP3 ErrorFindP4 ErrorFindP5 ErrorFindP6];
 %% Error from BPM 
 % bpm stores the bpm in the matrix 6x12, where 1-6 represents the type of
@@ -67,12 +67,12 @@ ErrorFromFindPeaks = [ErrorFindP1 ErrorFindP2 ErrorFindP3 ErrorFindP4 ErrorFindP
 bpm = CompareBPM();
 realizacion = 2;
 % Separate peaks from findpeaks detection 
-FindPeaks1 = length(LOCS1ruido);
-FindPeaks2 = length(LOCS2ruido);
-FindPeaks3 = length(LOCS3ruido);
-FindPeaks4 = length(LOCS4ruido);
-FindPeaks5 = length(LOCS5ruido);
-FindPeaks6 = length(LOCS6ruido);
+FindPeaks1 = length(LOCS1Cleaned);
+FindPeaks2 = length(LOCS2Cleaned);
+FindPeaks3 = length(LOCS3Cleaned);
+FindPeaks4 = length(LOCS4Cleaned);
+FindPeaks5 = length(LOCS5Cleaned);
+FindPeaks6 = length(LOCS6Cleaned);
 % For computational reasons, we separate the 30s-activities
 bpm1 = bpm(1,realizacion)./2;
 bpm6 = bpm(6,realizacion)./2;
