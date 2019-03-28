@@ -95,7 +95,7 @@ realization=1; %change this value to update realization.
 % plot(tfin,DetrendedActivity6(realization,:)),title('Detrended signal for activity 6'), xlabel('Time (s)'),grid on, axis tight,
 
 %% WE ESTABLISH THE MATRIX THAT WILL ALLOW TO PARAMETRIZE FINDPEAKS
-%  MinW| MW|PROM |
+%  MinW| MW|PROM |MinD|
 P=[0.11 0.5 0.005 0.4  0.11 0.5 0.01  0.4  0.1  0.5 0.03  0.35 0.07 0.8 0.05 0.3  0.07 0.8 0.07  0.3  0.11 1   0.01  0.3;
    0.11 0.5 0.005 0.4  0.11 0.5 0.07  0.45 0.07 0.8 0.094 0.28 0.05 0.8 0.04 0.3  0.07 0.8 0.08  0.35 0.07 1   0.05  0.32;
    0.1  0.5 0.005 0.4  0.07 0.5 0.05  0.45 0.1  0.8 0.05  0.35 0.05 0.8 0.04 0.3  0.07 0.8 0.05  0.35 0.07 0.5 0.005 0.35;
