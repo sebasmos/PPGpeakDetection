@@ -16,12 +16,12 @@ addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\T
     sNorm = (s2-min(s2))/(max(s2)-min(s2));
 %% Grafica del espectro de potencia
     sfilt=sgolayfilt(sNorm,3,41);
-%     if(length(sNorm)<=3750)
-%         media = Detrending(sNorm,5);
-%     else
-%         media = Detrending(sNorm,10);
-%     end
-      media=ValoresMedia(sNorm);
+    if(length(sNorm)<=3750)
+        media = Detrending(sNorm,5);
+    else
+        media = Detrending(sNorm,10);
+    end
+   %   media=ValoresMedia(sNorm);
     Noise=sNorm-sfilt+media;
 
 end

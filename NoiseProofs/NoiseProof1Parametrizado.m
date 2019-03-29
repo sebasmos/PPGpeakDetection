@@ -12,14 +12,14 @@ MinPeakWidthRun_2 = 0.07;
 MinPeakWidthRun_3 = 0.07;
 MinPeakWidthRun_4 = 0.07;
 MinPeakWidthRun_5 = 0.07;
-MinPeakWidthRest6 = 0.1;
+MinPeakWidthRest6 = 0.05;
 % MaxWidthPeak in PPG
 MaxWidthRest1 = 0.5;
 MaxWidthRun2 = 0.5;
 MaxWidthRun3 = 0.5;
 MaxWidthRun4 = 0.5;
 MaxWidthRun5 = 0.8;
-MaxWidthRest6 = 0.8;
+MaxWidthRest6 = 1.3;
 % Prominence in PPG
 ProminenceInRest1 = 0.009;
 ProminenceRun2 = 0.04;
@@ -29,12 +29,19 @@ ProminenceRun5 = 0.04;
 ProminenceInRest6 = 0.01;
 % Min peak Distance in PPG
 MinDistRest1 = 0.3;
-MinDistRun2 = 0.01;
+MinDistRun2 = 0.3;
 MinDistRun3 = 0.1;
 MinDistRun4 = 0.15;
 MinDistRun5 = 0.1;
-MinDistRest6 = 0.1;
+MinDistRest6 = 0.2;
 %% PARAMETERS IN ECG SIGNAL
+% Min Height in ECG
+MinHeightECGRest1 = 0.5;
+MinHeightECGRun2  = 0.5;
+MinHeightECGRun3  = 0.55;
+MinHeightECGRun4  = 0.55;
+MinHeightECGRun5  = 0.55;
+MinHeightECGRest6 = 0.55;
 %Min Dist in ECG
 minDistRest1 = 0.1;
 minDistRun2 = 0.3;
@@ -42,13 +49,6 @@ minDistRun3 = 0.3;
 minDistRun4 = 0.3;
 minDistRun5 = 0.2;
 minDistRest6 = 0.2;
-% Min Height in ECG
-MinHeightECGRest1 = 0.5;
-MinHeightECGRun2  = 0.5;
-MinHeightECGRun3  = 0.5;
-MinHeightECGRun4  = 0.5;
-MinHeightECGRun5  = 0.5;
-MinHeightECGRest6 = 0.4;
 %% PROOF 1: Cleaning corrupted signal with Savitzky-Golay filter.
 % Random sample signal: 
 ppg = load('DATA_01_TYPE02.mat');

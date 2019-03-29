@@ -8,7 +8,7 @@ ecgFullSignal = ecgSig(1,(1:length(mediamuestral)));% match sizes
 ecgFullSignal = (ecgFullSignal-128)./255;
 ecgFullSignal = (ecgFullSignal-min(ecgFullSignal))./(max(ecgFullSignal)-min(ecgFullSignal));
 % Squared signal to 
-seccion1 = ecgFullSignal(26251:33750);
+seccion1 = ecgFullSignal(33750:35989);
 seccion1a = seccion1.^2;
 ecgF = (abs(26251:33750)).^2;
 t = (0:length(ecgFullSignal)-1)/125;   
@@ -19,7 +19,7 @@ seccion1b = h.^2;
 close all
 [ECG5Peaks,ECG5Locs] = GetECGPeakPoints(seccion1a,0.5, 0.3);
 
-[a,b] = GetECGPeakPoints(seccion1b,0.09, 0.3);
+[a,b] = GetECGPeakPoints(seccion1b,0.04, 0.3);
 %%
 close all
 figure
