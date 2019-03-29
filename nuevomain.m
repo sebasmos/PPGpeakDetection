@@ -1,19 +1,45 @@
-%% ACTIVIDADES TIPO 1
-    
-    ppg=load('DATA_01_TYPE02.mat');
-    ppgSignal = ppg.sig;
-    pfinal = ppgSignal(2,(1:3750)); %lo calcul√© con la Fs. 30s de REPOSO.
-%FRECUENCIA DE MUESTREO
+
+clc
+clear all
+close all
+[mediamuestral,TamRealizaciones]=GetAveragedNoise();
+% Get and save signals in 'Realizaciones'
+for k = 1:12
+    if k >= 10
+        labelstring = int2str(k);
+        word = strcat({'DATA_'},labelstring,{'_TYPE02.mat'});
+        a = load(char(word));
+        Realizaciones(k,:) = a.sig(2,(1:35989));
+    else
+        labelstring = int2str(k);
+        word = strcat({'DATA_0'},labelstring,{'_TYPE02.mat'});
+        a = load(char(word));
+        Realizaciones(k,:) = a.sig(2,(1:35989));
+    end
+end
+
+% Sample Frequency
     Fs = 125;
-% CONVERSI√ìN A VARIABLES F√çSICAS
-    s2 = (pfinal-128)/(255);
-   % s2 = (ppgSignal(2,:)+81)/161;
-   % s3 = (ppgSignal(3,:)+41)/81;
-% NORMALIZACI√ìN POR M√ÅXIMOS Y M√çNIMOS
-    s2Norm = (s2-min(s2))/(max(s2)-min(s2));
-    t = (0:length(s2Norm)-1);
+% Convert to physical values: According to timesheet of the used wearable
+    s2 = (Realizaciones-128)/(255);
+% Normalize the entire signal of all realizations.
+for k=1:12
+    sNorm(k,:) = (s2(k,:)-min(s2(k,:)))/(max(s2(k,:))-min(s2(k,:)));
+end
+    
+%% Separate Activities
+Activity1=sNorm(:,(1:3750));
+Activity2=sNorm(:,(3751:11250));
+Activity3=sNorm(:,(11251:18750));
+Activity4=sNorm(:,(18751:26250));
+Activity5=sNorm(:,(26251:33750));
+Activity6=sNorm(:,(33751:end)); 
+
+% An·lisis para DATA_01_TYPE02.mat actividad1 rest 30s
+    t = (0:length(Activity1(1,:))-1);
     figure(1) 
-    plot(t,s2Norm,'r')
+    plot(t,Activity1(1,:),'r')
+s2Norm = Activity1(1,:);  
  
 %% RUIDO A PARTIR DE WAVELETS 
 %CREACION DE LA WAVELET
@@ -54,8 +80,8 @@ nb_Int = 3;                    % Number of intervals for thresholding.
  grid on, axis tight
 
 % 2.Comparaci√≥n:
-[~,~,f,dP] = centerfreq(Fs,pfinal); %SE√ëAL NORMAL
-[PS,NN] = PowSpecs(pfinal);
+[~,~,f,dP] = centerfreq(Fs,s2Norm); %SE√ëAL NORMAL
+[PS,NN] = PowSpecs(s2Norm);
 [~,~,f2,dP2] = centerfreq(Fs,sigden); %SE√ëAL FILTRADA
 [PS2,NN2] = PowSpecs(sigden);
 figure(4)
@@ -159,3 +185,39 @@ RuidoSav=nueva+vmedias;
 figure(14)
 plot(RuidoSav,'b'),hold on, plot(vmedias,'r--'),grid on, title('Ruido final')
 legend('Ruido SavitzkyGolay','Nivel de DC')
+
+%% Comparacion savitzky
+
+act1 = mediamuestral(3751:11250);
+sfilt=sgolayfilt(act1 ,70,1001);
+% X must be a vector with length greater or equal to the prediction order.
+%If X is a matrix, the length of each column must be greater or equal to
+%the prediction order.
+%%%% NO BORRAR COMENTARIOS PLEASE
+%% Para que LPC siga mejor la seÒal, debe ser pequeÒo, de lo contrario para
+% calcular un estimativo general, debe ser similar al tamaÒo total de Òa
+% seÒal
+close all
+LinearPredictor = lpc(act1,7000);
+LP = filter([0 -LinearPredictor(2:end)],1,act1);
+% MÈtodo de verificaciÛn para determinar ventaneo es el sgte:
+% close all
+% t = linspace(-0.1,0.1,3750);
+%  x = 0.005*rand(size(t));
+% y = filter(b,a,x);
+%  figure
+% plot(act1+x)
+% hold on
+% plot(act1)
+% windowsize para actividades en reposo debe ser 40
+windowsize = 30;
+b = 1/windowsize*ones(1,windowsize);
+y = filter(b,1,act1)
+% Al graficar las 3 formas nos damos cuenta que el mÈtodo de medias mÛviles 
+% representa mejor la seÒal
+plot(y,'r'),hold on
+plot(act1,'b'),hold on
+plot(sfilt,'g'),hold on
+plot(LP,'y'),hold on
+%legend('act1','lp')
+ legend('Medias moviles','Senal original rest 30s','savitzky','Linear Predictor')

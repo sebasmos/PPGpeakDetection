@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 
 clear all
 clc
@@ -376,5 +375,3 @@ for j=1:length(pulse)-1
         aux2 = aux2+1;
     end
 end
-
->>>>>>> 4751b791c4c11d23a5c5d2ea3a127d92c97dd5cf
