@@ -112,7 +112,7 @@ Noise5 = mediamuestral(1,(26251:33750));
 Noise6 = mediamuestral(1,(33751:min(TamRealizaciones)));
 
 %% Detrend noise by activities.
-nRest = 5;
+nRest = 10;
 nRun = 10;
 DetrendedNoise1=Detrending(Noise1(1,:),nRest);
 DetrendedNoise2=Detrending(Noise2(1,:),nRun);
