@@ -61,22 +61,22 @@ ErrorFromFindPeaks = [ErrorFindP1 ErrorFindP2 ErrorFindP3 ErrorFindP4 ErrorFindP
 bpm = CompareBPM();
 realizacion = 1;
 % PEAKS IN PPG SIGNAL Separate peaks from findpeaks detection 
-FindPeaks1 = length(LOCS1Cleaned);
-FindPeaks2 = length(LOCS2Cleaned);
-FindPeaks3 = length(LOCS3Cleaned);
-FindPeaks4 = length(LOCS4Cleaned);
-FindPeaks5 = length(LOCS5Cleaned);
-FindPeaks6 = length(LOCS6Cleaned);
+FindPeaksCleaned1 = length(LOCS1Cleaned);
+FindPeaksCleaned2 = length(LOCS2Cleaned);
+FindPeaksCleaned3 = length(LOCS3Cleaned);
+FindPeaksCleaned4 = length(LOCS4Cleaned);
+FindPeaksCleaned5 = length(LOCS5Cleaned);
+FindPeaksCleaned6 = length(LOCS6Cleaned);
 % For computational reasons, we separate the 30s-activities
 bpm1 = bpm(1,realizacion)./2;
 bpm6 = bpm(6,realizacion)./2;
 %
-EBPM1 = 100*abs(FindPeaks1-bpm1)./bpm1;
-EBPM2 = 100*abs(FindPeaks2-bpm(2,realizacion))./bpm(2,realizacion);
-EBPM3 = 100*abs(FindPeaks3-bpm(3,realizacion))./bpm(3,realizacion);
-EBPM4 = 100*abs(FindPeaks4-bpm(4,realizacion))./bpm(4,realizacion);
-EBPM5 = 100*abs(FindPeaks5-bpm(5,realizacion))./bpm(5,realizacion);
-EBPM6 = 100*abs(FindPeaks6-bpm6)./bpm6;
+EBPM1 = 100*abs(FindPeaksCleaned1-bpm1)./bpm1;
+EBPM2 = 100*abs(FindPeaksCleaned2-bpm(2,realizacion))./bpm(2,realizacion);
+EBPM3 = 100*abs(FindPeaksCleaned3-bpm(3,realizacion))./bpm(3,realizacion);
+EBPM4 = 100*abs(FindPeaksCleaned4-bpm(4,realizacion))./bpm(4,realizacion);
+EBPM5 = 100*abs(FindPeaksCleaned5-bpm(5,realizacion))./bpm(5,realizacion);
+EBPM6 = 100*abs(FindPeaksCleaned6-bpm6)./bpm6;
 
 
 ErrorFromBPM = [EBPM1 EBPM2 EBPM3 EBPM4 EBPM5 EBPM6];
@@ -108,12 +108,12 @@ peaksECG4 = length(ECG4Locs);
 peaksECG5 = length(ECG5Locs);
 peaksECG6 = length(ECG6Locs);
 
-ECGERROR1 = 100*abs(FindPeaks1-peaksECG1)./peaksECG1;
-ECGERROR2 = 100*abs(FindPeaks2-peaksECG2)./peaksECG2;
-ECGERROR3 = 100*abs(FindPeaks3-peaksECG3)./peaksECG3;
-ECGERROR4 = 100*abs(FindPeaks4-peaksECG4)./peaksECG4;
-ECGERROR5 = 100*abs(FindPeaks5-peaksECG5)./peaksECG5;
-ECGERROR6 = 100*abs(FindPeaks6-peaksECG6)./peaksECG6;
+ECGERROR1 = 100*abs(FindPeaksCleaned1-peaksECG1)./peaksECG1;
+ECGERROR2 = 100*abs(FindPeaksCleaned2-peaksECG2)./peaksECG2;
+ECGERROR3 = 100*abs(FindPeaksCleaned3-peaksECG3)./peaksECG3;
+ECGERROR4 = 100*abs(FindPeaksCleaned4-peaksECG4)./peaksECG4;
+ECGERROR5 = 100*abs(FindPeaksCleaned5-peaksECG5)./peaksECG5;
+ECGERROR6 = 100*abs(FindPeaksCleaned6-peaksECG6)./peaksECG6;
 ErrorFromECG = [ECGERROR1 ECGERROR2 ECGERROR3 ECGERROR4 ECGERROR5 ECGERROR6];
 
 FindPeaksOriginalPeaks = [length(LOCS1Original) length(LOCS2Original) length(LOCS3Original) length(LOCS4Original) length(LOCS5Original) length(LOCS6Original)]
