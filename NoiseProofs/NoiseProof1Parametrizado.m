@@ -2,7 +2,7 @@ clear all
 close all
 clc
 %% Add Datasets
-addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\Training_data\db');
+addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/db');
 %% Get Noise from Savitzky method
 [mediamuestral,TamRealizaciones]=GetAveragedNoise();
 %% Initial Conditions
@@ -82,27 +82,27 @@ CleanedSignal6 = ppgFullSignal(1,(33751:min(TamRealizaciones)))-ruido6;
     Fs,MinPeakWidthRest1,MaxWidthRest1,ProminenceInRest1,MinDistRest1);
 [PKS1Cleaned,LOCS1Cleaned] = GetPeakPoints(CleanedSignal1,Fs,MinPeakWidthRest1,...
     MaxWidthRest1,ProminenceInRest1,MinDistRest1);
-% 2. CORRIENDO 1min señal original vs sin ruido
+% 2. CORRIENDO 1min seï¿½al original vs sin ruido
 [PKS2Original,LOCS2Original] = GetPeakPoints(ppgFullSignal(1,(3751:11250)),...
     Fs,MinPeakWidthRun_2,MaxWidthRun2,ProminenceRun2,MinDistRun2);
 [PKS2Cleaned,LOCS2Cleaned] = GetPeakPoints(CleanedSignal2,Fs,MinPeakWidthRun_2,...
     MaxWidthRun2,ProminenceRun2,MinDistRun2);
-% 3. CORRIENDO 1min señal original vs sin ruido
+% 3. CORRIENDO 1min seï¿½al original vs sin ruido
 [PKS3Original,LOCS3Original] = GetPeakPoints(ppgFullSignal(1,(11251:18750)),...
     Fs,MinPeakWidthRun_3,MaxWidthRun3,ProminenceRun3,MinDistRun3);
 [PKS3Cleaned,LOCS3Cleaned] = GetPeakPoints(CleanedSignal3,Fs,MinPeakWidthRun_3,...
     MaxWidthRun3,ProminenceRun3,MinDistRun3);
-% 4. CORRIENDO 1min señal original vs sin ruido
+% 4. CORRIENDO 1min seï¿½al original vs sin ruido
 [PKS4Original,LOCS4Original] = GetPeakPoints(ppgFullSignal(1,(18751:26250)),...
     Fs,MinPeakWidthRun_4,MaxWidthRun4,ProminenceRun4,MinDistRun4);
 [PKS4Cleaned,LOCS4Cleaned] = GetPeakPoints(CleanedSignal4,Fs,MinPeakWidthRun_4,...
     MaxWidthRun4,ProminenceRun4,MinDistRun4);
-% 5. CORRIENDO 1min señal original vs sin ruido
+% 5. CORRIENDO 1min seï¿½al original vs sin ruido
 [PKS5Original,LOCS5Original] = GetPeakPoints(ppgFullSignal(1,(26251:33750)),...
     Fs,MinPeakWidthRun_5,MaxWidthRun5,ProminenceRun5,MinDistRun5);
 [PKS5Cleaned,LOCS5Cleaned] = GetPeakPoints(CleanedSignal5,Fs,MinPeakWidthRun_5,...
     MaxWidthRun5,ProminenceRun5,MinDistRun5);
-% 6. REST 30s señal original vs sin ruido
+% 6. REST 30s seï¿½al original vs sin ruido
 [PKS6Original,LOCS6Original] = GetPeakPoints(ppgFullSignal(1,(33751:end)),...
     Fs,MinPeakWidthRest6,MaxWidthRest6,ProminenceInRest6,MinDistRest6);
 [PKS6Cleaned,LOCS6Cleaned] = GetPeakPoints(CleanedSignal6,Fs,MinPeakWidthRest6,...
