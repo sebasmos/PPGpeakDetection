@@ -4,7 +4,10 @@
 % m: Initial sample
 % s: Final Sample
 function Noise = GetSavitzkyNoise(name,n,m,s)
-addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\Training_data')
+
+%% Add Datasets
+addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\Training_data\db');
+
     ppg=load(name);
     ppgSignal = ppg.sig;
     pfinal = ppgSignal(n,(m:s));

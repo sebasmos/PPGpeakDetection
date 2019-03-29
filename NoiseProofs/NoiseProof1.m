@@ -1,9 +1,10 @@
 clear all
 close all
 clc
-
+%% Add Datasets
+addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\Training_data\db');
+%% Get Noise from Savitzky method
 [mediamuestral,TamRealizaciones]=GetAveragedNoise();
-
 %% PROOF 1: Cleaning corrupted signal with Savitzky-Golay filter.
 % Random sample signal: 
 ppg = load('DATA_01_TYPE02.mat');

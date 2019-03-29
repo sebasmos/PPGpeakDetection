@@ -1,9 +1,10 @@
 clear all
 close all
 clc
-
+%% Add Datasets
+addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\Training_data\db');
+%% Get Noise from Savitzky method
 [mediamuestral,TamRealizaciones]=GetAveragedNoise();
-
 %% Initial Conditions
 % PARAMETERS FOR PPG SIGNAL
 % MinPeakWidth

@@ -1,4 +1,8 @@
 %% PROOF 2: ECG peaks detection
+
+%% Add Datasets
+addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\Training_data\db');
+%% Get Noise from Savitzky method
 % Random sample signal: 
 [mediamuestral,TamRealizaciones]=GetAveragedNoise();
 ecg = load('DATA_01_TYPE02.mat');
