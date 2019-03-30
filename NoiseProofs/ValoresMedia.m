@@ -22,6 +22,5 @@ function vectormedias = ValoresMedia(signal)
             j=j+1;
         end
     end
-     disp('')
   
 end
