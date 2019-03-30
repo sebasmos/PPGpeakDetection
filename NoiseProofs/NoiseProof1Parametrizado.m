@@ -8,33 +8,33 @@ addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/db'
 %% Initial Conditions
 % PARAMETERS FOR PPG SIGNAL
 % MinPeakWidth
-MinPeakWidthRest1 = 0.11;
+MinPeakWidthRest1 = 0.07;
 MinPeakWidthRun_2 = 0.07;
-MinPeakWidthRun_3 = 0.07;
+MinPeakWidthRun_3 = 0.05;
 MinPeakWidthRun_4 = 0.07;
-MinPeakWidthRun_5 = 0.07;
-MinPeakWidthRest6 = 0.05;
+MinPeakWidthRun_5 = 0.1;
+MinPeakWidthRest6 = 0.11;
 % MaxWidthPeak in PPG
 MaxWidthRest1 = 0.5;
 MaxWidthRun2 = 0.5;
-MaxWidthRun3 = 0.5;
-MaxWidthRun4 = 0.5;
-MaxWidthRun5 = 0.8;
-MaxWidthRest6 = 1.3;
+MaxWidthRun3 = 0.3;
+MaxWidthRun4 = 0.3;
+MaxWidthRun5 = 1;
+MaxWidthRest6 = 0.5;
 % Prominence in PPG
-ProminenceInRest1 = 0.009;
+ProminenceInRest1 = 0.05;
 ProminenceRun2 = 0.04;
 ProminenceRun3 = 0.04;
-ProminenceRun4 = 0.03;
+ProminenceRun4 = 0.04;
 ProminenceRun5 = 0.04;
-ProminenceInRest6 = 0.01;
+ProminenceInRest6 = 0.04;
 % Min peak Distance in PPG
-MinDistRest1 = 0.3;
-MinDistRun2 = 0.3;
-MinDistRun3 = 0.1;
-MinDistRun4 = 0.15;
-MinDistRun5 = 0.1;
-MinDistRest6 = 0.2;
+MinDistRest1 = 0.4;
+MinDistRun2 = 0.45;
+MinDistRun3 = 0.45;
+MinDistRun4 = 0.45;
+MinDistRun5 = 0.45;
+MinDistRest6 = 0.45;
 %% PARAMETERS IN ECG SIGNAL
 % Min Height in ECG
 MinHeightECGRest1 = 0.5;
@@ -52,7 +52,7 @@ minDistRun5 = 0.2;
 minDistRest6 = 0.2;
 %% PROOF 1: Cleaning corrupted signal with Savitzky-Golay filter.
 % Random sample signal: 
-ppg = load('DATA_01_TYPE02.mat');
+ppg = load('DATA_07_TYPE02.mat');
 ppgSig = ppg.sig;
 ppgFullSignal = ppgSig(2,(1:length(mediamuestral)));% match sizes 
 % Sample Frequency
@@ -76,12 +76,14 @@ CleanedSignal3 = ppgFullSignal(1,(11251:18750))-ruido3;
 CleanedSignal4 = ppgFullSignal(1,(18751:26250))-ruido4;
 CleanedSignal5 = ppgFullSignal(1,(26251:33750))-ruido5;
 CleanedSignal6 = ppgFullSignal(1,(33751:min(TamRealizaciones)))-ruido6;
-
+%%
 % 1. ORIGINAL en reposo vs sin ruido
 [PKS1Original,LOCS1Original] = GetPeakPoints(ppgFullSignal(1,(1:3750)),...
     Fs,MinPeakWidthRest1,MaxWidthRest1,ProminenceInRest1,MinDistRest1);
+%%
 [PKS1Cleaned,LOCS1Cleaned] = GetPeakPoints(CleanedSignal1,Fs,MinPeakWidthRest1,...
     MaxWidthRest1,ProminenceInRest1,MinDistRest1);
+%%
 % 2. CORRIENDO 1min se�al original vs sin ruido
 [PKS2Original,LOCS2Original] = GetPeakPoints(ppgFullSignal(1,(3751:11250)),...
     Fs,MinPeakWidthRun_2,MaxWidthRun2,ProminenceRun2,MinDistRun2);
