@@ -62,7 +62,8 @@ for k = 1:12
         s4(k,:) =  GetSavitzkyNoise(char(word),2,26251,33750);        
         s5(k,:) =  GetSavitzkyNoise(char(word),2,33751,min(TamRealizaciones));
     end
-    % Sample mean
+    % In this part, after the noise has been obtained for each activity, we
+    % proceed to make a sum for each one of the activities.
     sm0 = sm0 + s(k,:);
     sm1 = sm1 + s1(k,:);
     sm2 = sm2 + s2(k,:);
@@ -76,22 +77,23 @@ end
 % Noise is organized in a single matrix M with size 6x7500, where the rows
 % represent the type of activity and the columns represent the samples of
 % each dataset. For the signals in the samples 0-3750 (30s activity), 3750
-% zeros are added in order to fit the matrix with the right dimen.
+% zeros are added in order to fit the matrix with the right dimension.
 
 M=[sm0 zeros(1,3750); sm1; sm2; sm3; sm4; sm5 zeros(1,7500-length(sm5))];
 Realizaciones = 12;
 
-% As a vertical mean has been done, so the sampled mean has also been done and
-% therefore this procedure is equivalent to use the function mean
+% Here, we divide the beforehand mentioned sum of noises organized in a 
+% matrix and divide it between the number of realizations, so in the final 
+% we obtain the mean value for the high-frequency noise.
 
 Media0 = M./Realizaciones;
 
 % Re-set the sampled mean on a single line linking the 6 activity signals
-% one with the next.
+% one by one with the adjacent
 
 v=[Media0(1,:) Media0(2,:) Media0(3,:) Media0(4,:) Media0(5,:) Media0(6,:)];
 
-% Delete extra zeros.
+% Delete extra zeros and make the output fit the right format.
 
 mediamuestral=nonzeros(v);
 mediamuestral=mediamuestral';
