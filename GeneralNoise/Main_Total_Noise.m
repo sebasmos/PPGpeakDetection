@@ -83,22 +83,22 @@ for k = 1:12
         labelstring = int2str(k);
         word = strcat({'DATA_'},labelstring,{'_TYPE02.mat'});
         a = load(char(word));
-        Realizaciones(k,:) = a.sig(2,(1:35989));
-        ecg(k,:)=a.sig(1,(1:35989));
+        PPGdatasetSignals(k,:) = a.sig(2,(1:35989));
+        ECGdatasetSignals(k,:)=a.sig(1,(1:35989));
     else
         labelstring = int2str(k);
         word = strcat({'DATA_0'},labelstring,{'_TYPE02.mat'});
         a = load(char(word));
-        Realizaciones(k,:) = a.sig(2,(1:35989));
-        ecg(k,:)=a.sig(1,(1:35989));
+        PPGdatasetSignals(k,:) = a.sig(2,(1:35989));
+        ECGdatasetSignals(k,:)=a.sig(1,(1:35989));
     end
 end
 %% ECG PEAKS EXTRACTION
 % Sample Frequency
     Fs = 125;
 %Convert to physical values: According to timesheet of the used wearable
-ecgFullSignal = (ecg-128)./255;
-s2 = (Realizaciones-128)/(255);
+ecgFullSignal = (ECGdatasetSignals-128)./255;
+s2 = (PPGdatasetSignals-128)/(255);
 
 % Normalize the entire signal of all realizations.
 for k=1:12
