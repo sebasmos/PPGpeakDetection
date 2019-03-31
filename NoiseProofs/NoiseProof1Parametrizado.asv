@@ -7,9 +7,8 @@ addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\P
 addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\GeneralNoise');
 %% Get Noise from Savitzky method
 [mediamuestral,TamRealizaciones]=GetAveragedNoise();
-%% Initial Conditions
-% K represents the number of realization to extract error individually
-j = 1;
+%% Initial Conditions% K represents the number of realization to extract error individually
+k = 7;
 % PARAMETERS FOR PPG SIGNAL
 % MinPeakWidth
 MinPeakWidthRest1 = 0.11;
