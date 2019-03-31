@@ -62,6 +62,7 @@ MaxPeakWidthECG5 = 0.05;
 MaxPeakWidthECG6 = 0.05;
 %% PROOF 1: Cleaning corrupted signal with Savitzky-Golay filter.
 % EXTRACT PPG & ECG SIGNALS FROM IEEE PROCESSING CUP DATASET
+Fs=125;
 for k = 1:12
     if k >= 10
         labelstring = int2str(k);
@@ -77,13 +78,10 @@ for k = 1:12
         ECGdatasetSignals(k,:)=a.sig(1,(1:length(mediamuestral)));
     end
 end
-%% ECG PEAKS EXTRACTION
-% Sample Frequency
-    Fs = 125;
     
 %% CONVERSION TO PHYSICAL SIGNALS: According to timesheet of the used wearable
 ECGFullSignals = (ECGdatasetSignals-128)./255;
-PPGFullSignals = (PPGdatasetSignals-128)/(255);
+PPGFullSignals = (PPGdatasetSignals-128)./(255);
 
 %% NORMALIZE ENTIRE DATASET
 for k=1:12
@@ -114,6 +112,7 @@ for k=1:12
     CleanedActivityECG5(k,:)=DenoiseECG(ActivityECG5(k,:));
     CleanedActivityECG6(k,:)=DenoiseECG(ActivityECG6(k,:));
 end
+%% CLEAN PPG SIGNAL'S DATASET FROM EVERY COMPONENT NOISE
 % Separate noise with its correspondent activity.
 ruido1 = mediamuestral(1,(1:3750));
 ruido2 = mediamuestral(1,(3751:11250));
@@ -129,6 +128,26 @@ CleanedSignal3 = Activity3-ruido3;
 CleanedSignal4 = Activity4-ruido4;
 CleanedSignal5 = Activity5-ruido5;
 CleanedSignal6 = Activity6-ruido6;
+
+%% ESTA SECCION LA PUSE EN CASO DE QUE SE QUIERA ADQUIRIR LOS PEAKS SIN INGRESAR A LA FUNCION FIND ERRORS
+    [~,LOCS1Original] = GetPeakPoints(Activity1,Fs,MinPeakWidthRest1,MaxWidthRest1,ProminenceInRest1,MinDistRest1);
+    [~,LOCS1Cleaned] = GetPeakPoints(CleanedSignal1,Fs,MinPeakWidthRest1,MaxWidthRest1,ProminenceInRest1,MinDistRest1);
+    % 2. CORRIENDO 1min se�al original vs sin ruido
+    [~,LOCS2Original] = GetPeakPoints(Activity2,Fs,MinPeakWidthRun_2,MaxWidthRun2,ProminenceRun2,MinDistRun2);
+    [~,LOCS2Cleaned] = GetPeakPoints(CleanedSignal2,Fs,MinPeakWidthRun_2,MaxWidthRun2,ProminenceRun2,MinDistRun2);
+    % 3. CORRIENDO 1min se�al original vs sin ruido
+    [~,LOCS3Original] = GetPeakPoints(Activity3,Fs,MinPeakWidthRun_3,MaxWidthRun3,ProminenceRun3,MinDistRun3);
+    [~,LOCS3Cleaned] = GetPeakPoints(CleanedSignal3,Fs,MinPeakWidthRun_3,MaxWidthRun3,ProminenceRun3,MinDistRun3);
+    % 4. CORRIENDO 1min se�al original vs sin ruido
+    [~,LOCS4Original] = GetPeakPoints(Activity4,Fs,MinPeakWidthRun_4,MaxWidthRun4,ProminenceRun4,MinDistRun4);
+    [~,LOCS4Cleaned] = GetPeakPoints(CleanedSignal4,Fs,MinPeakWidthRun_4,MaxWidthRun4,ProminenceRun4,MinDistRun4);
+    % 5. CORRIENDO 1min se�al original vs sin ruido
+    [~,LOCS5Original] = GetPeakPoints(Activity5,Fs,MinPeakWidthRun_5,MaxWidthRun5,ProminenceRun5,MinDistRun5);
+    [~,LOCS5Cleaned] = GetPeakPoints(CleanedSignal5,Fs,MinPeakWidthRun_5,MaxWidthRun5,ProminenceRun5,MinDistRun5);
+    % 6. REST 30s se�al original vs sin ruido
+    [~,LOCS6Original] = GetPeakPoints(Activity6,Fs,MinPeakWidthRest6,MaxWidthRest6,ProminenceInRest6,MinDistRest6);
+    [~,LOCS6Cleaned] = GetPeakPoints(CleanedSignal6,Fs,MinPeakWidthRest6,MaxWidthRest6,ProminenceInRest6,MinDistRest6);
+
     %% ERROR FOR LP
 disp('ERRORES CALCULADOS POR LINEAR PREDICTOR')
 findErrors(Activity1(j,:),Activity2(j,:),Activity3(j,:),Activity4(j,:),Activity5(j,:),Activity6(j,:),...
