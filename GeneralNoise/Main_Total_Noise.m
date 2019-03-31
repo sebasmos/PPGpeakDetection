@@ -9,9 +9,9 @@ addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/Noi
 %% Initial Conditions
 
 % For ECG analysis, please update ECG name
-ecgName = 'DATA_01_TYPE02.mat';
+ecgName = 'DATA_07_TYPE02.mat';
 % K represents the number of realization to extract error individually
-k = 1;
+k = 7;
 %% W values according the realization: P(k,W)
 % Realization 1: W = 4
 W = 4;
@@ -27,55 +27,55 @@ windowsizeRun = 30;
 
 %% Parameters for findpeaks Function
 % MinPeakWidth
-MinPeakWidthRest1 = 0.11;
+MinPeakWidthRest1 = 0.07;
 MinPeakWidthRun_2 = 0.07;
-MinPeakWidthRun_3 = 0.07;
-MinPeakWidthRun_4 = 0.07;
-MinPeakWidthRun_5 = 0.07;
+MinPeakWidthRun_3 = 0.05;
+MinPeakWidthRun_4 = 0.05;
+MinPeakWidthRun_5 = 0.05;
 MinPeakWidthRest6 = 0.05;
 % MaxWidthPeak in PPG
 MaxWidthRest1 = 0.5;
 MaxWidthRun2 = 0.5;
 MaxWidthRun3 = 0.5;
-MaxWidthRun4 = 0.5;
-MaxWidthRun5 = 0.8;
-MaxWidthRest6 = 1.3;
+MaxWidthRun4 = 0.7;
+MaxWidthRun5 = 1;
+MaxWidthRest6 = 0.5;
 % Prominence in PPG
-ProminenceInRest1 = 0.005;
+ProminenceInRest1 = 0.05;
 ProminenceRun2 = 0.04;
-ProminenceRun3 = 0.04;
+ProminenceRun3 = 0.03;
 ProminenceRun4 = 0.03;
-ProminenceRun5 = 0.04;
-ProminenceInRest6 = 0.01;
+ProminenceRun5 = 0.03;
+ProminenceInRest6 = 0.04;
 % Min peak Distance in PPG
-MinDistRest1 = 0.3;
-MinDistRun2 = 0.3;
-MinDistRun3 = 0.1;
-MinDistRun4 = 0.15;
-MinDistRun5 = 0.1;
-MinDistRest6 = 0.2;
+MinDistRest1 = 0.4;
+MinDistRun2 = 0.35;
+MinDistRun3 = 0.3;
+MinDistRun4 = 0.29;
+MinDistRun5 = 0.29;
+MinDistRest6 = 0.3;
 %% PARAMETERS IN ECG SIGNAL
 % Min Height in ECG
-MinHeightECGRest1 = 0.5;
-MinHeightECGRun2  = 0.5;
-MinHeightECGRun3  = 0.55;
-MinHeightECGRun4  = 0.55;
-MinHeightECGRun5  = 0.55;
-MinHeightECGRest6 = 0.55;
+MinHeightECGRest1 = 0.15;
+MinHeightECGRun2  = 0.15;
+MinHeightECGRun3  = 0.15;
+MinHeightECGRun4  = 0.2;
+MinHeightECGRun5  = 0.2;
+MinHeightECGRest6 = 0.2;
 %Min Dist in ECG
-minDistRest1  = 0.1;
-minDistRun2   = 0.3;
-minDistRun3   = 0.3;
-minDistRun4   = 0.3;
-minDistRun5   = 0.2;
-minDistRest6  = 0.2;
+minDistRest1  = 0.5;
+minDistRun2   = 0.4;
+minDistRun3   = 0.35;
+minDistRun4   = 0.35;
+minDistRun5   = 0.35;
+minDistRest6  = 0.35;
 %Max Width in ECG
-maxWidthRest1  = 0.1;
-maxWidthRun2   = 0.3;
-maxWidthRun3   = 0.3;
-maxWidthRun4   = 0.3;
-maxWidthRun5   = 0.2;
-maxWidthRest6  = 0.2;
+maxWidthRest1  = 0.05;
+maxWidthRun2   = 0.05;
+maxWidthRun3   = 0.05;
+maxWidthRun4   = 0.05;
+maxWidthRun5   = 0.05;
+maxWidthRest6  = 0.05;
 
 %% EXTRACT THE SIGNALS
 for k = 1:12
@@ -157,7 +157,7 @@ WandererBaseline6=Noise6-DetrendedNoise6;
 
 %% 1. Savitzky smoothing filter.
 
-    k=1; %change this parameter to obtain errors from different realizations
+    k=7; %change this parameter to obtain errors from different realizations
 %   Ruido total 2: o(t) = n(t)+w(t)
     TotalS=mediamuestral;
 % Cleaning signal with MA

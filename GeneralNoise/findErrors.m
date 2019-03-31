@@ -48,12 +48,12 @@ addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/Noi
     [~,ECG6Locs] = GetECGPeakPoints(CleanedActivityECG6,MinHeightECGRest6,minDistRest6,maxWidthRest6);
 
 %% ECG VS. PPG WITHOUT NOISE ERROR
-    ECGDPPG1 = 100*abs(length(LOCS1Original)-length(ECG1Locs))./length(ECG1Locs);
-    ECGDPPG2 = 100*abs(length(LOCS2Original)-length(ECG2Locs))./length(ECG2Locs);
-    ECGDPPG3 = 100*abs(length(LOCS3Original)-length(ECG3Locs))./length(ECG3Locs);
-    ECGDPPG4 = 100*abs(length(LOCS4Original)-length(ECG4Locs))./length(ECG4Locs);
-    ECGDPPG5 = 100*abs(length(LOCS5Original)-length(ECG5Locs))./length(ECG5Locs);
-    ECGDPPG6 = 100*abs(length(LOCS6Original)-length(ECG6Locs))./length(ECG6Locs);
+    ECGDPPG1 = 100*abs(length(LOCS1Cleaned)-length(ECG1Locs))./length(ECG1Locs);
+    ECGDPPG2 = 100*abs(length(LOCS2Cleaned)-length(ECG2Locs))./length(ECG2Locs);
+    ECGDPPG3 = 100*abs(length(LOCS3Cleaned)-length(ECG3Locs))./length(ECG3Locs);
+    ECGDPPG4 = 100*abs(length(LOCS4Cleaned)-length(ECG4Locs))./length(ECG4Locs);
+    ECGDPPG5 = 100*abs(length(LOCS5Cleaned)-length(ECG5Locs))./length(ECG5Locs);
+    ECGDPPG6 = 100*abs(length(LOCS6Cleaned)-length(ECG6Locs))./length(ECG6Locs);
     ErrorECGDPPG = [ECGDPPG1 ECGDPPG2 ECGDPPG3 ECGDPPG4 ECGDPPG5 ECGDPPG6];
 
 %% ECG VS. PPG WITH NOISE ERROR
@@ -61,7 +61,7 @@ addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/Noi
     ECGPPG1 = 100*abs(length(LOCS1Original)-length(ECG1Locs))./length(ECG1Locs);
     ECGPPG2 = 100*abs(length(LOCS2Original)-length(ECG2Locs))./length(ECG2Locs);
     ECGPPG3 = 100*abs(length(LOCS3Original)-length(ECG3Locs))./length(ECG3Locs);
-    ECGPPG4 = 100*abs(length(LOCS4Original)-length(ECG4Locs))./length(ECG41Locs);
+    ECGPPG4 = 100*abs(length(LOCS4Original)-length(ECG4Locs))./length(ECG4Locs);
     ECGPPG5 = 100*abs(length(LOCS5Original)-length(ECG5Locs))./length(ECG5Locs);
     ECGPPG6 = 100*abs(length(LOCS6Original)-length(ECG6Locs))./length(ECG6Locs);
     ErrorECGPPG = [ECGPPG1 ECGPPG2 ECGPPG3 ECGPPG4 ECGPPG5 ECGPPG6];
