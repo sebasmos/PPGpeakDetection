@@ -13,47 +13,47 @@ j = 1;
 % PARAMETERS FOR PPG SIGNAL
 % MinPeakWidth
 MinPeakWidthRest1 = 0.11;
-MinPeakWidthRun_2 = 0.07;
+MinPeakWidthRun_2 = 0.01;
 MinPeakWidthRun_3 = 0.07;
 MinPeakWidthRun_4 = 0.07;
 MinPeakWidthRun_5 = 0.07;
 MinPeakWidthRest6 = 0.05;
 % MaxWidthPeak in PPG
 MaxWidthRest1 = 0.5;
-MaxWidthRun2 = 0.5;
+MaxWidthRun2 = 0.6;
 MaxWidthRun3 = 0.5;
 MaxWidthRun4 = 0.8;
 MaxWidthRun5 = 0.8;
 MaxWidthRest6 = 1.5;
 % Prominence in PPG
 ProminenceInRest1 = 0.009;
-ProminenceRun2 = 0.04;
-ProminenceRun3 = 0.04;
+ProminenceRun2 = 0.049;
+ProminenceRun3 = 0.038;
 ProminenceRun4 = 0.04;
 ProminenceRun5 = 0.04;
 ProminenceInRest6 = 0.01;
 % Min peak Distance in PPG
 MinDistRest1 = 0.3;
-MinDistRun2 = 0.3;
+MinDistRun2 = 0.1;
 MinDistRun3 = 0.1;
 MinDistRun4 = 0.15;
 MinDistRun5 = 0.1;
 MinDistRest6 = 0.2;
 %% PARAMETERS IN ECG SIGNAL
 % Min Height in ECG
-MinHeightECGRest1 = 0.5;
-MinHeightECGRun2  = 0.5;
-MinHeightECGRun3  = 0.55;
-MinHeightECGRun4  = 0.55;
-MinHeightECGRun5  = 0.55;
-MinHeightECGRest6 = 0.55;
+MinHeightECGRest1 = 0.025;
+MinHeightECGRun2  = 0.025;
+MinHeightECGRun3  = 0.04;
+MinHeightECGRun4  = 0.04;
+MinHeightECGRun5  = 0.04;
+MinHeightECGRest6 = 0.04;
 %Min Dist in ECG
-minDistRest1 = 0.1;
-minDistRun2 = 0.3;
-minDistRun3 = 0.3;
-minDistRun4 = 0.3;
-minDistRun5 = 0.3;
-minDistRest6 = 0.3;
+minDistRest1 = 0.6;
+minDistRun2 = 0.5;
+minDistRun3 = 0.2;
+minDistRun4 = 0.2;
+minDistRun5 = 0.2;
+minDistRest6 = 0.2;
 % MaxPeakWidth
 MaxPeakWidthECG1 = 0.05;
 MaxPeakWidthECG2 = 0.05;
@@ -133,7 +133,7 @@ CleanedSignal6 = Activity6-ruido6;
     %% ERROR FOR LP
 disp('ERRORES CALCULADOS POR LINEAR PREDICTOR')
 findErrors(Activity1(j,:),Activity2(j,:),Activity3(j,:),Activity4(j,:),Activity5(j,:),Activity6(j,:),...
-    CleanedSignal1(j,:),CleanedSignal1(j,:),CleanedSignal3(j,:),CleanedSignal4(j,:),CleanedSignal5(j,:),CleanedSignal6(j,:), ...
+    CleanedSignal1(j,:),CleanedSignal2(j,:),CleanedSignal3(j,:),CleanedSignal4(j,:),CleanedSignal5(j,:),CleanedSignal6(j,:), ...
     Fs,MinPeakWidthRest1,MinPeakWidthRun_2,MinPeakWidthRun_3,MinPeakWidthRun_4,MinPeakWidthRun_5,MinPeakWidthRest6,...
     MaxWidthRest1,MaxWidthRun2,MaxWidthRun3,MaxWidthRun4,MaxWidthRun5,MaxWidthRest6,...
     ProminenceInRest1,ProminenceRun2,ProminenceRun3,ProminenceRun4,ProminenceRun5,ProminenceInRest6,...
