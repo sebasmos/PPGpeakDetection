@@ -11,7 +11,7 @@ addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/Gen
 j = 1;
 % PARAMETERS FOR PPG SIGNAL
 % MinPeakWidth
-MinPeakWidthRest1 = 0.1;
+MinPeakWidthRest1 = 0.06;
 MinPeakWidthRun_2 = 0.05;
 MinPeakWidthRun_3 = 0.05;
 MinPeakWidthRun_4 = 0.07;
