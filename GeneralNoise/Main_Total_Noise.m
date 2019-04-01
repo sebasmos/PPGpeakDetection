@@ -132,19 +132,19 @@ Noise6 = mediamuestral(33751:end);
 %% Detrend noise by activities.
 nRest = 10;
 nRun = 10;
-DetrendedNoise1=Detrending(Noise1,nRest);
-DetrendedNoise2=Detrending(Noise2,nRun);
-DetrendedNoise3=Detrending(Noise3,nRun);
-DetrendedNoise4=Detrending(Noise4,nRun);
-DetrendedNoise5=Detrending(Noise5,nRun);
-DetrendedNoise6=Detrending(Noise6,nRest);
-% Wandering baseline extraction
-WandererBaseline1=Noise1-DetrendedNoise1;
-WandererBaseline2=Noise2-DetrendedNoise2;
-WandererBaseline3=Noise3-DetrendedNoise3;
-WandererBaseline4=Noise4-DetrendedNoise4;
-WandererBaseline5=Noise5-DetrendedNoise5;
-WandererBaseline6=Noise6-DetrendedNoise6;
+WandererBaseline1=Detrending(Noise1,nRest);
+WandererBaseline2=Detrending(Noise2,nRun);
+WandererBaseline3=Detrending(Noise3,nRun);
+WandererBaseline4=Detrending(Noise4,nRun);
+WandererBaseline5=Detrending(Noise5,nRun);
+WandererBaseline6=Detrending(Noise6,nRest);
+% Zero centered noise extraction
+ZeroCenteredNoise1=Noise1-WandererBaseline1;
+ZeroCenteredNoise2=Noise2-WandererBaseline2;
+ZeroCenteredNoise3=Noise3-WandererBaseline3;
+ZeroCenteredNoise4=Noise4-WandererBaseline4;
+ZeroCenteredNoise5=Noise5-WandererBaseline5;
+ZeroCenteredNoise6=Noise6-WandererBaseline6;
 
 %% 1. Savitzky smoothing filter.
 
@@ -175,23 +175,23 @@ findErrors(Activity1(j,:),Activity2(j,:),Activity3(j,:),Activity4(j,:),Activity5
 
 %% 2. Linear Predictor Artificial noise Model
 %1 High frequency component
-     LP(1:3750)      = Function_1_LP(WandererBaseline1,LPCActivity1);  
-     LP(3751:11250)  = Function_1_LP(WandererBaseline2,LPCActivity);    
-     LP(11251:18750) = Function_1_LP(WandererBaseline3,LPCActivity);   
-     LP(18751:26250) = Function_1_LP(WandererBaseline4,LPCActivity);   
-     LP(26251:33750) = Function_1_LP(WandererBaseline5,LPCActivity);   
-     LP(33751:35989) = Function_1_LP(WandererBaseline6,LPCActivity6); 
+     LP(1:3750)      = Function_1_LP(ZeroCenteredNoise1,LPCActivity1);  
+     LP(3751:11250)  = Function_1_LP(ZeroCenteredNoise2,LPCActivity);    
+     LP(11251:18750) = Function_1_LP(ZeroCenteredNoise3,LPCActivity);   
+     LP(18751:26250) = Function_1_LP(ZeroCenteredNoise4,LPCActivity);   
+     LP(26251:33750) = Function_1_LP(ZeroCenteredNoise5,LPCActivity);   
+     LP(33751:35989) = Function_1_LP(ZeroCenteredNoise6,LPCActivity6); 
 % TOTAL LINEAR PREDICTOR ARTIFITIAL NOISE 
 % Ruido total 1: o(t) = n(t)+w(t)
 % **Wanderer baseline is added
 % This noise includes lpc linear predictor with the described orders
 % also includes filter for modeling average noise extracted from signal.
-    TotalLP(1:3750)      = DetrendedNoise1 + LP(1:3750);
-    TotalLP(3751:11250)  = DetrendedNoise2 + LP(3751:11250);
-    TotalLP(11251:18750) = DetrendedNoise3 + LP(11251:18750);
-    TotalLP(18751:26250) = DetrendedNoise4 + LP(18751:26250);
-    TotalLP(26251:33750) = DetrendedNoise5 + LP(26251:33750);
-    TotalLP(33751:35989) = DetrendedNoise6 + LP(33751:35989);
+    TotalLP(1:3750)      = WandererBaseline1 + LP(1:3750);
+    TotalLP(3751:11250)  = WandererBaseline2 + LP(3751:11250);
+    TotalLP(11251:18750) = WandererBaseline3 + LP(11251:18750);
+    TotalLP(18751:26250) = WandererBaseline4 + LP(18751:26250);
+    TotalLP(26251:33750) = WandererBaseline5 + LP(26251:33750);
+    TotalLP(33751:35989) = WandererBaseline6 + LP(33751:35989);
 % Cleaning signal with LP
     CleanedLP1 = Activity1 - TotalLP(1:3750);
     CleanedLP2 = Activity2 - TotalLP(3751:11250);
@@ -213,12 +213,12 @@ findErrors(Activity1(j,:),Activity2(j,:),Activity3(j,:),Activity4(j,:),Activity5
     minDistRest1,minDistRun2,minDistRun3,minDistRun4,minDistRun5,minDistRest6,...
     maxWidthRest1,maxWidthRun2,maxWidthRun3,maxWidthRun4,maxWidthRun5,maxWidthRest6);
 %% 3. Moving average for artifitial noise modeling
-    MA(1:3750)      = Function_2_MA(DetrendedNoise1,windowsizeRest);
-    MA(3751:11250)  = Function_2_MA(DetrendedNoise2,windowsizeRun);
-    MA(11251:18750) = Function_2_MA(DetrendedNoise3,windowsizeRun);
-    MA(18751:26250) = Function_2_MA(DetrendedNoise4,windowsizeRun);
-    MA(26251:33750) = Function_2_MA(DetrendedNoise5,windowsizeRun);
-    MA(33751:35989) = Function_2_MA(DetrendedNoise6,windowsizeRest);
+    MA(1:3750)      = Function_2_MA(ZeroCenteredNoise1,windowsizeRest);
+    MA(3751:11250)  = Function_2_MA(ZeroCenteredNoise2,windowsizeRun);
+    MA(11251:18750) = Function_2_MA(ZeroCenteredNoise3,windowsizeRun);
+    MA(18751:26250) = Function_2_MA(ZeroCenteredNoise4,windowsizeRun);
+    MA(26251:33750) = Function_2_MA(ZeroCenteredNoise5,windowsizeRun);
+    MA(33751:35989) = Function_2_MA(ZeroCenteredNoise6,windowsizeRest);
 %   Ruido total 2: o(t) = n(t)+w(t)
     TotalMA(1:3750)      = WandererBaseline1 + MA(1:3750);
     TotalMA(3751:11250)  = WandererBaseline2 + MA(3751:11250);
@@ -235,14 +235,14 @@ findErrors(Activity1(j,:),Activity2(j,:),Activity3(j,:),Activity4(j,:),Activity5
     CleanedMA6 = Activity6 - TotalMA(33751:35989);
         %% ERROR FOR MOVING AVERAGE
     disp('ERRORES CALCULADOS POR MOVING AVERAGE')
-findErrors(Activity1(k,:),Activity2(k,:),Activity3(k,:),Activity4(k,:),Activity5(k,:),Activity6(k,:),...
-    CleanedMA1(k,:),CleanedMA2(k,:),CleanedMA3(k,:),CleanedMA4(k,:),CleanedMA5(k,:),CleanedMA6(k,:), ...
+    findErrors(Activity1(j,:),Activity2(j,:),Activity3(j,:),Activity4(j,:),Activity5(j,:),Activity6(j,:),...
+    CleanedMA1(j,:),CleanedMA2(j,:),CleanedMA3(j,:),CleanedMA4(j,:),CleanedMA5(j,:),CleanedMA6(j,:), ...
     Fs,MinPeakWidthRest1,MinPeakWidthRun_2,MinPeakWidthRun_3,MinPeakWidthRun_4,MinPeakWidthRun_5,MinPeakWidthRest6,...
     MaxWidthRest1,MaxWidthRun2,MaxWidthRun3,MaxWidthRun4,MaxWidthRun5,MaxWidthRest6,...
     ProminenceInRest1,ProminenceRun2,ProminenceRun3,ProminenceRun4,ProminenceRun5,ProminenceInRest6,...
     MinDistRest1,MinDistRun2,MinDistRun3,MinDistRun4,MinDistRun5,MinDistRest6,...
-    CleanedActivityECG1(k,:),CleanedActivityECG2(k,:),CleanedActivityECG3(k,:),...
-    CleanedActivityECG4(k,:),CleanedActivityECG5(k,:),CleanedActivityECG6(k,:),...
+    CleanedActivityECG1(j,:),CleanedActivityECG2(j,:),CleanedActivityECG3(j,:),...
+    CleanedActivityECG4(j,:),CleanedActivityECG5(j,:),CleanedActivityECG6(j,:),...
     MinHeightECGRest1,MinHeightECGRun2,MinHeightECGRun3,MinHeightECGRun4,MinHeightECGRun5,MinHeightECGRest6,...
     minDistRest1,minDistRun2,minDistRun3,minDistRun4,minDistRun5,minDistRest6,...
     maxWidthRest1,maxWidthRun2,maxWidthRun3,maxWidthRun4,maxWidthRun5,maxWidthRest6);
