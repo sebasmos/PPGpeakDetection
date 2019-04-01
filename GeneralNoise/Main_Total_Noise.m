@@ -19,55 +19,55 @@ windowsizeRun = 30;
 %% Parameters for findpeaks Function
 % PARAMETERS FOR PPG SIGNAL
 % MinPeakWidth
-MinPeakWidthRest1 = 0.1;
+MinPeakWidthRest1 = 0.07;
 MinPeakWidthRun_2 = 0.05;
-MinPeakWidthRun_3 = 0.05;
+MinPeakWidthRun_3 = 0.1;
 MinPeakWidthRun_4 = 0.07;
-MinPeakWidthRun_5 = 0.07;
-MinPeakWidthRest6 = 0.09;
+MinPeakWidthRun_5 = 0.05;
+MinPeakWidthRest6 = 0.1;
 % MaxWidthPeak in PPG
-MaxWidthRest1 = 0.5;
-MaxWidthRun2 = 0.7;
-MaxWidthRun3 = 0.7;
-MaxWidthRun4 = 0.3;
-MaxWidthRun5 = 0.7;
+MaxWidthRest1 = 1;
+MaxWidthRun2 = 0.8;
+MaxWidthRun3 = 0.8;
+MaxWidthRun4 = 0.8;
+MaxWidthRun5 = 1;
 MaxWidthRest6 = 0.5;
 % Prominence in PPG
-ProminenceInRest1 = 0.005;
-ProminenceRun2 = 0.05;
-ProminenceRun3 = 0.05;
+ProminenceInRest1 = 0.03;
+ProminenceRun2 = 0.04;
+ProminenceRun3 = 0.12;
 ProminenceRun4 = 0.04;
-ProminenceRun5 = 0.04;
+ProminenceRun5 = 0.12;
 ProminenceInRest6 = 0.04;
 % Min peak Distance in PPG
 MinDistRest1 = 0.4;
-MinDistRun2 = 0.25;
-MinDistRun3 = 0.23;
-MinDistRun4 = 0.2;
-MinDistRun5 = 0.2;
+MinDistRun2 = 0.35;
+MinDistRun3 = 0.28;
+MinDistRun4 = 0.25;
+MinDistRun5 = 0.28;
 MinDistRest6 = 0.2;
 %% PARAMETERS IN ECG SIGNAL
 % Min Height in ECG
-MinHeightECGRest1 = 0.05;
-MinHeightECGRun2  = 0.06;
-MinHeightECGRun3  = 0.05;
-MinHeightECGRun4  = 0.05;
-MinHeightECGRun5  = 0.05;
-MinHeightECGRest6 = 0.05;
+MinHeightECGRest1 = 0.02;
+MinHeightECGRun2  = 0.02;
+MinHeightECGRun3  = 0.02;
+MinHeightECGRun4  = 0.017;
+MinHeightECGRun5  = 0.017;
+MinHeightECGRest6 = 0.014;
 %Min Dist in ECG
-minDistRest1  = 0.48;
-minDistRun2   = 0.35;
-minDistRun3   = 0.25;
-minDistRun4   = 0.25;
-minDistRun5   = 0.2;
-minDistRest6  = 0.2;
+minDistRest1  = 0.5;
+minDistRun2   = 0.44;
+minDistRun3   = 0.3;
+minDistRun4   = 0.3;
+minDistRun5   = 0.3;
+minDistRest6  = 0.3;
 %Max Width in ECG
 maxWidthRest1  = 0.05;
 maxWidthRun2   = 0.05;
 maxWidthRun3   = 0.05;
-maxWidthRun4   = 0.05;
-maxWidthRun5   = 0.05;
-maxWidthRest6  = 0.05;
+maxWidthRun4   = 0.04;
+maxWidthRun5   = 0.04;
+maxWidthRest6  = 0.04;
 
 %% EXTRACT THE SIGNALS
 for k = 1:12
@@ -133,12 +133,12 @@ Noise6 = mediamuestral(33751:end);
 %% Detrend noise by activities.
 nRest = 10;
 nRun = 10;
-DetrendedNoise1=Detrending(Noise1(1,:),nRest);
-DetrendedNoise2=Detrending(Noise2(1,:),nRun);
-DetrendedNoise3=Detrending(Noise3(1,:),nRun);
-DetrendedNoise4=Detrending(Noise4(1,:),nRun);
-DetrendedNoise5=Detrending(Noise5(1,:),nRun);
-DetrendedNoise6=Detrending(Noise6(1,:),nRest);
+DetrendedNoise1=Detrending(Noise1,nRest);
+DetrendedNoise2=Detrending(Noise2,nRun);
+DetrendedNoise3=Detrending(Noise3,nRun);
+DetrendedNoise4=Detrending(Noise4,nRun);
+DetrendedNoise5=Detrending(Noise5,nRun);
+DetrendedNoise6=Detrending(Noise6,nRest);
 % Wandering baseline extraction
 WandererBaseline1=Noise1-DetrendedNoise1;
 WandererBaseline2=Noise2-DetrendedNoise2;
@@ -149,8 +149,9 @@ WandererBaseline6=Noise6-DetrendedNoise6;
 
 %% 1. Savitzky smoothing filter.
 
-    k=11; %change this parameter to obtain errors from different realizations
-%   Ruido total 2: o(t) = n(t)+w(t)
+    k=12; %IMPORTANT!!! change this parameter to obtain errors from 
+          %different realizations
+%   Ruido total 1: o(t) = n(t)+w(t)
     TotalS=mediamuestral;
 % Cleaning signal with MA
     Cleaneds1 = Activity1 - TotalS(1:3750);
@@ -173,33 +174,32 @@ findErrors(Activity1(k,:),Activity2(k,:),Activity3(k,:),Activity4(k,:),Activity5
     minDistRest1,minDistRun2,minDistRun3,minDistRun4,minDistRun5,minDistRest6,...
     maxWidthRest1,maxWidthRun2,maxWidthRun3,maxWidthRun4,maxWidthRun5,maxWidthRest6)
 
-%HASTA AQUI ESTA BIEN POR SI ALGO
 %% 2. Linear Predictor Artificial noise Model
-% High frequency component
-     LP(1,(1:3750)) = Function_1_LP(DetrendedNoise1,LPCActivity1);  
-     LP(1,(3751:11250)) = Function_1_LP(DetrendedNoise2,LPCActivity);    
-     LP(1,(11251:18750)) = Function_1_LP(DetrendedNoise3,LPCActivity);   
-     LP(1,(18751:26250)) = Function_1_LP(DetrendedNoise4,LPCActivity);   
-     LP(1,(26251:33750)) = Function_1_LP(DetrendedNoise5,LPCActivity);   
-     LP(1,(33751:35989)) = Function_1_LP(DetrendedNoise6,LPCActivity6); 
+%1 High frequency component
+     LP(1:3750) = Function_1_LP(DetrendedNoise1,LPCActivity1);  
+     LP(3751:11250) = Function_1_LP(DetrendedNoise2,LPCActivity);    
+     LP(11251:18750) = Function_1_LP(DetrendedNoise3,LPCActivity);   
+     LP(18751:26250) = Function_1_LP(DetrendedNoise4,LPCActivity);   
+     LP(26251:33750) = Function_1_LP(DetrendedNoise5,LPCActivity);   
+     LP(33751:35989) = Function_1_LP(DetrendedNoise6,LPCActivity6); 
 % TOTAL LINEAR PREDICTOR ARTIFITIAL NOISE 
 % Ruido total 1: o(t) = n(t)+w(t)
 % **Wanderer baseline is added
 % This noise includes lpc linear predictor with the described orders
 % also includes filter for modeling average noise extracted from signal.
-    TotalLP(1,(1:3750))      = WandererBaseline1 + LP(1,(1:3750));
-    TotalLP(1,(3751:11250))  = WandererBaseline2 + LP(1,(3751:11250));
-    TotalLP(1,(11251:18750)) = WandererBaseline3 + LP(1,(11251:18750));
-    TotalLP(1,(18751:26250)) = WandererBaseline4 + LP(1,(18751:26250));
-    TotalLP(1,(26251:33750)) = WandererBaseline5 + LP(1,(26251:33750));
-    TotalLP(1,(33751:35989)) = WandererBaseline6 + LP(1,(33751:35989));
+    TotalLP(1:3750)      = WandererBaseline1 + LP(1:3750);
+    TotalLP(3751:11250)  = WandererBaseline2 + LP(3751:11250);
+    TotalLP(11251:18750) = WandererBaseline3 + LP(11251:18750);
+    TotalLP(18751:26250) = WandererBaseline4 + LP(18751:26250);
+    TotalLP(26251:33750) = WandererBaseline5 + LP(26251:33750);
+    TotalLP(33751:35989) = WandererBaseline6 + LP(33751:35989);
 % Cleaning signal with LP
-    CleanedLP1 = Activity1 - TotalLP(1,(1:3750));
-    CleanedLP2 = Activity2 - TotalLP(1,(3751:11250));
-    CleanedLP3 = Activity3 - TotalLP(1,(11251:18750));
-    CleanedLP4 = Activity4 - TotalLP(1,(18751:26250));
-    CleanedLP5 = Activity5 - TotalLP(1,(26251:33750));
-    CleanedLP6 = Activity6 - TotalLP(1,(33751:35989));
+    CleanedLP1 = Activity1 - TotalLP(1:3750);
+    CleanedLP2 = Activity2 - TotalLP(3751:11250);
+    CleanedLP3 = Activity3 - TotalLP(11251:18750);
+    CleanedLP4 = Activity4 - TotalLP(18751:26250);
+    CleanedLP5 = Activity5 - TotalLP(26251:33750);
+    CleanedLP6 = Activity6 - TotalLP(33751:35989);
     %% ERROR FOR LP
 disp('ERRORES CALCULADOS POR LINEAR PREDICTOR')
 findErrors(Activity1(k,:),Activity2(k,:),Activity3(k,:),Activity4(k,:),Activity5(k,:),Activity6(k,:),...
@@ -215,29 +215,29 @@ findErrors(Activity1(k,:),Activity2(k,:),Activity3(k,:),Activity4(k,:),Activity5
     maxWidthRest1,maxWidthRun2,maxWidthRun3,maxWidthRun4,maxWidthRun5,maxWidthRest6);
 
 %% 3. Moving average for artifitial noise modeling
-    MA(1,(1:3750))      = Function_2_MA(DetrendedNoise1,windowsizeRest);
-    MA(1,(3751:11250))  = Function_2_MA(DetrendedNoise2,windowsizeRun);
-    MA(1,(11251:18750)) = Function_2_MA(DetrendedNoise3,windowsizeRun);
-    MA(1,(18751:26250)) = Function_2_MA(DetrendedNoise4,windowsizeRun);
-    MA(1,(26251:33750)) = Function_2_MA(DetrendedNoise5,windowsizeRun);
-    MA(1,(33751:35989)) = Function_2_MA(DetrendedNoise6,windowsizeRest);
+    MA(1:3750)      = Function_2_MA(DetrendedNoise1,windowsizeRest);
+    MA(3751:11250)  = Function_2_MA(DetrendedNoise2,windowsizeRun);
+    MA(11251:18750) = Function_2_MA(DetrendedNoise3,windowsizeRun);
+    MA(18751:26250) = Function_2_MA(DetrendedNoise4,windowsizeRun);
+    MA(26251:33750) = Function_2_MA(DetrendedNoise5,windowsizeRun);
+    MA(33751:35989) = Function_2_MA(DetrendedNoise6,windowsizeRest);
 %   Ruido total 2: o(t) = n(t)+w(t)
-    TotalMA(1,(1:3750))      = WandererBaseline1 + MA(1,(1:3750));
-    TotalMA(1,(3751:11250))  = WandererBaseline2 + MA(1,(3751:11250));
-    TotalMA(1,(11251:18750)) = WandererBaseline3 + MA(1,(11251:18750));
-    TotalMA(1,(18751:26250)) = WandererBaseline4 + MA(1,(18751:26250));
-    TotalMA(1,(26251:33750)) = WandererBaseline5 + MA(1,(26251:33750));
-    TotalMA(1,(33751:35989)) = WandererBaseline6 + MA(1,(33751:35989));
+    TotalMA(1:3750)      = WandererBaseline1 + MA(1:3750);
+    TotalMA(3751:11250)  = WandererBaseline2 + MA(3751:11250);
+    TotalMA(11251:18750) = WandererBaseline3 + MA(11251:18750);
+    TotalMA(18751:26250) = WandererBaseline4 + MA(18751:26250);
+    TotalMA(26251:33750) = WandererBaseline5 + MA(26251:33750);
+    TotalMA(33751:35989) = WandererBaseline6 + MA(33751:35989);
     % Cleaning signal with MA
-    CleanedMA1 = Activity1 - TotalMA(1,(1:3750));
-    CleanedMA2 = Activity2 - TotalMA(1,(3751:11250));
-    CleanedMA3 = Activity3 - TotalMA(1,(11251:18750));
-    CleanedMA4 = Activity4 - TotalMA(1,(18751:26250));
-    CleanedMA5 = Activity5 - TotalMA(1,(26251:33750));
-    CleanedMA6 = Activity6 - TotalMA(1,(33751:35989));
+    CleanedMA1 = Activity1 - TotalMA(1:3750);
+    CleanedMA2 = Activity2 - TotalMA(3751:11250);
+    CleanedMA3 = Activity3 - TotalMA(11251:18750);
+    CleanedMA4 = Activity4 - TotalMA(18751:26250);
+    CleanedMA5 = Activity5 - TotalMA(26251:33750);
+    CleanedMA6 = Activity6 - TotalMA(33751:35989);
         %% ERROR FOR MOVING AVERAGE
     disp('ERRORES CALCULADOS POR MOVING AVERAGE')
-findErrors(sNorm(k,:),Activity1(k,:),Activity2(k,:),Activity3(k,:),Activity4(k,:),Activity5(k,:),Activity6(k,:),...
+findErrors(Activity1(k,:),Activity2(k,:),Activity3(k,:),Activity4(k,:),Activity5(k,:),Activity6(k,:),...
     CleanedMA1(k,:),CleanedMA2(k,:),CleanedMA3(k,:),CleanedMA4(k,:),CleanedMA5(k,:),CleanedMA6(k,:), ...
     Fs,MinPeakWidthRest1,MinPeakWidthRun_2,MinPeakWidthRun_3,MinPeakWidthRun_4,MinPeakWidthRun_5,MinPeakWidthRest6,...
     MaxWidthRest1,MaxWidthRun2,MaxWidthRun3,MaxWidthRun4,MaxWidthRun5,MaxWidthRest6,...
@@ -250,6 +250,6 @@ findErrors(sNorm(k,:),Activity1(k,:),Activity2(k,:),Activity3(k,:),Activity4(k,:
     maxWidthRest1,maxWidthRun2,maxWidthRun3,maxWidthRun4,maxWidthRun5,maxWidthRest6);
 
 %% Plotting noise models
- figure
- plot(t,TotalLP,t,TotalMA,t,TotalS),title('Final Artificial Noise Models'),ylabel('Magnitude'), xlabel('Time (s)'),grid on, axis tight,
-legend('Linear Predictor LPC + filtering Model','Moving Average model','Savitzky smoothing Model')
+ %figure
+ %plot(t,TotalLP,t,TotalMA,t,TotalS),title('Final Artificial Noise Models'),ylabel('Magnitude'), xlabel('Time (s)'),grid on, axis tight,
+%legend('Linear Predictor LPC + filtering Model','Moving Average model','Savitzky smoothing Model')

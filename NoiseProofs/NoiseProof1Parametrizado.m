@@ -11,32 +11,32 @@ addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/Gen
 j = 1;
 % PARAMETERS FOR PPG SIGNAL
 % MinPeakWidth
-MinPeakWidthRest1 = 0.1;
+MinPeakWidthRest1 = 0.07;
 MinPeakWidthRun_2 = 0.05;
-MinPeakWidthRun_3 = 0.05;
+MinPeakWidthRun_3 = 0.1;
 MinPeakWidthRun_4 = 0.07;
-MinPeakWidthRun_5 = 0.07;
-MinPeakWidthRest6 = 0.09;
+MinPeakWidthRun_5 = 0.05;
+MinPeakWidthRest6 = 0.1;
 % MaxWidthPeak in PPG
-MaxWidthRest1 = 0.5;
-MaxWidthRun2 = 0.7;
-MaxWidthRun3 = 0.7;
-MaxWidthRun4 = 0.3;
-MaxWidthRun5 = 0.7;
+MaxWidthRest1 = 1;
+MaxWidthRun2 = 0.8;
+MaxWidthRun3 = 0.8;
+MaxWidthRun4 = 0.8;
+MaxWidthRun5 = 1;
 MaxWidthRest6 = 0.5;
 % Prominence in PPG
-ProminenceInRest1 = 0.005;
-ProminenceRun2 = 0.05;
-ProminenceRun3 = 0.05;
+ProminenceInRest1 = 0.03;
+ProminenceRun2 = 0.04;
+ProminenceRun3 = 0.12;
 ProminenceRun4 = 0.04;
-ProminenceRun5 = 0.04;
+ProminenceRun5 = 0.12;
 ProminenceInRest6 = 0.04;
 % Min peak Distance in PPG
 MinDistRest1 = 0.4;
-MinDistRun2 = 0.25;
-MinDistRun3 = 0.23;
-MinDistRun4 = 0.2;
-MinDistRun5 = 0.2;
+MinDistRun2 = 0.35;
+MinDistRun3 = 0.28;
+MinDistRun4 = 0.25;
+MinDistRun5 = 0.28;
 MinDistRest6 = 0.2;
 %% PARAMETERS IN ECG SIGNAL
 % Min Height in ECG
@@ -130,34 +130,34 @@ CleanedSignal5 = Activity5-ruido5;
 CleanedSignal6 = Activity6-ruido6;
 
 %% ESTA SECCION LA PUSE EN CASO DE QUE SE QUIERA ADQUIRIR LOS PEAKS SIN INGRESAR A LA FUNCION FIND ERRORS
-    [~,LOCS1Original] = GetPeakPoints(Activity1(11,:),Fs,MinPeakWidthRest1,MaxWidthRest1,ProminenceInRest1,MinDistRest1);
+    [~,LOCS1Original] = GetPeakPoints(Activity1(12,:),Fs,MinPeakWidthRest1,MaxWidthRest1,ProminenceInRest1,MinDistRest1);
     %%
-    [~,LOCS1Cleaned] = GetPeakPoints(CleanedSignal1(11,:),Fs,MinPeakWidthRest1,MaxWidthRest1,ProminenceInRest1,MinDistRest1);
+    [~,LOCS1Cleaned] = GetPeakPoints(CleanedSignal1(12,:),Fs,MinPeakWidthRest1,MaxWidthRest1,ProminenceInRest1,MinDistRest1);
     %%
     % 2.CORRIENDO 1min se�al original vs sin ruido
-    [~,LOCS2Original] = GetPeakPoints(Activity2(11,:),Fs,MinPeakWidthRun_2,MaxWidthRun2,ProminenceRun2,MinDistRun2);
+    [~,LOCS2Original] = GetPeakPoints(Activity2(12,:),Fs,MinPeakWidthRun_2,MaxWidthRun2,ProminenceRun2,MinDistRun2);
     %%
-    [~,LOCS2Cleaned] = GetPeakPoints(CleanedSignal2(11,:),Fs,MinPeakWidthRun_2,MaxWidthRun2,ProminenceRun2,MinDistRun2);
+    [~,LOCS2Cleaned] = GetPeakPoints(CleanedSignal2(12,:),Fs,MinPeakWidthRun_2,MaxWidthRun2,ProminenceRun2,MinDistRun2);
     %%
     % 3. CORRIENDO 1min se�al original vs sin ruido
-    [~,LOCS3Original] = GetPeakPoints(Activity3(11,:),Fs,MinPeakWidthRun_3,MaxWidthRun3,ProminenceRun3,MinDistRun3);
+    [~,LOCS3Original] = GetPeakPoints(Activity3(12,:),Fs,MinPeakWidthRun_3,MaxWidthRun3,ProminenceRun3,MinDistRun3);
     %%
-    [~,LOCS3Cleaned] = GetPeakPoints(CleanedSignal3(11,:),Fs,MinPeakWidthRun_3,MaxWidthRun3,ProminenceRun3,MinDistRun3);
+    [~,LOCS3Cleaned] = GetPeakPoints(CleanedSignal3(12,:),Fs,MinPeakWidthRun_3,MaxWidthRun3,ProminenceRun3,MinDistRun3);
     %%
     % 4. CORRIENDO 1min se�al original vs sin ruido
-    [~,LOCS4Original] = GetPeakPoints(Activity4(11,:),Fs,MinPeakWidthRun_4,MaxWidthRun4,ProminenceRun4,MinDistRun4);
+    [~,LOCS4Original] = GetPeakPoints(Activity4(12,:),Fs,MinPeakWidthRun_4,MaxWidthRun4,ProminenceRun4,MinDistRun4);
     %%
-    [~,LOCS4Cleaned] = GetPeakPoints(CleanedSignal4(11,:),Fs,MinPeakWidthRun_4,MaxWidthRun4,ProminenceRun4,MinDistRun4);
+    [~,LOCS4Cleaned] = GetPeakPoints(CleanedSignal4(12,:),Fs,MinPeakWidthRun_4,MaxWidthRun4,ProminenceRun4,MinDistRun4);
     %%
     % 5. CORRIENDO 1min se�al original vs sin ruido
-    [~,LOCS5Original] = GetPeakPoints(Activity5(11,:),Fs,MinPeakWidthRun_5,MaxWidthRun5,ProminenceRun5,MinDistRun5);
+    [~,LOCS5Original] = GetPeakPoints(Activity5(12,:),Fs,MinPeakWidthRun_5,MaxWidthRun5,ProminenceRun5,MinDistRun5);
     %%
-    [~,LOCS5Cleaned] = GetPeakPoints(CleanedSignal5(11,:),Fs,MinPeakWidthRun_5,MaxWidthRun5,ProminenceRun5,MinDistRun5);
+    [~,LOCS5Cleaned] = GetPeakPoints(CleanedSignal5(12,:),Fs,MinPeakWidthRun_5,MaxWidthRun5,ProminenceRun5,MinDistRun5);
     %%
     % 6. REST 30s se�al original vs sin ruido
-    [~,LOCS6Original] = GetPeakPoints(Activity6(11,:),Fs,MinPeakWidthRest6,MaxWidthRest6,ProminenceInRest6,MinDistRest6);
+    [~,LOCS6Original] = GetPeakPoints(Activity6(12,:),Fs,MinPeakWidthRest6,MaxWidthRest6,ProminenceInRest6,MinDistRest6);
     %%
-    [~,LOCS6Cleaned] = GetPeakPoints(CleanedSignal6(11,:),Fs,MinPeakWidthRest6,MaxWidthRest6,ProminenceInRest6,MinDistRest6);
+    [~,LOCS6Cleaned] = GetPeakPoints(CleanedSignal6(12,:),Fs,MinPeakWidthRest6,MaxWidthRest6,ProminenceInRest6,MinDistRest6);
 
     %% ERROR FOR LP
 disp('ERRORES CALCULADOS POR LINEAR PREDICTOR')
