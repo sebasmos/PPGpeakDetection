@@ -131,7 +131,7 @@ Noise5 = mediamuestral(26251:33750);
 Noise6 = mediamuestral(33751:end);
 
 %% Detrend noise by activities.
-nRest = 10;
+nRest = 5;
 nRun = 10;
 DetrendedNoise1=Detrending(Noise1,nRest);
 DetrendedNoise2=Detrending(Noise2,nRun);
@@ -250,6 +250,7 @@ findErrors(Activity1(k,:),Activity2(k,:),Activity3(k,:),Activity4(k,:),Activity5
     maxWidthRest1,maxWidthRun2,maxWidthRun3,maxWidthRun4,maxWidthRun5,maxWidthRest6);
 
 %% Plotting noise models
- %figure
- %plot(t,TotalLP,t,TotalMA,t,TotalS),title('Final Artificial Noise Models'),ylabel('Magnitude'), xlabel('Time (s)'),grid on, axis tight,
-%legend('Linear Predictor LPC + filtering Model','Moving Average model','Savitzky smoothing Model')
+figure
+t=(0:length(TotalLP)-1/Fs);
+plot(t,TotalLP,t,TotalMA,t,TotalS),title('Final Artificial Noise Models'),ylabel('Magnitude'), xlabel('Time (s)'),grid on, axis tight,
+legend('Linear Predictor LPC + filtering Model','Moving Average model','Savitzky smoothing Model')
