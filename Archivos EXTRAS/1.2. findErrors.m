@@ -8,26 +8,24 @@ function [ErroresTotales] = findErrors(Activity1,Activity2,Activity3,Activity4,A
     CleanedActivityECG1,CleanedActivityECG2,CleanedActivityECG3,CleanedActivityECG4,CleanedActivityECG5,CleanedActivityECG6,...
     MinHeightECGRest1,MinHeightECGRun2,MinHeightECGRun3,MinHeightECGRun4,MinHeightECGRun5,MinHeightECGRest6,...
     minDistRest1,minDistRun2,minDistRun3,minDistRun4,minDistRun5,minDistRest6,...
-    MaxPeakWidthECG1,MaxPeakWidthECG2,MaxPeakWidthECG3,MaxPeakWidthECG4,MaxPeakWidthECG5,MaxPeakWidthECG6)
-% Access to FindECGPeaks from NoiseProofs
-addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\NoiseProofs');
+    maxWidthRest1,maxWidthRun2,maxWidthRun3,maxWidthRun4,maxWidthRun5,maxWidthRest6)
 %% EXTRACCION DE LOS PICOS DE PPG CON RUIDO Y SIN RUIDO
     % 1. ORIGINAL en reposo vs sin ruido
     [~,LOCS1Original] = GetPeakPoints(Activity1,Fs,MinPeakWidthRest1,MaxWidthRest1,ProminenceInRest1,MinDistRest1);
     [~,LOCS1Cleaned] = GetPeakPoints(CleanedSignal1,Fs,MinPeakWidthRest1,MaxWidthRest1,ProminenceInRest1,MinDistRest1);
-    % 2. CORRIENDO 1min se?al original vs sin ruido
+    % 2. CORRIENDO 1min se�al original vs sin ruido
     [~,LOCS2Original] = GetPeakPoints(Activity2,Fs,MinPeakWidthRun_2,MaxWidthRun2,ProminenceRun2,MinDistRun2);
     [~,LOCS2Cleaned] = GetPeakPoints(CleanedSignal2,Fs,MinPeakWidthRun_2,MaxWidthRun2,ProminenceRun2,MinDistRun2);
-    % 3. CORRIENDO 1min se?al original vs sin ruido
+    % 3. CORRIENDO 1min se�al original vs sin ruido
     [~,LOCS3Original] = GetPeakPoints(Activity3,Fs,MinPeakWidthRun_3,MaxWidthRun3,ProminenceRun3,MinDistRun3);
     [~,LOCS3Cleaned] = GetPeakPoints(CleanedSignal3,Fs,MinPeakWidthRun_3,MaxWidthRun3,ProminenceRun3,MinDistRun3);
-    % 4. CORRIENDO 1min se?al original vs sin ruido
+    % 4. CORRIENDO 1min se�al original vs sin ruido
     [~,LOCS4Original] = GetPeakPoints(Activity4,Fs,MinPeakWidthRun_4,MaxWidthRun4,ProminenceRun4,MinDistRun4);
     [~,LOCS4Cleaned] = GetPeakPoints(CleanedSignal4,Fs,MinPeakWidthRun_4,MaxWidthRun4,ProminenceRun4,MinDistRun4);
-    % 5. CORRIENDO 1min se?al original vs sin ruido
+    % 5. CORRIENDO 1min se�al original vs sin ruido
     [~,LOCS5Original] = GetPeakPoints(Activity5,Fs,MinPeakWidthRun_5,MaxWidthRun5,ProminenceRun5,MinDistRun5);
     [~,LOCS5Cleaned] = GetPeakPoints(CleanedSignal5,Fs,MinPeakWidthRun_5,MaxWidthRun5,ProminenceRun5,MinDistRun5);
-    % 6. REST 30s se?al original vs sin ruido
+    % 6. REST 30s se�al original vs sin ruido
     [~,LOCS6Original] = GetPeakPoints(Activity6,Fs,MinPeakWidthRest6,MaxWidthRest6,ProminenceInRest6,MinDistRest6);
     [~,LOCS6Cleaned] = GetPeakPoints(CleanedSignal6,Fs,MinPeakWidthRest6,MaxWidthRest6,ProminenceInRest6,MinDistRest6);
 
@@ -41,12 +39,13 @@ addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\P
     ErrorFromFindPeaks = [ErrorFindP1 ErrorFindP2 ErrorFindP3 ErrorFindP4 ErrorFindP5 ErrorFindP6];
 
 %% ECG PEAKS EXRACTION 
-    [~,ECG1Locs] = GetECGPeakPoints(CleanedActivityECG1,MinHeightECGRest1,minDistRest1,MaxPeakWidthECG1);
-    [~,ECG2Locs] = GetECGPeakPoints(CleanedActivityECG2,MinHeightECGRun2,minDistRun2,MaxPeakWidthECG2);
-    [~,ECG3Locs] = GetECGPeakPoints(CleanedActivityECG3,MinHeightECGRun3,minDistRun3,MaxPeakWidthECG3);
-    [~,ECG4Locs] = GetECGPeakPoints(CleanedActivityECG4,MinHeightECGRun4,minDistRun4,MaxPeakWidthECG4);
-    [~,ECG5Locs] = GetECGPeakPoints(CleanedActivityECG5,MinHeightECGRun5,minDistRun5,MaxPeakWidthECG5);
-    [~,ECG6Locs] = GetECGPeakPoints(CleanedActivityECG6,MinHeightECGRest6,minDistRest6,MaxPeakWidthECG6);
+addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/NoiseProofs');
+    [~,ECG1Locs] = GetECGPeakPoints(CleanedActivityECG1,MinHeightECGRest1,minDistRest1,maxWidthRest1);
+    [~,ECG2Locs] = GetECGPeakPoints(CleanedActivityECG2,MinHeightECGRun2,minDistRun2,maxWidthRun2);
+    [~,ECG3Locs] = GetECGPeakPoints(CleanedActivityECG3,MinHeightECGRun3,minDistRun3,maxWidthRun3);
+    [~,ECG4Locs] = GetECGPeakPoints(CleanedActivityECG4,MinHeightECGRun4,minDistRun4,maxWidthRun4);
+    [~,ECG5Locs] = GetECGPeakPoints(CleanedActivityECG5,MinHeightECGRun5,minDistRun5,maxWidthRun5);
+    [~,ECG6Locs] = GetECGPeakPoints(CleanedActivityECG6,MinHeightECGRest6,minDistRest6,maxWidthRest6);
 
 %% ECG VS. PPG WITHOUT NOISE ERROR
     ECGDPPG1 = 100*abs(length(LOCS1Cleaned)-length(ECG1Locs))./length(ECG1Locs);
@@ -66,13 +65,7 @@ addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\P
     ECGPPG5 = 100*abs(length(LOCS5Original)-length(ECG5Locs))./length(ECG5Locs);
     ECGPPG6 = 100*abs(length(LOCS6Original)-length(ECG6Locs))./length(ECG6Locs);
     ErrorECGPPG = [ECGPPG1 ECGPPG2 ECGPPG3 ECGPPG4 ECGPPG5 ECGPPG6];
-    % PEAKS NUMBER
-    PeaksECG = [length(ECG1Locs) length(ECG2Locs) length(ECG3Locs) length(ECG4Locs) length(ECG5Locs) length(ECG6Locs)]
     
-    FindPeaksOriginalPeaks = [length(LOCS1Original) length(LOCS2Original) length(LOCS3Original) length(LOCS4Original) length(LOCS5Original) length(LOCS6Original)]
-
-    FindPeakDenoisedPeaks = [length(LOCS1Cleaned) length(LOCS2Cleaned) length(LOCS3Cleaned) length(LOCS4Cleaned) length(LOCS5Cleaned) length(LOCS6Cleaned)] 
-
     disp('CALCULO % ERRORES: Fila 1 (PPGvsDPPG), Fila 2 (PPGvsECG), Fila 3 (DPPGvsECG)')
 ErroresTotales = [ErrorFromFindPeaks;ErrorECGPPG;ErrorECGDPPG]
 end
