@@ -2,10 +2,10 @@ clc
 clear all
 close all
 %% Add Datasets
-addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/db');
-addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/NoiseProofs');
+addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\db');
+addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\NoiseProofs');
 [mediamuestral,TamRealizaciones]=GetAveragedNoise();
-j = 1;
+j = 12;
 %% Get and save signals in 'Realizaciones'
 % NOISE MODEL PARAMETERS
 % LPC COEFFICIENTS
@@ -18,48 +18,48 @@ windowsizeRun = 30;
 %% Parameters for findpeaks Function
 % PARAMETERS FOR PPG SIGNAL
 % MinPeakWidth
-MinPeakWidthRest1 = 0.11;
-MinPeakWidthRun_2 = 0.01;
-MinPeakWidthRun_3 = 0.07;
+MinPeakWidthRest1 = 0.07;
+MinPeakWidthRun_2 = 0.05;
+MinPeakWidthRun_3 = 0.1;
 MinPeakWidthRun_4 = 0.07;
-MinPeakWidthRun_5 = 0.07;
-MinPeakWidthRest6 = 0.05;
+MinPeakWidthRun_5 = 0.05;
+MinPeakWidthRest6 = 0.1;
 % MaxWidthPeak in PPG
-MaxWidthRest1 = 0.5;
-MaxWidthRun2 = 0.6;
-MaxWidthRun3 = 0.5;
+MaxWidthRest1 = 1;
+MaxWidthRun2 = 0.8;
+MaxWidthRun3 = 0.8;
 MaxWidthRun4 = 0.8;
-MaxWidthRun5 = 0.8;
-MaxWidthRest6 = 1.5;
+MaxWidthRun5 = 1;
+MaxWidthRest6 = 0.5;
 % Prominence in PPG
-ProminenceInRest1 = 0.009;
-ProminenceRun2 = 0.049;
-ProminenceRun3 = 0.038;
+ProminenceInRest1 = 0.03;
+ProminenceRun2 = 0.04;
+ProminenceRun3 = 0.12;
 ProminenceRun4 = 0.04;
-ProminenceRun5 = 0.04;
-ProminenceInRest6 = 0.01;
+ProminenceRun5 = 0.12;
+ProminenceInRest6 = 0.04;
 % Min peak Distance in PPG
-MinDistRest1 = 0.3;
-MinDistRun2 = 0.1;
-MinDistRun3 = 0.1;
-MinDistRun4 = 0.15;
-MinDistRun5 = 0.1;
+MinDistRest1 = 0.4;
+MinDistRun2 = 0.35;
+MinDistRun3 = 0.28;
+MinDistRun4 = 0.25;
+MinDistRun5 = 0.28;
 MinDistRest6 = 0.2;
 %% PARAMETERS IN ECG SIGNAL
 % Min Height in ECG
-MinHeightECGRest1 = 0.025;
-MinHeightECGRun2  = 0.025;
-MinHeightECGRun3  = 0.04;
-MinHeightECGRun4  = 0.04;
-MinHeightECGRun5  = 0.04;
-MinHeightECGRest6 = 0.04;
+MinHeightECGRest1 = 0.02;
+MinHeightECGRun2  = 0.02;
+MinHeightECGRun3  = 0.02;
+MinHeightECGRun4  = 0.017;
+MinHeightECGRun5  = 0.017;
+MinHeightECGRest6 = 0.014;
 %Min Dist in ECG
-minDistRest1  = 0.6;
-minDistRun2   = 0.5;
-minDistRun3   = 0.2;
-minDistRun4   = 0.2;
-minDistRun5   = 0.2;
-minDistRest6  = 0.2;
+minDistRest1  = 0.4;
+minDistRun2   = 0.35;
+minDistRun3   = 0.3;
+minDistRun4   = 0.3;
+minDistRun5   = 0.3;
+minDistRest6  = 0.3;
 %Max Width in ECG
 maxWidthRest1  = 0.05;
 maxWidthRun2   = 0.05;
@@ -248,6 +248,7 @@ findErrors(Activity1(j,:),Activity2(j,:),Activity3(j,:),Activity4(j,:),Activity5
     maxWidthRest1,maxWidthRun2,maxWidthRun3,maxWidthRun4,maxWidthRun5,maxWidthRest6);
 
 %% Plotting noise models
- %figure
- %plot(t,TotalLP,t,TotalMA,t,TotalS),title('Final Artificial Noise Models'),ylabel('Magnitude'), xlabel('Time (s)'),grid on, axis tight,
-%legend('Linear Predictor LPC + filtering Model','Moving Average model','Savitzky smoothing Model')
+ figure
+ t = [0:length(mediamuestral)-1]./125;
+ plot(t,TotalLP,t,TotalMA,t,TotalS),title('Final Artificial Noise Models'),ylabel('Magnitude'), xlabel('Time (s)'),grid on, axis tight,
+legend('Linear Predictor LPC + filtering Model','Moving Average model','Savitzky smoothing Model')
