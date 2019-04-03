@@ -10,7 +10,7 @@ function [ErroresTotales] = findErrors(Activity1,Activity2,Activity3,Activity4,A
     minDistRest1,minDistRun2,minDistRun3,minDistRun4,minDistRun5,minDistRest6,...
     MaxPeakWidthECG1,MaxPeakWidthECG2,MaxPeakWidthECG3,MaxPeakWidthECG4,MaxPeakWidthECG5,MaxPeakWidthECG6)
 % Access to FindECGPeaks from NoiseProofs
-addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\NoiseProofs');
+    addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/NoiseProofs');
 %% EXTRACCION DE LOS PICOS DE PPG CON RUIDO Y SIN RUIDO
     % 1. ORIGINAL en reposo vs sin ruido
     [~,LOCS1Original] = GetPeakPoints(Activity1,Fs,MinPeakWidthRest1,MaxWidthRest1,ProminenceInRest1,MinDistRest1);
@@ -68,11 +68,8 @@ addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\P
     ErrorECGPPG = [ECGPPG1 ECGPPG2 ECGPPG3 ECGPPG4 ECGPPG5 ECGPPG6];
     % PEAKS NUMBER
     PeaksECG = [length(ECG1Locs) length(ECG2Locs) length(ECG3Locs) length(ECG4Locs) length(ECG5Locs) length(ECG6Locs)]
-    
     FindPeaksOriginalPeaks = [length(LOCS1Original) length(LOCS2Original) length(LOCS3Original) length(LOCS4Original) length(LOCS5Original) length(LOCS6Original)]
-
     FindPeakDenoisedPeaks = [length(LOCS1Cleaned) length(LOCS2Cleaned) length(LOCS3Cleaned) length(LOCS4Cleaned) length(LOCS5Cleaned) length(LOCS6Cleaned)] 
-
     disp('CALCULO % ERRORES: Fila 1 (PPGvsDPPG), Fila 2 (PPGvsECG), Fila 3 (DPPGvsECG)')
-ErroresTotales = [ErrorFromFindPeaks;ErrorECGPPG;ErrorECGDPPG]
+    ErroresTotales = [ErrorFromFindPeaks;ErrorECGPPG;ErrorECGDPPG]
 end
