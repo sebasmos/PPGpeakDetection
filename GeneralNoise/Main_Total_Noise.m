@@ -5,7 +5,6 @@ close all
 addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/db');
 addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/NoiseProofs');
 [mediamuestral,TamRealizaciones]=GetAveragedNoise();
-
 j = 2; %IMPORTANT!!! change this parameter to obtain errors from 
           %different realizations
 %% Get and save signals in 'Realizaciones'
@@ -57,12 +56,14 @@ MinHeightECGRun4  = 0.04;
 MinHeightECGRun5  = 0.04;
 MinHeightECGRest6 = 0.04;
 %Min Dist in ECG
+
 minDistRest1  = 0.6;
 minDistRun2   = 0.5;
 minDistRun3   = 0.2;
 minDistRun4   = 0.2;
 minDistRun5   = 0.2;
 minDistRest6  = 0.2;
+
 %Max Width in ECG
 maxWidthRest1  = 0.05;
 maxWidthRun2   = 0.05;
@@ -133,7 +134,7 @@ Noise5 = mediamuestral(26251:33750);
 Noise6 = mediamuestral(33751:end);
 
 %% Detrend noise by activities.
-nRest = 5;
+nRest = 10;
 nRun = 10;
 WandererBaseline1=Detrending(Noise1,nRest);
 WandererBaseline2=Detrending(Noise2,nRun);
@@ -141,7 +142,7 @@ WandererBaseline3=Detrending(Noise3,nRun);
 WandererBaseline4=Detrending(Noise4,nRun);
 WandererBaseline5=Detrending(Noise5,nRun);
 WandererBaseline6=Detrending(Noise6,nRest);
-% Zero centered noise extraction for further feed on LPC and MA
+% Zero centered noise extraction
 ZeroCenteredNoise1=Noise1-WandererBaseline1;
 ZeroCenteredNoise2=Noise2-WandererBaseline2;
 ZeroCenteredNoise3=Noise3-WandererBaseline3;
@@ -149,10 +150,13 @@ ZeroCenteredNoise4=Noise4-WandererBaseline4;
 ZeroCenteredNoise5=Noise5-WandererBaseline5;
 ZeroCenteredNoise6=Noise6-WandererBaseline6;
 
- %% 1. Savitzky smoothing filter.
+%% 1. Savitzky smoothing filter.
+
+    k=12; %IMPORTANT!!! change this parameter to obtain errors from 
+          %different realizations
 %   Ruido total 1: o(t) = n(t)+w(t)
     TotalS=mediamuestral;
-% Cleaning signal with motion artifacts
+% Cleaning signal with MA
     Cleaneds1 = Activity1 - TotalS(1:3750);
     Cleaneds2 = Activity2 - TotalS(3751:11250);
     Cleaneds3 = Activity3 - TotalS(11251:18750);
