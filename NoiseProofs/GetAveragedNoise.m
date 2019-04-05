@@ -1,5 +1,5 @@
 
-function [h,TamRealizaciones] = GetAveragedNoise()
+function [h,TamRealizaciones,s,s1,s2,s3,s4,s5] = GetAveragedNoise()
 %% ARTIFITIAL NOISE DESIGN 
 
 % This code intends to proof the viability of the obtained noise from the

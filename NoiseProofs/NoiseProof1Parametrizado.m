@@ -2,8 +2,8 @@ clear all
 close all
 clc
 %% Add Datasets
-addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/db');
-addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/GeneralNoise');
+addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\db');
+addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\GeneralNoise');
 %% Get Noise from Savitzky method
 [mediamuestral,TamRealizaciones]=GetAveragedNoise();
 %% Initial Conditions
@@ -11,32 +11,32 @@ addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/Gen
 j = 1;
 % PARAMETERS FOR PPG SIGNAL
 % MinPeakWidth
-MinPeakWidthRest1 = 0.07;
-MinPeakWidthRun_2 = 0.05;
-MinPeakWidthRun_3 = 0.1;
+MinPeakWidthRest1 = 0.11;
+MinPeakWidthRun_2 = 0.01;
+MinPeakWidthRun_3 = 0.07;
 MinPeakWidthRun_4 = 0.07;
-MinPeakWidthRun_5 = 0.05;
-MinPeakWidthRest6 = 0.1;
+MinPeakWidthRun_5 = 0.07;
+MinPeakWidthRest6 = 0.05;
 % MaxWidthPeak in PPG
-MaxWidthRest1 = 1;
-MaxWidthRun2 = 0.8;
-MaxWidthRun3 = 0.8;
+MaxWidthRest1 = 0.5;
+MaxWidthRun2 = 0.6;
+MaxWidthRun3 = 0.5;
 MaxWidthRun4 = 0.8;
-MaxWidthRun5 = 1;
-MaxWidthRest6 = 0.5;
+MaxWidthRun5 = 0.8;
+MaxWidthRest6 = 1.5;
 % Prominence in PPG
-ProminenceInRest1 = 0.03;
-ProminenceRun2 = 0.04;
-ProminenceRun3 = 0.12;
+ProminenceInRest1 = 0.009;
+ProminenceRun2 = 0.049;
+ProminenceRun3 = 0.038;
 ProminenceRun4 = 0.04;
-ProminenceRun5 = 0.12;
-ProminenceInRest6 = 0.04;
+ProminenceRun5 = 0.04;
+ProminenceInRest6 = 0.01;
 % Min peak Distance in PPG
-MinDistRest1 = 0.4;
-MinDistRun2 = 0.35;
-MinDistRun3 = 0.28;
-MinDistRun4 = 0.25;
-MinDistRun5 = 0.28;
+MinDistRest1 = 0.3;
+MinDistRun2 = 0.1;
+MinDistRun3 = 0.1;
+MinDistRun4 = 0.15;
+MinDistRun5 = 0.1;
 MinDistRest6 = 0.2;
 %% PARAMETERS IN ECG SIGNAL
 % Min Height in ECG
@@ -50,7 +50,7 @@ MinHeightECGRest6 = 0.04;
 minDistRest1 = 0.6;
 minDistRun2 = 0.5;
 minDistRun3 = 0.2;
-minDistRun4 = 0.175;
+minDistRun4 = 0.2;
 minDistRun5 = 0.2;
 minDistRest6 = 0.2;
 % MaxPeakWidth

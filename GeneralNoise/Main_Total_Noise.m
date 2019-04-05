@@ -5,12 +5,7 @@ close all
 addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\db');
 addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\NoiseProofs');
 [mediamuestral,TamRealizaciones]=GetAveragedNoise();
-<<<<<<< HEAD
 j = 12;
-=======
-j = 3; %IMPORTANT!!! change this parameter to obtain errors from 
-          %different realizations
->>>>>>> ccec7edf6e067a6b5e4229afbcd33d359efd6b20
 %% Get and save signals in 'Realizaciones'
 % NOISE MODEL PARAMETERS
 % LPC COEFFICIENTS
@@ -23,20 +18,13 @@ windowsizeRun = 30;
 %% Parameters for findpeaks Function
 % PARAMETERS FOR PPG SIGNAL
 % MinPeakWidth
-<<<<<<< HEAD
 MinPeakWidthRest1 = 0.07;
 MinPeakWidthRun_2 = 0.05;
 MinPeakWidthRun_3 = 0.1;
-=======
-MinPeakWidthRest1 = 0.09;
-MinPeakWidthRun_2 = 0.05;
-MinPeakWidthRun_3 = 0.07;
->>>>>>> ccec7edf6e067a6b5e4229afbcd33d359efd6b20
 MinPeakWidthRun_4 = 0.07;
 MinPeakWidthRun_5 = 0.05;
 MinPeakWidthRest6 = 0.1;
 % MaxWidthPeak in PPG
-<<<<<<< HEAD
 MaxWidthRest1 = 1;
 MaxWidthRun2 = 0.8;
 MaxWidthRun3 = 0.8;
@@ -56,27 +44,6 @@ MinDistRun2 = 0.35;
 MinDistRun3 = 0.28;
 MinDistRun4 = 0.25;
 MinDistRun5 = 0.28;
-=======
-MaxWidthRest1 = 0.45;
-MaxWidthRun2 = 0.45;
-MaxWidthRun3 = 0.5;
-MaxWidthRun4 = 1.5;
-MaxWidthRun5 = 0.8;
-MaxWidthRest6 = 1.5;
-% Prominence in PPG
-ProminenceInRest1 = 0.009;
-ProminenceRun2 = 0.05;
-ProminenceRun3 = 0.038;
-ProminenceRun4 = 0.038;
-ProminenceRun5 = 0.04;
-ProminenceInRest6 = 0.01;
-% Min peak Distance in PPG
-MinDistRest1 = 0.4;
-MinDistRun2 = 0.2;
-MinDistRun3 = 0.1;
-MinDistRun4 = 0.12;
-MinDistRun5 = 0.3;
->>>>>>> ccec7edf6e067a6b5e4229afbcd33d359efd6b20
 MinDistRest6 = 0.2;
 %% PARAMETERS IN ECG SIGNAL
 % Min Height in ECG
@@ -87,21 +54,12 @@ MinHeightECGRun4  = 0.017;
 MinHeightECGRun5  = 0.017;
 MinHeightECGRest6 = 0.014;
 %Min Dist in ECG
-<<<<<<< HEAD
 minDistRest1  = 0.4;
 minDistRun2   = 0.35;
 minDistRun3   = 0.3;
 minDistRun4   = 0.3;
 minDistRun5   = 0.3;
 minDistRest6  = 0.3;
-=======
-minDistRest1  = 0.5;
-minDistRun2   = 0.5;
-minDistRun3   = 0.2;
-minDistRun4   = 0.2;
-minDistRun5   = 0.2;
-minDistRest6  = 0.2;
->>>>>>> ccec7edf6e067a6b5e4229afbcd33d359efd6b20
 %Max Width in ECG
 maxWidthRest1  = 0.05;
 maxWidthRun2   = 0.05;
@@ -172,7 +130,7 @@ Noise5 = mediamuestral(26251:33750);
 Noise6 = mediamuestral(33751:end);
 
 %% Detrend noise by activities.
-nRest = 5;
+nRest = 10;
 nRun = 10;
 WandererBaseline1=Detrending(Noise1,nRest);
 WandererBaseline2=Detrending(Noise2,nRun);
@@ -180,7 +138,7 @@ WandererBaseline3=Detrending(Noise3,nRun);
 WandererBaseline4=Detrending(Noise4,nRun);
 WandererBaseline5=Detrending(Noise5,nRun);
 WandererBaseline6=Detrending(Noise6,nRest);
-% Zero centered noise extraction for further feed on LPC and MA
+% Zero centered noise extraction
 ZeroCenteredNoise1=Noise1-WandererBaseline1;
 ZeroCenteredNoise2=Noise2-WandererBaseline2;
 ZeroCenteredNoise3=Noise3-WandererBaseline3;
@@ -188,10 +146,13 @@ ZeroCenteredNoise4=Noise4-WandererBaseline4;
 ZeroCenteredNoise5=Noise5-WandererBaseline5;
 ZeroCenteredNoise6=Noise6-WandererBaseline6;
 
- %% 1. Savitzky smoothing filter.
+%% 1. Savitzky smoothing filter.
+
+    k=12; %IMPORTANT!!! change this parameter to obtain errors from 
+          %different realizations
 %   Ruido total 1: o(t) = n(t)+w(t)
     TotalS=mediamuestral;
-% Cleaning signal with motion artifacts
+% Cleaning signal with MA
     Cleaneds1 = Activity1 - TotalS(1:3750);
     Cleaneds2 = Activity2 - TotalS(3751:11250);
     Cleaneds3 = Activity3 - TotalS(11251:18750);
@@ -286,16 +247,8 @@ findErrors(Activity1(j,:),Activity2(j,:),Activity3(j,:),Activity4(j,:),Activity5
     minDistRest1,minDistRun2,minDistRun3,minDistRun4,minDistRun5,minDistRest6,...
     maxWidthRest1,maxWidthRun2,maxWidthRun3,maxWidthRun4,maxWidthRun5,maxWidthRest6);
 
-<<<<<<< HEAD
 %% Plotting noise models
  figure
  t = [0:length(mediamuestral)-1]./125;
  plot(t,TotalLP,t,TotalMA,t,TotalS),title('Final Artificial Noise Models'),ylabel('Magnitude'), xlabel('Time (s)'),grid on, axis tight,
 legend('Linear Predictor LPC + filtering Model','Moving Average model','Savitzky smoothing Model')
-=======
- %% Plotting noise models
-figure
-t=(0:length(TotalLP)-1/Fs);
-plot(t,TotalLP,t,TotalS),hold on,plot(t,TotalMA,'LineWidth',3),title('Final Artificial Noise Models'),ylabel('Magnitude'), xlabel('Time (s)'),grid on, axis tight,
-legend('Linear Predictor LPC + filtering Model','Savitzky smoothing Model','Moving Average model')
->>>>>>> ccec7edf6e067a6b5e4229afbcd33d359efd6b20
