@@ -5,16 +5,10 @@ close all
 addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\db');
 addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\NoiseProofs');
 [mediamuestral,TamRealizaciones]=GetAveragedNoise();
-<<<<<<< HEAD
-j = 12;
-=======
-
-j = 3; %IMPORTANT!!! change this parameter to obtain errors from 
-          %different realizations
->>>>>>> 94c37f7b66a9b555cdfd48ddaabcf6ed5aacba07
 %% Get and save signals in 'Realizaciones'
 % NOISE MODEL PARAMETERS
 % LPC COEFFICIENTS
+j = 1;
 LPCActivity1 = 3500;
 LPCActivity6 = 2200;
 LPCActivity = 7000;
@@ -24,10 +18,6 @@ windowsizeRun = 30;
 %% Parameters for findpeaks Function
 % PARAMETERS FOR PPG SIGNAL
 % MinPeakWidth
-<<<<<<< HEAD
-=======
-
->>>>>>> 94c37f7b66a9b555cdfd48ddaabcf6ed5aacba07
 MinPeakWidthRest1 = 0.07;
 MinPeakWidthRun_2 = 0.05;
 MinPeakWidthRun_3 = 0.1;
@@ -266,17 +256,8 @@ findErrors(Activity1(j,:),Activity2(j,:),Activity3(j,:),Activity4(j,:),Activity5
     minDistRest1,minDistRun2,minDistRun3,minDistRun4,minDistRun5,minDistRest6,...
     maxWidthRest1,maxWidthRun2,maxWidthRun3,maxWidthRun4,maxWidthRun5,maxWidthRest6);
 
-<<<<<<< HEAD
-%% Plotting noise models
- figure
- t = [0:length(mediamuestral)-1]./125;
- plot(t,TotalLP,t,TotalMA,t,TotalS),title('Final Artificial Noise Models'),ylabel('Magnitude'), xlabel('Time (s)'),grid on, axis tight,
-legend('Linear Predictor LPC + filtering Model','Moving Average model','Savitzky smoothing Model')
-=======
  %% Plotting noise models
 figure
 t=(0:length(TotalLP)-1/Fs);
 plot(t,TotalLP,t,TotalS),hold on,plot(t,TotalMA,'LineWidth',3),title('Final Artificial Noise Models'),ylabel('Magnitude'), xlabel('Time (s)'),grid on, axis tight,
 legend('Linear Predictor LPC + filtering Model','Savitzky smoothing Model','Moving Average model')
->>>>>>> ccec7edf6e067a6b5e4229afbcd33d359efd6b20
->>>>>>> 94c37f7b66a9b555cdfd48ddaabcf6ed5aacba07
