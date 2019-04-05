@@ -1,6 +1,6 @@
 addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/db');
-clc;
-close all;
+
+
 %% WE READ THE DATASETS
 for k = 1:12
     if k >= 10
@@ -38,9 +38,7 @@ for k = 1:12
     end
 end
 %% STACK THEM IN ONE BIG MATRIX
-T=[s s1 s2 s3 s4 s5];
-V=hampel(T',10,1);
-V=V';
+V=[s s1 s2 s3 s4 s5];
 MediaMuestral=mean(V);
 MediaActividad1=MediaMuestral(1:3750);
 MediaActividad2=MediaMuestral(3751:11250);
@@ -53,31 +51,22 @@ MediaActividad6=MediaMuestral(33751:min(TamRealizaciones));
 [L,A]=size(V);
 i=1;
 j=1;
-s=V(:,(1:3750));
-s5=V(:,(33751:min(TamRealizaciones)));
 %Para actividades de 30 segundos
 for t1=1:10:length(s)
     for t2=1:10:length(s)
-        if(t1<=length(s5) && t2<=length(s5))
-            Rxx1(i,j)=(s(:,t1)'*s(:,t2))/L;
-            Kxx1(i,j)=Rxx1(i,j)-(MediaActividad1(t1).*MediaActividad1(t2));
-            Rxx6(i,j)=(s5(:,t1)'*s5(:,t2))/L;
-            Kxx6(i,j)=Rxx6(i,j)-(MediaActividad6(t1).*MediaActividad6(t2));
-        else
-            Rxx1(i,j)=(s(:,t1)'*s(:,t2))/L;
-            Kxx1(i,j)=Rxx1(i,j)-(MediaActividad1(t1).*MediaActividad1(t2));
-        end
+        Rxx(i,j)=(s(:,t1)'*s(:,t2))/L;
+        Kxx(i,j)=Rxx(i,j)-(MediaActividad1(t1).*MediaActividad2(t2));
         j=j+1;
     end
     i=i+1;
     j=1;
 end
 %% PLOT THEM
-t1=1:length(Kxx1);
-t2=1:length(Kxx1);
+t1=1:length(Kxx);
+t2=1:length(Kxx);
 [t1,t2]=meshgrid(t1,t2);
-figure(1),waterfall(t1,t2,Rxx1),xlabel('t1'),ylabel('t2'),zlabel('Rxx(t1,t2)'),title('Funcion de autocorrelación');
-figure(2),waterfall(t1,t2,Kxx1),xlabel('t1'),ylabel('t2'),zlabel('Kxx(t1,t2)'),title('Funcion de autocovarianza');
+figure(1),waterfall(t1,t2,Rxx),xlabel('t1'),ylabel('t2'),zlabel('Rxx(t1,t2)'),title('Funcion de autocorrelación');
+figure(2),waterfall(t1,t2,Kxx),xlabel('t1'),ylabel('t2'),zlabel('Kxx(t1,t2)'),title('Funcion de autocovarianza');
 
 %% COMPUTE SPECTRUM OF THE NOISES
 for i=1:12
