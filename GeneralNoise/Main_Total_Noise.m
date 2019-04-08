@@ -54,21 +54,12 @@ MinHeightECGRun4  = 0.017;
 MinHeightECGRun5  = 0.017;
 MinHeightECGRest6 = 0.014;
 %Min Dist in ECG
-<<<<<<< HEAD
 minDistRest1  = 0.4;
 minDistRun2   = 0.35;
 minDistRun3   = 0.3;
 minDistRun4   = 0.3;
 minDistRun5   = 0.3;
 minDistRest6  = 0.3;
-=======
-minDistRest1  = 0.5;
-minDistRun2   = 0.5;
-minDistRun3   = 0.2;
-minDistRun4   = 0.2;
-minDistRun5   = 0.2;
-minDistRest6  = 0.2;
->>>>>>> 94c37f7b66a9b555cdfd48ddaabcf6ed5aacba07
 %Max Width in ECG
 maxWidthRest1  = 0.05;
 maxWidthRun2   = 0.05;
