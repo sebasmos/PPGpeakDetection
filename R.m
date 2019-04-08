@@ -1,5 +1,5 @@
-%addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/db');
-%addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/NoiseProofs');
+addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/db');
+addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/NoiseProofs');
 clc;
 close all;
 %% WE READ THE DATASETS
@@ -134,9 +134,41 @@ plot(EspectroRuido(12,:)),hold on,grid on, axis tight
 %% LET'S SEE HOW MEAN AND VARIANCE EVOLVE IN TIME
 
 t=(0:length(V)-1)/Fs;
+t30s=(0:length(s1)-1)/Fs;
+t1m=(0:length(s3)-1)/Fs;
+tend=(0:length(s6)-1)/Fs;
 VarianzaMuestral=var(V);
-figure, 
-subplot(2,1,1),plot(t,MediaMuestral),grid on, axis tight
-xlabel('Tiempo (segundos)'), title('Media y varianza muestral de las 12 realizaciones'),legend('Media'),
-subplot(2,1,2),plot(t,VarianzaMuestral,'-r'),grid on, axis tight
-xlabel('Tiempo (segundos)'),legend('Varianza')
+DesvEstandarMuestral=std(V);
+figure(1),
+plot(t30s,s1),hold on,plot(t30s,MediaActividad1,'-k','LineWidth',3),hold on,plot(t30s,DesvEstandarMuestral(1:3750),'-r','LineWidth',3)
+grid on, axis tight,title('Evolución de la media y la stdev muestral (insesgada) para la Actividad 1'), xlabel('Tiempo (segundos)')
+legend('','','','','','','','','','','','','MediaMuestral','Desviacion estandar')
+
+figure(2),
+plot(t1m,s2),hold on,plot(t1m,MediaActividad2,'-k','LineWidth',3),hold on,plot(t1m,DesvEstandarMuestral(3751:11250),'-r','LineWidth',3)
+grid on, axis tight,title('Evolución de la media y la stdev muestral (insesgada) para la Actividad 2'), xlabel('Tiempo (segundos)')
+legend('','','','','','','','','','','','','MediaMuestral','Desviacion estandar')
+
+figure(3),
+plot(t1m,s3),hold on,plot(t1m,MediaActividad3,'-k','LineWidth',3),hold on,plot(t1m,DesvEstandarMuestral(11251:18750),'-r','LineWidth',3)
+grid on, axis tight,title('Evolución de la media y la stdev muestral (insesgada) para la Actividad 3'), xlabel('Tiempo (segundos)')
+legend('','','','','','','','','','','','','MediaMuestral','Desviacion estandar')
+
+figure(4),
+plot(t1m,s4),hold on,plot(t1m,MediaActividad4,'-k','LineWidth',3),hold on,plot(t1m,DesvEstandarMuestral(18751:26250),'-r','LineWidth',3)
+grid on, axis tight,title('Evolución de la media y la stdev muestral (insesgada) para la Actividad 4'), xlabel('Tiempo (segundos)')
+legend('','','','','','','','','','','','','MediaMuestral','Desviacion estandar')
+
+figure(5),
+plot(t1m,s5),hold on,plot(t1m,MediaActividad5,'-k','LineWidth',3),hold on,plot(t1m,DesvEstandarMuestral(26251:33750),'-r','LineWidth',3)
+grid on, axis tight,title('Evolución de la media y la stdev muestral (insesgada) para la Actividad 5'), xlabel('Tiempo (segundos)')
+legend('','','','','','','','','','','','','MediaMuestral','Desviacion estandar')
+
+figure(6),
+plot(tend,s6),hold on,plot(tend,MediaActividad6,'-k','LineWidth',3),hold on,plot(tend,DesvEstandarMuestral(33751:end),'-r','LineWidth',3)
+grid on, axis tight,title('Evolución de la media y la stdev muestral (insesgada) para la Actividad 6'), xlabel('Tiempo (segundos)')
+legend('','','','','','','','','','','','','MediaMuestral','Desviacion estandar')
+% subplot(2,1,1),plot(t,MediaMuestral),grid on, axis tight
+% xlabel('Tiempo (segundos)'), title('Media y varianza muestral de las 12 realizaciones'),legend('Media'),
+% subplot(2,1,2),plot(t,VarianzaMuestral,'-r'),grid on, axis tight
+% xlabel('Tiempo (segundos)'),legend('Varianza')
