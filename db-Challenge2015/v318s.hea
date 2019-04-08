@@ -1,0 +1,7 @@
+v318s 4 250 75000
+v318s.mat 16+24 5311/mV 16 0 895 -27720 0 II
+v318s.mat 16+24 2907/mV 16 0 -272 -3760 0 V
+v318s.mat 16+24 2870/NU 16 0 5124 5355 0 PLETH
+v318s.mat 16+24 52.08/mmHg 16 0 4151 -15520 0 ABP
+#Ventricular_Tachycardia
+#True alarm

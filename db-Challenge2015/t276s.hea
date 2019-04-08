@@ -1,0 +1,7 @@
+t276s 4 250 75000
+t276s.mat 16+24 4828/mV 16 0 2053 -6139 0 II
+t276s.mat 16+24 6178/mV 16 0 3259 -326 0 V
+t276s.mat 16+24 60.52/mmHg 16 0 2553 -29100 0 ABP
+t276s.mat 16+24 2920/NU 16 0 844 -16946 0 RESP
+#Tachycardia
+#True alarm

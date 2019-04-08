@@ -1,0 +1,7 @@
+b494s 4 250 75000
+b494s.mat 16+24 2416/mV 16 0 -437 20883 0 II
+b494s.mat 16+24 2314/mV 16 0 -219 -12303 0 V
+b494s.mat 16+24 65.54/mmHg 16 0 5633 -6227 0 ABP
+b494s.mat 16+24 9052/NU 16 0 4402 2933 0 RESP
+#Bradycardia
+#True alarm

@@ -1,0 +1,7 @@
+a608s 4 250 75000
+a608s.mat 16+24 1865/mV 16 0 0 0 0 II
+a608s.mat 16+24 3279/mV 16 0 0 0 0 V
+a608s.mat 16+24 1402/NU 16 0 3021 -7843 0 PLETH
+a608s.mat 16+24 8.225e+04/NU 16 0 -32768 0 0 RESP
+#Asystole
+#False alarm

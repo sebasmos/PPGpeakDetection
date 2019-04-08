@@ -1,0 +1,7 @@
+b486s 4 250 75000
+b486s.mat 16+24 1.315e+04/mV 16 0 -1432 15884 0 II
+b486s.mat 16+24 3483/mV 16 0 -966 8750 0 V
+b486s.mat 16+24 1043/NU 16 0 700 6781 0 PLETH
+b486s.mat 16+24 5758/mmHg 16 0 32767 -9464 0 ABP
+#Bradycardia
+#False alarm

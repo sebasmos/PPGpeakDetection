@@ -1,0 +1,6 @@
+v834s 3 250 75000
+v834s.mat 16+24 3146/mV 16 0 4000 -3429 0 II
+v834s.mat 16+24 3701/mV 16 0 3527 -25380 0 MCL
+v834s.mat 16+24 1.363e+04/NU 16 0 5132 27787 0 PLETH
+#Ventricular_Tachycardia
+#False alarm

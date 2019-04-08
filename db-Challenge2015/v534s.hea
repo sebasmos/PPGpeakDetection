@@ -1,0 +1,7 @@
+v534s 4 250 75000
+v534s.mat 16+24 1947/mV 16 0 225 -7392 0 II
+v534s.mat 16+24 1695/mV 16 0 -690 -1651 0 V
+v534s.mat 16+24 1550/NU 16 0 3170 31593 0 PLETH
+v534s.mat 16+24 2.316e+04/NU 16 0 157 30187 0 RESP
+#Ventricular_Tachycardia
+#True alarm

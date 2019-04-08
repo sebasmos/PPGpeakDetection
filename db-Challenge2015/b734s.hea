@@ -1,0 +1,6 @@
+b734s 3 250 75000
+b734s.mat 16+24 5340/mV 16 0 -450 -3154 0 II
+b734s.mat 16+24 5715/mV 16 0 -71 28071 0 V
+b734s.mat 16+24 1275/NU 16 0 13 27494 0 PLETH
+#Bradycardia
+#True alarm

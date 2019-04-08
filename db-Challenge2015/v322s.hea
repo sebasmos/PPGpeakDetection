@@ -1,0 +1,6 @@
+v322s 3 250 75000
+v322s.mat 16+24 7005/mV 16 0 -121 31215 0 II
+v322s.mat 16+24 1973/mV 16 0 625 29153 0 V
+v322s.mat 16+24 4664/NU 16 0 -1571 -12906 0 PLETH
+#Ventricular_Tachycardia
+#False alarm

@@ -1,0 +1,7 @@
+f236s 4 250 75000
+f236s.mat 16+24 2992/mV 16 0 -1349 -30966 0 II
+f236s.mat 16+24 3088/mV 16 0 5299 -32557 0 V
+f236s.mat 16+24 43.71/mmHg 16 0 1673 -3026 0 ABP
+f236s.mat 16+24 4099/NU 16 0 1109 17100 0 RESP
+#Ventricular_Flutter_Fib
+#False alarm

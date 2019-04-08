@@ -1,0 +1,7 @@
+t719l 4 250 82500
+t719l.mat 16+24 2857/mV 16 0 -201 19535 0 II
+t719l.mat 16+24 9451/mV 16 0 4135 25422 0 V
+t719l.mat 16+24 47.19/mmHg 16 0 885 -1666 0 ABP
+t719l.mat 16+24 2536/NU 16 0 -197 -5346 0 RESP
+#Tachycardia
+#True alarm

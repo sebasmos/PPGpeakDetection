@@ -1,0 +1,6 @@
+b820s 3 250 75000
+b820s.mat 16+24 7150/mV 16 0 0 -8713 0 II
+b820s.mat 16+24 1.193e+04/mV 16 0 4112 22429 0 V
+b820s.mat 16+24 8841/NU 16 0 4854 -27445 0 PLETH
+#Bradycardia
+#True alarm

@@ -1,0 +1,6 @@
+b308s 3 250 75000
+b308s.mat 16+24 1603/mV 16 0 -139 -22669 0 II
+b308s.mat 16+24 1431/mV 16 0 0 0 0 V
+b308s.mat 16+24 5412/NU 16 0 1755 1892 0 PLETH
+#Bradycardia
+#False alarm

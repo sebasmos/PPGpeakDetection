@@ -1,0 +1,6 @@
+v454s 3 250 75000
+v454s.mat 16+24 1.192e+04/mV 16 0 -1625 -4009 0 II
+v454s.mat 16+24 686.5/mV 16 0 -2090 3485 0 V
+v454s.mat 16+24 1401/NU 16 0 -1815 12816 0 PLETH
+#Ventricular_Tachycardia
+#False alarm

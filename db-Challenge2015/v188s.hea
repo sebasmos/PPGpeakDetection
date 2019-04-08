@@ -1,0 +1,7 @@
+v188s 4 250 75000
+v188s.mat 16+24 1171/mV 16 0 -183 -14125 0 II
+v188s.mat 16+24 4719/mV 16 0 210 -27061 0 V
+v188s.mat 16+24 1015/NU 16 0 -80 -25656 0 PLETH
+v188s.mat 16+24 3573/NU 16 0 -221 7511 0 RESP
+#Ventricular_Tachycardia
+#True alarm

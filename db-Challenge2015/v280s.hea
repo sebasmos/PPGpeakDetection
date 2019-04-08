@@ -1,0 +1,6 @@
+v280s 3 250 75000
+v280s.mat 16+24 8535/mV 16 0 4686 -21039 0 II
+v280s.mat 16+24 9693/mV 16 0 7646 -9941 0 V
+v280s.mat 16+24 7150/NU 16 0 1991 -26914 0 PLETH
+#Ventricular_Tachycardia
+#False alarm

@@ -1,0 +1,7 @@
+f415l 4 250 82500
+f415l.mat 16+24 1.411e+04/mV 16 0 9480 -8773 0 II
+f415l.mat 16+24 6142/mV 16 0 4450 -25960 0 V
+f415l.mat 16+24 7896/NU 16 0 6255 -7677 0 PLETH
+f415l.mat 16+24 3170/NU 16 0 -59 -3664 0 RESP
+#Ventricular_Flutter_Fib
+#False alarm

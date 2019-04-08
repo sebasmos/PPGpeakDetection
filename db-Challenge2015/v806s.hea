@@ -1,0 +1,6 @@
+v806s 3 250 75000
+v806s.mat 16+24 1.176e+04/mV 16 0 2777 -20223 0 II
+v806s.mat 16+24 8273/mV 16 0 7497 7635 0 V
+v806s.mat 16+24 1.237e+04/NU 16 0 6308 -28447 0 PLETH
+#Ventricular_Tachycardia
+#True alarm

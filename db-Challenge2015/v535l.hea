@@ -1,0 +1,7 @@
+v535l 4 250 82500
+v535l.mat 16+24 806.5/mV 16 0 -105 17155 0 II
+v535l.mat 16+24 2371/mV 16 0 82 -11981 0 V
+v535l.mat 16+24 1918/NU 16 0 4617 1321 0 PLETH
+v535l.mat 16+24 36.32/mmHg 16 0 32767 -16964 0 ABP
+#Ventricular_Tachycardia
+#False alarm

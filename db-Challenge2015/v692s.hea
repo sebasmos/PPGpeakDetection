@@ -1,0 +1,7 @@
+v692s 4 250 75000
+v692s.mat 16+24 6546/mV 16 0 -20 26106 0 II
+v692s.mat 16+24 1.032e+04/mV 16 0 -206 7404 0 V
+v692s.mat 16+24 3636/NU 16 0 8074 4080 0 PLETH
+v692s.mat 16+24 2.296e+04/NU 16 0 58 12519 0 RESP
+#Ventricular_Tachycardia
+#False alarm

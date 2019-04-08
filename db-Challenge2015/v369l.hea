@@ -1,0 +1,6 @@
+v369l 3 250 82500
+v369l.mat 16+24 1.079e+04/mV 16 0 508 98 0 II
+v369l.mat 16+24 1.301e+04/mV 16 0 -644 5348 0 V
+v369l.mat 16+24 6159/NU 16 0 -2043 21674 0 PLETH
+#Ventricular_Tachycardia
+#True alarm

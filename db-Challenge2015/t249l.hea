@@ -1,0 +1,7 @@
+t249l 4 250 82500
+t249l.mat 16+24 1048/mV 16 0 484 -2820 0 II
+t249l.mat 16+24 1897/mV 16 0 12 2804 0 V
+t249l.mat 16+24 3410/NU 16 0 6273 5660 0 PLETH
+t249l.mat 16+24 109.3/mmHg 16 0 6470 5187 0 ABP
+#Tachycardia
+#True alarm

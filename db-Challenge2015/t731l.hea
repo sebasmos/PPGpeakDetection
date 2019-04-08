@@ -1,0 +1,7 @@
+t731l 4 250 82500
+t731l.mat 16+24 1855/mV 16 0 -35 31203 0 II
+t731l.mat 16+24 4588/mV 16 0 323 -3849 0 V
+t731l.mat 16+24 2054/NU 16 0 3952 -25499 0 PLETH
+t731l.mat 16+24 82.26/mmHg 16 0 3721 -8958 0 ABP
+#Tachycardia
+#True alarm

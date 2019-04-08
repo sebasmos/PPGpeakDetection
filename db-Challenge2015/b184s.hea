@@ -1,0 +1,6 @@
+b184s 3 250 75000
+b184s.mat 16+24 1.008e+04/mV 16 0 -749 10480 0 II
+b184s.mat 16+24 883.1/mV 16 0 20 -32405 0 V
+b184s.mat 16+24 2590/NU 16 0 2007 2189 0 PLETH
+#Bradycardia
+#False alarm

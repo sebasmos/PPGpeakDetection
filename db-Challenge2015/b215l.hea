@@ -1,0 +1,7 @@
+b215l 4 250 82500
+b215l.mat 16+24 6818/mV 16 0 -236 4104 0 II
+b215l.mat 16+24 1739/mV 16 0 99 12175 0 V
+b215l.mat 16+24 2180/NU 16 0 2192 24064 0 PLETH
+b215l.mat 16+24 6582/mmHg 16 0 -32768 0 0 ABP
+#Bradycardia
+#False alarm

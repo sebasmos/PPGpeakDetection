@@ -1,0 +1,7 @@
+v770s 4 250 75000
+v770s.mat 16+24 2282/mV 16 0 1117 7620 0 II
+v770s.mat 16+24 4216/mV 16 0 -667 -25707 0 V
+v770s.mat 16+24 3578/NU 16 0 6841 18744 0 PLETH
+v770s.mat 16+24 4.66e+04/NU 16 0 -694 15608 0 RESP
+#Ventricular_Tachycardia
+#False alarm

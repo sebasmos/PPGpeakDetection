@@ -1,0 +1,7 @@
+v146s 4 250 75000
+v146s.mat 16+24 4574/mV 16 0 -68 -6820 0 II
+v146s.mat 16+24 1004/mV 16 0 -485 1273 0 V
+v146s.mat 16+24 686.4/NU 16 0 598 29942 0 PLETH
+v146s.mat 16+24 886.5/NU 16 0 -83 10905 0 RESP
+#Ventricular_Tachycardia
+#False alarm

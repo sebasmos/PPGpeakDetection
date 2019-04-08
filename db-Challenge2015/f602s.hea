@@ -1,0 +1,6 @@
+f602s 3 250 75000
+f602s.mat 16+24 5100/mV 16 0 2191 17723 0 II
+f602s.mat 16+24 9799/mV 16 0 9954 -23067 0 V
+f602s.mat 16+24 1.698e+04/NU 16 0 8987 -3264 0 PLETH
+#Ventricular_Flutter_Fib
+#False alarm

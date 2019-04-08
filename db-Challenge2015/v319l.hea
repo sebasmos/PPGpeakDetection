@@ -1,0 +1,7 @@
+v319l 4 250 82500
+v319l.mat 16+24 2466/mV 16 0 180 3927 0 II
+v319l.mat 16+24 2520/mV 16 0 -112 -5219 0 V
+v319l.mat 16+24 6021/NU 16 0 11398 9676 0 PLETH
+v319l.mat 16+24 98.1/mmHg 16 0 5519 -11791 0 ABP
+#Ventricular_Tachycardia
+#False alarm

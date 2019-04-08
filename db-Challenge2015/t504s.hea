@@ -1,0 +1,7 @@
+t504s 4 250 75000
+t504s.mat 16+24 5569/mV 16 0 -288 -18346 0 II
+t504s.mat 16+24 9107/mV 16 0 -90 -4932 0 V
+t504s.mat 16+24 1368/NU 16 0 2186 -21921 0 PLETH
+t504s.mat 16+24 2.901e+04/NU 16 0 -138 -6021 0 RESP
+#Tachycardia
+#False alarm

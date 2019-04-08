@@ -1,0 +1,7 @@
+b339l 4 250 82500
+b339l.mat 16+24 1.22e+04/mV 16 0 967 31357 0 II
+b339l.mat 16+24 1.807e+04/mV 16 0 45 -11100 0 V
+b339l.mat 16+24 5929/NU 16 0 1277 -800 0 PLETH
+b339l.mat 16+24 5457/mmHg 16 0 32767 -16964 0 ABP
+#Bradycardia
+#False alarm
