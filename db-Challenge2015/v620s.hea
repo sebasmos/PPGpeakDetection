@@ -1,0 +1,7 @@
+v620s 4 250 75000
+v620s.mat 16+24 7706/mV 16 0 44 -1173 0 II
+v620s.mat 16+24 8303/mV 16 0 -222 18987 0 V
+v620s.mat 16+24 6088/NU 16 0 12868 22132 0 PLETH
+v620s.mat 16+24 111.3/mmHg 16 0 4670 -26815 0 ABP
+#Ventricular_Tachycardia
+#False alarm

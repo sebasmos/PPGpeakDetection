@@ -67,9 +67,9 @@ function [ErroresTotales] = findErrors(Activity1,Activity2,Activity3,Activity4,A
     ECGPPG6 = 100*abs(length(LOCS6Original)-length(ECG6Locs))./length(ECG6Locs);
     ErrorECGPPG = [ECGPPG1 ECGPPG2 ECGPPG3 ECGPPG4 ECGPPG5 ECGPPG6];
     % PEAKS NUMBER
-    PeaksECG = [length(ECG1Locs) length(ECG2Locs) length(ECG3Locs) length(ECG4Locs) length(ECG5Locs) length(ECG6Locs)]
     FindPeaksOriginalPeaks = [length(LOCS1Original) length(LOCS2Original) length(LOCS3Original) length(LOCS4Original) length(LOCS5Original) length(LOCS6Original)]
     FindPeakDenoisedPeaks = [length(LOCS1Cleaned) length(LOCS2Cleaned) length(LOCS3Cleaned) length(LOCS4Cleaned) length(LOCS5Cleaned) length(LOCS6Cleaned)] 
-    disp('CALCULO % ERRORES: Fila 1 (PPGvsDPPG),, Fila 2 (DPPGvsECG), Fila 3 (PPGvsECG)')
-    ErroresTotales = [ErrorFromFindPeaks;ErrorECGDPPG;ErrorECGPPG]
+    PeaksECG = [length(ECG1Locs) length(ECG2Locs) length(ECG3Locs) length(ECG4Locs) length(ECG5Locs) length(ECG6Locs)]
+    disp('CALCULO % ERRORES: Fila 1 (PPGvsDPPG),Fila 2 (PPGvsECG), Fila 3 (DPPGvsECG)')
+    ErroresTotales = [ErrorFromFindPeaks;ErrorECGPPG;ErrorECGDPPG]
 end

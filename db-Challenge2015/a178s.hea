@@ -1,0 +1,7 @@
+a178s 4 250 75000
+a178s.mat 16+24 2808/mV 16 0 -5029 2321 0 II
+a178s.mat 16+24 6357/mV 16 0 0 0 0 V
+a178s.mat 16+24 4355/NU 16 0 9300 7988 0 PLETH
+a178s.mat 16+24 57.74/mmHg 16 0 3187 -29820 0 ABP
+#Asystole
+#False alarm

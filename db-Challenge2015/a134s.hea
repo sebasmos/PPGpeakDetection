@@ -1,0 +1,7 @@
+a134s 4 250 75000
+a134s.mat 16+24 1327/mV 16 0 453 -9495 0 II
+a134s.mat 16+24 1881/mV 16 0 503 8530 0 V
+a134s.mat 16+24 3669/NU 16 0 -272 95 0 PLETH
+a134s.mat 16+24 189.2/mmHg 16 0 1265 28881 0 ABP
+#Asystole
+#False alarm

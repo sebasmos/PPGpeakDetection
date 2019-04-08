@@ -1,0 +1,7 @@
+f440s 4 250 75000
+f440s.mat 16+24 1.012e+04/mV 16 0 3293 3174 0 I
+f440s.mat 16+24 4630/mV 16 0 2052 1099 0 II
+f440s.mat 16+24 39.66/mmHg 16 0 2194 145 0 ABP
+f440s.mat 16+24 2543/NU 16 0 -315 6665 0 RESP
+#Ventricular_Flutter_Fib
+#False alarm

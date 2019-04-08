@@ -1,0 +1,6 @@
+t350s 3 250 75000
+t350s.mat 16+24 1.153e+04/mV 16 0 -363 -7462 0 II
+t350s.mat 16+24 8304/mV 16 0 843 -19441 0 III
+t350s.mat 16+24 1.384e+04/NU 16 0 6404 3142 0 PLETH
+#Tachycardia
+#True alarm

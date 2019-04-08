@@ -1,0 +1,7 @@
+b332s 4 250 75000
+b332s.mat 16+24 1179/mV 16 0 64 -1742 0 II
+b332s.mat 16+24 1568/mV 16 0 361 23428 0 V
+b332s.mat 16+24 1228/NU 16 0 -1800 -2091 0 PLETH
+b332s.mat 16+24 39.76/mmHg 16 0 4834 12377 0 ABP
+#Bradycardia
+#False alarm

@@ -1,0 +1,6 @@
+v574s 3 250 75000
+v574s.mat 16+24 9007/mV 16 0 6525 -13711 0 II
+v574s.mat 16+24 6796/mV 16 0 5681 24593 0 V
+v574s.mat 16+24 1.434e+04/NU 16 0 6075 18954 0 PLETH
+#Ventricular_Tachycardia
+#True alarm

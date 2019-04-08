@@ -1,0 +1,7 @@
+f190s 4 250 75000
+f190s.mat 16+24 1612/mV 16 0 -100 -15330 0 II
+f190s.mat 16+24 1715/mV 16 0 119 -14797 0 V
+f190s.mat 16+24 993.9/NU 16 0 512 13702 0 PLETH
+f190s.mat 16+24 1303/NU 16 0 206 -22996 0 RESP
+#Ventricular_Flutter_Fib
+#False alarm

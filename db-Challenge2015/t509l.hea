@@ -1,0 +1,6 @@
+t509l 3 250 82500
+t509l.mat 16+24 6074/mV 16 0 782 -21042 0 II
+t509l.mat 16+24 7867/mV 16 0 5271 -27780 0 V
+t509l.mat 16+24 8054/NU 16 0 3379 20920 0 PLETH
+#Tachycardia
+#True alarm

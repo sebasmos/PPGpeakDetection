@@ -1,0 +1,6 @@
+t580s 3 250 75000
+t580s.mat 16+24 4181/mV 16 0 877 19950 0 II
+t580s.mat 16+24 5334/mV 16 0 6604 -30351 0 V
+t580s.mat 16+24 7203/NU 16 0 4492 23634 0 PLETH
+#Tachycardia
+#True alarm

@@ -1,0 +1,6 @@
+v590s 3 250 75000
+v590s.mat 16+24 3221/mV 16 0 1887 18467 0 II
+v590s.mat 16+24 8419/mV 16 0 6603 -13729 0 V
+v590s.mat 16+24 7323/NU 16 0 3590 16064 0 PLETH
+#Ventricular_Tachycardia
+#False alarm

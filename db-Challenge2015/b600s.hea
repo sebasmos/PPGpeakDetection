@@ -1,0 +1,7 @@
+b600s 4 250 75000
+b600s.mat 16+24 1202/mV 16 0 -173 -353 0 II
+b600s.mat 16+24 1450/mV 16 0 7 -21235 0 V
+b600s.mat 16+24 1265/NU 16 0 1629 -9740 0 PLETH
+b600s.mat 16+24 26.98/mmHg 16 0 1737 25082 0 ABP
+#Bradycardia
+#False alarm

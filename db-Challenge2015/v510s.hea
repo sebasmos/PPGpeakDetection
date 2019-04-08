@@ -1,0 +1,7 @@
+v510s 4 250 75000
+v510s.mat 16+24 1500/mV 16 0 -32 15758 0 II
+v510s.mat 16+24 2035/mV 16 0 1155 -17464 0 V
+v510s.mat 16+24 1437/NU 16 0 1896 -6338 0 PLETH
+v510s.mat 16+24 9945/NU 16 0 -1294 18362 0 RESP
+#Ventricular_Tachycardia
+#False alarm

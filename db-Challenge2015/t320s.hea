@@ -1,0 +1,6 @@
+t320s 3 250 75000
+t320s.mat 16+24 5830/mV 16 0 2915 -27379 0 II
+t320s.mat 16+24 5152/mV 16 0 2758 -1953 0 III
+t320s.mat 16+24 6972/NU 16 0 4457 -8874 0 PLETH
+#Tachycardia
+#True alarm

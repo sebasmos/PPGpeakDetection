@@ -1,0 +1,7 @@
+a778s 4 250 75000
+a778s.mat 16+24 897.8/mV 16 0 -133 -13231 0 II
+a778s.mat 16+24 672.1/mV 16 0 0 -27879 0 V
+a778s.mat 16+24 1702/NU 16 0 1888 -1367 0 PLETH
+a778s.mat 16+24 8052/mmHg 16 0 -32768 0 0 ABP
+#Asystole
+#False alarm

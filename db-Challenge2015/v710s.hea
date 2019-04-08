@@ -1,0 +1,6 @@
+v710s 3 250 75000
+v710s.mat 16+24 1.097e+04/mV 16 0 5724 -6441 0 II
+v710s.mat 16+24 1.33e+04/mV 16 0 4456 8865 0 V
+v710s.mat 16+24 1.061e+04/NU 16 0 8700 -8424 0 PLETH
+#Ventricular_Tachycardia
+#False alarm

@@ -1,0 +1,6 @@
+t693l 3 250 82500
+t693l.mat 16+24 6151/mV 16 0 4359 -29986 0 aVF
+t693l.mat 16+24 8442/mV 16 0 6529 -29494 0 V
+t693l.mat 16+24 1.323e+04/NU 16 0 7525 5028 0 PLETH
+#Tachycardia
+#True alarm

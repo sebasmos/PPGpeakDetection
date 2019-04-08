@@ -1,0 +1,7 @@
+t174s 4 250 75000
+t174s.mat 16+24 3576/mV 16 0 27 -13446 0 II
+t174s.mat 16+24 4387/mV 16 0 142 -9492 0 V
+t174s.mat 16+24 6568/NU 16 0 11877 8159 0 PLETH
+t174s.mat 16+24 77.31/mmHg 16 0 3566 147 0 ABP
+#Tachycardia
+#True alarm

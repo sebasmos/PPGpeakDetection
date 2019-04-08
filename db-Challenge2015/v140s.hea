@@ -1,0 +1,7 @@
+v140s 4 250 75000
+v140s.mat 16+24 4301/mV 16 0 -139 -9630 0 II
+v140s.mat 16+24 4713/mV 16 0 490 31611 0 V
+v140s.mat 16+24 2119/NU 16 0 2246 11804 0 PLETH
+v140s.mat 16+24 79.76/mmHg 16 0 6734 1961 0 ABP
+#Ventricular_Tachycardia
+#False alarm

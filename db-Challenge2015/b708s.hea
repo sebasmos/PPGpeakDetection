@@ -1,0 +1,7 @@
+b708s 4 250 75000
+b708s.mat 16+24 7128/mV 16 0 898 -15471 0 II
+b708s.mat 16+24 8774/mV 16 0 138 -10776 0 V
+b708s.mat 16+24 77.04/mmHg 16 0 8065 20221 0 ABP
+b708s.mat 16+24 4224/NU 16 0 0 -30884 0 RESP
+#Bradycardia
+#True alarm

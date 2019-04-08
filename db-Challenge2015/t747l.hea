@@ -1,0 +1,6 @@
+t747l 3 250 82500
+t747l.mat 16+24 5050/mV 16 0 3235 -17207 0 II
+t747l.mat 16+24 2073/mV 16 0 2025 -22420 0 V
+t747l.mat 16+24 1.474e+04/NU 16 0 7744 18909 0 PLETH
+#Tachycardia
+#True alarm

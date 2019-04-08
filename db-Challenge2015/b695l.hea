@@ -1,0 +1,7 @@
+b695l 4 250 82500
+b695l.mat 16+24 5099/mV 16 0 265 -31386 0 II
+b695l.mat 16+24 1175/mV 16 0 3 -25396 0 V
+b695l.mat 16+24 1181/NU 16 0 0 1726 0 PLETH
+b695l.mat 16+24 512.7/mmHg 16 0 -2666 16668 0 ABP
+#Bradycardia
+#False alarm

@@ -1,0 +1,6 @@
+b124s 3 250 75000
+b124s.mat 16+24 6895/mV 16 0 -273 27778 0 II
+b124s.mat 16+24 1.284e+04/mV 16 0 1145 11233 0 V
+b124s.mat 16+24 1958/NU 16 0 -145 -23240 0 PLETH
+#Bradycardia
+#True alarm

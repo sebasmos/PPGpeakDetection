@@ -1,0 +1,6 @@
+f530s 3 250 75000
+f530s.mat 16+24 407.4/mV 16 0 0 -29820 0 II
+f530s.mat 16+24 423.2/mV 16 0 0 0 0 V
+f530s.mat 16+24 1.358e+04/mmHg 16 0 -32768 0 0 ABP
+#Ventricular_Flutter_Fib
+#False alarm

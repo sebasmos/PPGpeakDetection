@@ -1,0 +1,7 @@
+f352s 4 250 75000
+f352s.mat 16+24 6692/mV 16 0 2055 -13932 0 II
+f352s.mat 16+24 2234/mV 16 0 586 -11592 0 V
+f352s.mat 16+24 5884/NU 16 0 -787 -21849 0 PLETH
+f352s.mat 16+24 42.97/mmHg 16 0 4840 -13432 0 ABP
+#Ventricular_Flutter_Fib
+#False alarm

@@ -1,0 +1,6 @@
+t106s 3 250 75000
+t106s.mat 16+24 4832/mV 16 0 1560 7209 0 II
+t106s.mat 16+24 8249/mV 16 0 3416 174 0 III
+t106s.mat 16+24 1.596e+04/NU 16 0 7071 -22447 0 PLETH
+#Tachycardia
+#True alarm

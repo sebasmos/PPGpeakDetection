@@ -1,0 +1,7 @@
+f407l 4 250 82500
+f407l.mat 16+24 2564/mV 16 0 -60 -23073 0 II
+f407l.mat 16+24 3195/mV 16 0 115 -25726 0 V
+f407l.mat 16+24 6461/NU 16 0 13308 -16307 0 PLETH
+f407l.mat 16+24 82.04/mmHg 16 0 3414 4950 0 ABP
+#Ventricular_Flutter_Fib
+#False alarm

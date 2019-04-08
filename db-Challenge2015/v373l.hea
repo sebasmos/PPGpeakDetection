@@ -1,0 +1,7 @@
+v373l 4 250 82500
+v373l.mat 16+24 5697/mV 16 0 -494 25438 0 II
+v373l.mat 16+24 1898/mV 16 0 57 9118 0 V
+v373l.mat 16+24 1525/NU 16 0 1394 28139 0 PLETH
+v373l.mat 16+24 62.7/mmHg 16 0 3445 3889 0 ABP
+#Ventricular_Tachycardia
+#False alarm

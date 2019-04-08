@@ -1,0 +1,6 @@
+v773l 3 250 82500
+v773l.mat 16+24 5806/mV 16 0 -366 22031 0 II
+v773l.mat 16+24 2800/mV 16 0 2340 28052 0 V
+v773l.mat 16+24 9200/NU 16 0 5231 29660 0 PLETH
+#Ventricular_Tachycardia
+#True alarm
