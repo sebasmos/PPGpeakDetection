@@ -10,7 +10,7 @@ Signal = Signal.val;
 %% Size sample to analyse
 m = 3750;
 % Sample Frequency
-    Fs = 125;
+    Fs = 250;
 % Physical Conversion and Normalization
 for i=1:3
     Signal1(i,:) = (Signal(i,:)-125)/255;
