@@ -7,6 +7,8 @@ addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\P
 [mediamuestral,TamRealizaciones]=GetAveragedNoise();
 Signal = load("a103l");
 Signal = Signal.val;
+%% Size sample to analyse
+m = 3750;
 % Sample Frequency
     Fs = 125;
 % Physical Conversion and Normalization
@@ -38,14 +40,23 @@ Act1Noise = mediamuestral(1:3750);
 Act2Noise = mediamuestral(3751:11250);
 DetrendedECG1 = SignalTotal(1,:)-Detrending(SignalTotal(1,:),10);
 DetrendedECG2 = SignalTotal(2,:)-Detrending(SignalTotal(2,:),10);
+DetrendedPPG = Signal3;
 % Corrupt Signals
 CorruptedECG1 = DetrendedECG1(1:3750) + Act1Noise;
 CorruptedECG2 = DetrendedECG2(1:7500) + Act2Noise;
-
+CorruptedPPG  = DetrendedPPG(1:3750)  + Act1Noise;
+%% Peaks detection in corrupted signal
+[CorruptedA1,CorruptedA2] = GetPeakPoints(CorruptedECG1(1,:),Fs,0.01,0.6,0.006,0.48);
+[CorruptedB1,CorruptedB2] = GetPeakPoints(CorruptedECG2(1,:),Fs,0.01,0.6,0.006,0.48);
+[CorruptedC1,CorruptedC2] = GetPeakPoints(s3(1,:),Fs,0.11,0.6,0.001,0.46);
  %% Plotting articial dataset
 figure
 t=(0:length(mediamuestral(1:3750))-1)/Fs;
-plot(t,SignalTotal(1,(1:3750)),t,CorruptedECG1(1:3750)),hold on,title('ACTIVITY 1 (Resting): Final Artificial dataset with arrhythmia'),ylabel('Magnitude'), xlabel('Time (s)'),grid on, axis tight,
+plot(t,SignalTotal(1,(1:3750)),t,CorruptedECG1(1:3750)),hold on,title('ACTIVITY 1 (Resting): ECG Final Artificial dataset with arrhythmia'),ylabel('Magnitude'), xlabel('Time (s)'),grid on, axis tight,
+legend('Original Signal','Corrupted Signal')
+figure
+t=(0:length(mediamuestral(1:3750))-1)/Fs;
+plot(t,SignalTotal(3,(1:3750)),t,CorruptedPPG(1:3750)),hold on,title('ACTIVITY 1 (Resting): PPG Final Artificial dataset with arrhythmia'),ylabel('Magnitude'), xlabel('Time (s)'),grid on, axis tight,
 legend('Original Signal','Corrupted Signal')
 figure
 t=(0:length(mediamuestral(1:7500))-1)/Fs;
