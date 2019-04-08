@@ -52,3 +52,4 @@ t=(0:length(mediamuestral(1:7500))-1)/Fs;
 plot(t,SignalTotal(1,(1:7500)),t,CorruptedECG2(1:7500)),hold on,title('ACTIVITY 2 (Running): Final Artificial dataset with arrhythmia'),ylabel('Magnitude'), xlabel('Time (s)'),grid on, axis tight,
 legend('Original Signal','Corrupted Signal')
 
+
