@@ -121,14 +121,34 @@ YRealization1=fft(sNorm(Realization,:));
 P1=abs(YRealization1/length(sNorm));
 EspectroRealizacion1=P1(1:length(sNorm)/2+1);
 EspectroRealizacion1(2:end-1) = 2*EspectroRealizacion1(2:end-1);
-figure(3), plot(ftotal,EspectroRealizacion1),grid on, xlabel('Frequency(Hz)'),axis([0 8 0 0.01]), title('Frequency spectrum of realization 1'),hold on
+
 %Filtramos el ruido de altas frecuencias de la realización
-RealizacionFiltrada=sgolayfilt(sNorm(Realization,:),3,41);
+sfilt=sgolayfilt(sNorm(Realization,:),3,41);
+RealizacionFiltrada=hampel(sfilt,5,2);
+
 %Transformada de Fourier para la señal filtrada
-P1=abs(RealizacionFiltrada/length(sNorm));
-EspectroRealizacion1Filtrado=P1(1:length(sNorm)/2+1);
+YRealizacionFiltrada=fft(RealizacionFiltrada);
+%Dominio de frecuencia  para la gráfica
+P2=abs(YRealizacionFiltrada/length(sNorm));
+EspectroRealizacion1Filtrado=P2(1:length(sNorm)/2+1);
 EspectroRealizacion1Filtrado(2:end-1) = 2*EspectroRealizacion1Filtrado(2:end-1);
-plot(ftotal,EspectroRealizacion1Filtrado),legend('Realización 1 sin filtrar','Realización 1 filtrada con Saviztky-Golay')
+
+%Restamos la señal limpia de la señal con ruido
+RuidoRealizacion1=sNorm(Realization,:)-RealizacionFiltrada;
+
+%Transformada de Fourier para la señal filtrada
+YRuidoRealizacion1=fft(RuidoRealizacion1);
+P3=abs(YRuidoRealizacion1/length(sNorm));
+EspectroRuidoRealizacion1=P3(1:length(sNorm)/2+1);
+EspectroRuidoRealizacion1(2:end-1) = 2*EspectroRuidoRealizacion1(2:end-1);
+
+
+figure(3), plot(ftotal,EspectroRealizacion1),grid on, xlabel('Frequency(Hz)'),axis([0 8 0 0.01]), title('Frequency spectrum of realization 1'),hold on,
+plot(ftotal,EspectroRealizacion1Filtrado),legend('Realización 1 unfiltered','Realización 1 filtered w/Saviztky-Golay')
+
+figure(4),plot(ftotal,EspectroRealizacion1),grid on, xlabel('Frequency(Hz)'),axis([ 0 8 0 0.01]), title('Frequency spectrum comparation'), hold on,
+plot(ftotal,EspectroRuidoRealizacion1),legend('Realizacion 1 unfiltered ','High-frequency noise spectrum')
+
 %% Transformada de Fourier de las actividades tipo 1
 
 for i=1:12
@@ -168,15 +188,7 @@ pwelch(sNorm',w,Npuntos/2,Npuntos,Fs)
 % ylabel('Power Spectrum ')
 % grid on
 % axis tight
-%%
-s2filt=sgolayfilt(sNorm,3,41);
-[Pf,Ff]=pwelch(s2filt,w,Npuntos/2,Npuntos,Fs);
 
-
-hold on,
-pwelch(s2filt,w,Npuntos/2,Npuntos,Fs),
-legend('normal','filtrado')
-title('comparacion de potencia normal y filtrado up/down ')
 %%
 % figure(2)
 % plot(t,sNorm),hold on, plot(t,s2filt)
