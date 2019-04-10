@@ -1,0 +1,31 @@
+function [ECGIND,PPGIND]=GetConfussionValues(window,LOCSECG,LOCSPPG,L,Fs)
+    limiteinf=0;
+    limitesup=window;
+    i=1;
+    ECGIND=zeros(1,floor(L/(Fs*window)));
+    PPGIND=zeros(1,floor(L/(Fs*window)));
+    while(limitesup<=(L/Fs))
+        for j=1:length(LOCSECG)
+          if(LOCSECG(j)>limiteinf && LOCSECG(j)<limitesup)
+                ECGIND(i)=ECGIND(i)+1;
+          end  
+        end
+        for j=1:length(LOCSPPG)
+          if(LOCSPPG(j)>limiteinf && LOCSPPG(j)<limitesup)
+                PPGIND(i)=PPGIND(i)+1;
+          end  
+        end
+        limiteinf=limiteinf+window;
+        limitesup=limitesup+window;
+        i=i+1;
+    end
+  
+   for j=1:length(ECGIND)
+       if(ECGIND==1 && PPGIND==1)
+       end
+       if(ECGIND==1 && PPGIND==0)
+       end
+       if
+   end
+end
+

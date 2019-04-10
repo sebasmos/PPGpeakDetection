@@ -201,12 +201,7 @@ W6=(mean(diff(ECG6Locs)))/2;
 
 %Para la señal Original
 ParametersMatrixOriginal=[];
-ParametersMatrixOriginal(1,(1:4))=GetConfussionValues(W1,ECG1Locs,NewLOCSPPG1Original,length(Activity1(j,:)),Fs);
-ParametersMatrixOriginal(2,(1:4))=GetConfussionValues(W2,ECG2Locs,NewLOCSPPG2Original,length(Activity2(j,:)),Fs);
-ParametersMatrixOriginal(3,(1:4))=GetConfussionValues(W3,ECG3Locs,NewLOCSPPG3Original,length(Activity3(j,:)),Fs);
-ParametersMatrixOriginal(4,(1:4))=GetConfussionValues(W4,ECG4Locs,NewLOCSPPG4Original,length(Activity4(j,:)),Fs);
-ParametersMatrixOriginal(5,(1:4))=GetConfussionValues(W5,ECG5Locs,NewLOCSPPG5Original,length(Activity5(j,:)),Fs);
-ParametersMatrixOriginal(6,(1:4))=GetConfussionValues(W6,ECG6Locs,NewLOCSPPG6Original,length(Activity6(j,:)),Fs);
+ParametersMatrixOriginal(1,(1:4))=GetConfussionValues(W1,ECG1Locs,NewLOCSPPG1Cleaned,length(Activity1(1,:)),Fs);
 
 
 
