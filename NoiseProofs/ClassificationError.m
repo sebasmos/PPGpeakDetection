@@ -12,9 +12,7 @@ addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/Gen
 [mediamuestral,TamRealizaciones]=GetAveragedNoise();
 j = 1; %IMPORTANT!!! change this parameter to obtain errors from 
           %different realizations
-%% CLASSIFICATION ERROR FOR SAVITZKY GOLAY NOISE APPROXIMATION
-%% Parameters for findpeaks Function
-% PARAMETERS FOR PPG SIGNAL
+%% PARAMETERS FOR PPG SIGNAL
 % MinPeakWidth
 MinPeakWidthRest1 = 0.11;
 MinPeakWidthRun_2 = 0.01;
@@ -208,6 +206,14 @@ ParametersMatrixOriginal(4,(1:4))=GetConfussionValues(W4,ECG4Locs,NewLOCSPPG4Ori
 ParametersMatrixOriginal(5,(1:4))=GetConfussionValues(W5,ECG5Locs,NewLOCSPPG5Original,length(Activity5(j,:)),Fs);
 ParametersMatrixOriginal(6,(1:4))=GetConfussionValues(W6,ECG6Locs,NewLOCSPPG6Original,length(Activity6(j,:)),Fs);
 
+%Para la señal Cleaned
+ParametersMatrixCleaned=[];
+ParametersMatrixCleaned(1,(1:4))=GetConfussionValues(W1,ECG1Locs,NewLOCSPPG1Cleaned,length(Activity1(j,:)),Fs);
+ParametersMatrixCleaned(2,(1:4))=GetConfussionValues(W2,ECG2Locs,NewLOCSPPG2Cleaned,length(Activity2(j,:)),Fs);
+ParametersMatrixCleaned(3,(1:4))=GetConfussionValues(W3,ECG3Locs,NewLOCSPPG3Cleaned,length(Activity3(j,:)),Fs);
+ParametersMatrixCleaned(4,(1:4))=GetConfussionValues(W4,ECG4Locs,NewLOCSPPG4Cleaned,length(Activity4(j,:)),Fs);
+ParametersMatrixCleaned(5,(1:4))=GetConfussionValues(W5,ECG5Locs,NewLOCSPPG5Cleaned,length(Activity5(j,:)),Fs);
+ParametersMatrixCleaned(6,(1:4))=GetConfussionValues(W6,ECG6Locs,NewLOCSPPG6Cleaned,length(Activity6(j,:)),Fs);
 
 
 

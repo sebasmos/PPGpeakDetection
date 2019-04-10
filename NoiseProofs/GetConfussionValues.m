@@ -1,4 +1,4 @@
-function [TP,FP,TN,FN]=GetConfussionValues(window,LOCSECG,LOCSPPG,L,Fs)
+function FinalParameters=GetConfussionValues(window,LOCSECG,LOCSPPG,L,Fs)
     limiteinf=0;
     limitesup=window;
     i=1;
@@ -37,5 +37,6 @@ function [TP,FP,TN,FN]=GetConfussionValues(window,LOCSECG,LOCSPPG,L,Fs)
            TN=TN+1;
        end
    end
+   FinalParameters=[TP FP TN FN];
 end
 
