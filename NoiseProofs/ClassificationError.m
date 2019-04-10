@@ -345,17 +345,17 @@ disp(ParametersMatrixCleanedMA)
     CleanedLP5 = Activity5 - TotalLP(26251:33750);
     CleanedLP6 = Activity6 - TotalLP(33751:35989);
             % 1. ORIGINAL en reposo vs sin ruido
-    [~,LOCS1CleanedMA] = GetPeakPoints(CleanedLP1(j,:),Fs,MinPeakWidthRest1,MaxWidthRest1,ProminenceInRest1,MinDistRest1);
+    [~,LOCS1CleanedLP] = GetPeakPoints(CleanedLP1(j,:),Fs,MinPeakWidthRest1,MaxWidthRest1,ProminenceInRest1,MinDistRest1);
     % 2. CORRIENDO 1min se?al original vs sin ruido
-    [~,LOCS2CleanedMA] = GetPeakPoints(CleanedLP2(j,:),Fs,MinPeakWidthRun_2,MaxWidthRun2,ProminenceRun2,MinDistRun2);
+    [~,LOCS2CleanedLP] = GetPeakPoints(CleanedLP2(j,:),Fs,MinPeakWidthRun_2,MaxWidthRun2,ProminenceRun2,MinDistRun2);
     % 3. CORRIENDO 1min se?al original vs sin ruido
-    [~,LOCS3CleanedMA] = GetPeakPoints(CleanedLP3(j,:),Fs,MinPeakWidthRun_3,MaxWidthRun3,ProminenceRun3,MinDistRun3);
+    [~,LOCS3CleanedLP] = GetPeakPoints(CleanedLP3(j,:),Fs,MinPeakWidthRun_3,MaxWidthRun3,ProminenceRun3,MinDistRun3);
     % 4. CORRIENDO 1min se?al original vs sin ruido
-    [~,LOCS4CleanedMA] = GetPeakPoints(CleanedLP4(j,:),Fs,MinPeakWidthRun_4,MaxWidthRun4,ProminenceRun4,MinDistRun4);
+    [~,LOCS4CleanedLP] = GetPeakPoints(CleanedLP4(j,:),Fs,MinPeakWidthRun_4,MaxWidthRun4,ProminenceRun4,MinDistRun4);
     % 5. CORRIENDO 1min se?al original vs sin ruido
-    [~,LOCS5CleanedMA] = GetPeakPoints(CleanedLP5(j,:),Fs,MinPeakWidthRun_5,MaxWidthRun5,ProminenceRun5,MinDistRun5);
+    [~,LOCS5CleanedLP] = GetPeakPoints(CleanedLP5(j,:),Fs,MinPeakWidthRun_5,MaxWidthRun5,ProminenceRun5,MinDistRun5);
     % 6. REST 30s se?al original vs sin ruido
-    [~,LOCS6CleanedMA] = GetPeakPoints(CleanedLP6(j,:),Fs,MinPeakWidthRest6,MaxWidthRest6,ProminenceInRest6,MinDistRest6);
+    [~,LOCS6CleanedLP] = GetPeakPoints(CleanedLP6(j,:),Fs,MinPeakWidthRest6,MaxWidthRest6,ProminenceInRest6,MinDistRest6);
 
 %% VEAMOS EL CORRIMIENTO 
 %Actividad1
