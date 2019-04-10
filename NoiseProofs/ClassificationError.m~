@@ -2,7 +2,7 @@
 % CONFUSSION MATRIX. THE ECG AND PPG SIGNALS (ORIGINAL AND DENOISED) ARE 
 % ANALYZED IN AN INTERVAL MUCH SMALLER THAN THE RR INTERVAL.
 %PPG SIGNAL WILL BE SHIFTED AROUND AN SPECIFIC VALUE FOR EACH ACTIVITY. IN
-%THIS WAY, WE ARE HAVING IN ACCOUNT THE FREQUENCY CHANGES IN EACH ACTIVITY
+%THIS WAY, WE ARE HAVING IN ACCOUNT THE HEART RATE CHANGES IN EACH ACTIVITY
 clc
 clear all
 close all
@@ -10,50 +10,50 @@ close all
 addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/db');
 addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/GeneralNoise');
 [mediamuestral,TamRealizaciones]=GetAveragedNoise();
-j = 3; %IMPORTANT!!! change this parameter to obtain errors from 
+j = 11; %IMPORTANT!!! change this parameter to obtain errors from 
           %different realizations
 %% PARAMETERS FOR PPG SIGNAL
 % MinPeakWidth
-MinPeakWidthRest1 = 0.09;
-MinPeakWidthRun_2 = 0.05;
-MinPeakWidthRun_3 = 0.07;
+MinPeakWidthRest1 = 0.1;
+MinPeakWidthRun_2 = 0.01;
+MinPeakWidthRun_3 = 0.05;
 MinPeakWidthRun_4 = 0.07;
 MinPeakWidthRun_5 = 0.07;
-MinPeakWidthRest6 = 0.05;
+MinPeakWidthRest6 = 0.09;
 % MaxWidthPeak in PPG
-MaxWidthRest1 = 0.45;
-MaxWidthRun2 = 0.45;
-MaxWidthRun3 = 0.5;
-MaxWidthRun4 = 1.5;
-MaxWidthRun5 = 0.8;
-MaxWidthRest6 = 1.5;
+MaxWidthRest1 = 0.5;
+MaxWidthRun2 = 0.5;
+MaxWidthRun3 = 0.7;
+MaxWidthRun4 = 0.3;
+MaxWidthRun5 = 0.7;
+MaxWidthRest6 = 0.5;
 % Prominence in PPG
-ProminenceInRest1 = 0.009;
+ProminenceInRest1 = 0.005;
 ProminenceRun2 = 0.05;
-ProminenceRun3 = 0.038;
-ProminenceRun4 = 0.038;
+ProminenceRun3 = 0.05;
+ProminenceRun4 = 0.04;
 ProminenceRun5 = 0.04;
-ProminenceInRest6 = 0.01;
+ProminenceInRest6 = 0.04;
 % Min peak Distance in PPG
 MinDistRest1 = 0.4;
-MinDistRun2 = 0.2;
-MinDistRun3 = 0.1;
-MinDistRun4 = 0.12;
-MinDistRun5 = 0.3;
+MinDistRun2 = 0.25;
+MinDistRun3 = 0.23;
+MinDistRun4 = 0.2;
+MinDistRun5 = 0.2;
 MinDistRest6 = 0.2;
 %% PARAMETERS IN ECG SIGNAL
 % Min Height in ECG
-MinHeightECGRest1 = 0.025;
-MinHeightECGRun2  = 0.025;
-MinHeightECGRun3  = 0.04;
-MinHeightECGRun4  = 0.04;
-MinHeightECGRun5  = 0.04;
-MinHeightECGRest6 = 0.04;
+MinHeightECGRest1 = 0.05;
+MinHeightECGRun2  = 0.06;
+MinHeightECGRun3  = 0.05;
+MinHeightECGRun4  = 0.05;
+MinHeightECGRun5  = 0.05;
+MinHeightECGRest6 = 0.05;
 %Min Dist in ECG
-minDistECGRest1  = 0.5;
-minDistECGRun2   = 0.5;
-minDistECGRun3   = 0.2;
-minDistECGRun4   = 0.2;
+minDistECGRest1  = 0.48;
+minDistECGRun2   = 0.35;
+minDistECGRun3   = 0.25;
+minDistECGRun4   = 0.25;
 minDistECGRun5   = 0.2;
 minDistECGRest6  = 0.2;
 %Max Width in ECG
@@ -218,5 +218,13 @@ ParametersMatrixCleaned(4,(1:4))=GetConfussionValues(W4,ECG4Locs,NewLOCSPPG4Clea
 ParametersMatrixCleaned(5,(1:4))=GetConfussionValues(W5,ECG5Locs,NewLOCSPPG5Cleaned,length(Activity5(j,:)),Fs);
 ParametersMatrixCleaned(6,(1:4))=GetConfussionValues(W6,ECG6Locs,NewLOCSPPG6Cleaned,length(Activity6(j,:)),Fs);
 
+%% MOSTRAMOS LOS RESULTADOS
+fprintf('Actividad %d',j);
+disp('Parametros de la matriz de confusión para la señal PPGOriginal vs. ECG')
+disp('TP     FP     TN     FN')
+disp(ParametersMatrixOriginal)
 
+disp('Parametros de la matriz de confusión para la señal PPGCleaned vs. ECG')
+disp('TP     FP     TN     FN')
+disp(ParametersMatrixCleaned)
 
