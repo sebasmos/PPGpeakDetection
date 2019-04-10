@@ -10,62 +10,66 @@ close all
 addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/db');
 addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/GeneralNoise');
 [mediamuestral,TamRealizaciones]=GetAveragedNoise();
-j = 4; %IMPORTANT!!! change this parameter to obtain errors from 
+j = 12; %IMPORTANT!!! change this parameter to obtain errors from 
           %different realizations
 % AVERAGE MEAN
 windowsizeRest = 40;
 windowsizeRun = 30;
+% LPC COEFFICIENTS
+LPCActivity1 = 3500;
+LPCActivity6 = 2200;
+LPCActivity = 7000;
 %% PARAMETERS FOR PPG SIGNAL
 % MinPeakWidth
-MinPeakWidthRest1 = 0.09;
-MinPeakWidthRun_2 = 0.028;
-MinPeakWidthRun_3 = 0.08;
+MinPeakWidthRest1 = 0.07;
+MinPeakWidthRun_2 = 0.05;
+MinPeakWidthRun_3 = 0.1;
 MinPeakWidthRun_4 = 0.07;
-MinPeakWidthRun_5 = 0.07;
-MinPeakWidthRest6 = 0.05;
+MinPeakWidthRun_5 = 0.05;
+MinPeakWidthRest6 = 0.1;
 % MaxWidthPeak in PPG
-MaxWidthRest1 = 0.45;
-MaxWidthRun2 = 0.9;
-MaxWidthRun3 = 0.5;
-MaxWidthRun4 = 1.5;
-MaxWidthRun5 = 0.8;
-MaxWidthRest6 = 1.5;
+MaxWidthRest1 = 1;
+MaxWidthRun2 = 0.8;
+MaxWidthRun3 = 0.8;
+MaxWidthRun4 = 0.8;
+MaxWidthRun5 = 1;
+MaxWidthRest6 = 0.5;
 % Prominence in PPG
-ProminenceInRest1 = 0.009;
-ProminenceRun2 = 0.077;
-ProminenceRun3 = 0.05;
-ProminenceRun4 = 0.067;
-ProminenceRun5 = 0.04;
-ProminenceInRest6 = 0.01;
+ProminenceInRest1 = 0.03;
+ProminenceRun2 = 0.04;
+ProminenceRun3 = 0.12;
+ProminenceRun4 = 0.04;
+ProminenceRun5 = 0.12;
+ProminenceInRest6 = 0.04;
 % Min peak Distance in PPG
 MinDistRest1 = 0.4;
-MinDistRun2 = 0.28;
-MinDistRun3 = 0.2;
-MinDistRun4 = 0.1;
-MinDistRun5 = 0.3;
+MinDistRun2 = 0.35;
+MinDistRun3 = 0.28;
+MinDistRun4 = 0.25;
+MinDistRun5 = 0.28;
 MinDistRest6 = 0.2;
 %% PARAMETERS IN ECG SIGNAL
 % Min Height in ECG
-MinHeightECGRest1 = 0.025;
-MinHeightECGRun2  = 0.025;
-MinHeightECGRun3  = 0.03;
-MinHeightECGRun4  = 0.03;
-MinHeightECGRun5  = 0.04;
-MinHeightECGRest6 = 0.03;
+MinHeightECGRest1 = 0.02;
+MinHeightECGRun2  = 0.02;
+MinHeightECGRun3  = 0.02;
+MinHeightECGRun4  = 0.017;
+MinHeightECGRun5  = 0.017;
+MinHeightECGRest6 = 0.014;
 %Min Dist in ECG
 minDistECGRest1  = 0.5;
-minDistECGRun2   = 0.4;
-minDistECGRun3   = 0.2;
-minDistECGRun4   = 0.2;
-minDistECGRun5   = 0.2;
-minDistECGRest6  = 0.2;
+minDistECGRun2   = 0.44;
+minDistECGRun3   = 0.3;
+minDistECGRun4   = 0.3;
+minDistECGRun5   = 0.3;
+minDistECGRest6  = 0.3;
 %Max Width in ECG
 MaxPeakWidthECG1  = 0.05;
 MaxPeakWidthECG2   = 0.05;
 MaxPeakWidthECG3   = 0.05;
-MaxPeakWidthECG4   = 0.05;
-MaxPeakWidthECG5   = 0.05;
-MaxPeakWidthECG6  = 0.05;
+MaxPeakWidthECG4   = 0.04;
+MaxPeakWidthECG5   = 0.04;
+MaxPeakWidthECG6  = 0.04;
 
 %% EXTRACT THE SIGNALS
 for k = 1:12
@@ -312,3 +316,75 @@ fprintf('Actividad %d ',j);
 disp('Parametros de la matriz de confusión para la señal PPGCleaned vs. ECG')
 disp('TP     FP     TN     FN')
 disp(ParametersMatrixCleanedMA)
+
+%% MODELO LPC
+%% 2. Linear Predictor Artificial noise Model
+%1 High frequency component
+     LP(1:3750)      = Function_1_LP(ZeroCenteredNoise1,LPCActivity1);  
+     LP(3751:11250)  = Function_1_LP(ZeroCenteredNoise2,LPCActivity);    
+     LP(11251:18750) = Function_1_LP(ZeroCenteredNoise3,LPCActivity);   
+     LP(18751:26250) = Function_1_LP(ZeroCenteredNoise4,LPCActivity);   
+     LP(26251:33750) = Function_1_LP(ZeroCenteredNoise5,LPCActivity);   
+     LP(33751:35989) = Function_1_LP(ZeroCenteredNoise6,LPCActivity6); 
+% TOTAL LINEAR PREDICTOR ARTIFITIAL NOISE 
+% Ruido total 1: o(t) = n(t)+w(t)
+% **Wanderer baseline is added
+% This noise includes lpc linear predictor with the described orders
+% also includes filter for modeling average noise extracted from signal.
+    TotalLP(1:3750)      = WandererBaseline1 + LP(1:3750);
+    TotalLP(3751:11250)  = WandererBaseline2 + LP(3751:11250);
+    TotalLP(11251:18750) = WandererBaseline3 + LP(11251:18750);
+    TotalLP(18751:26250) = WandererBaseline4 + LP(18751:26250);
+    TotalLP(26251:33750) = WandererBaseline5 + LP(26251:33750);
+    TotalLP(33751:35989) = WandererBaseline6 + LP(33751:35989);
+% Cleaning signal with LP
+    CleanedLP1 = Activity1 - TotalLP(1:3750);
+    CleanedLP2 = Activity2 - TotalLP(3751:11250);
+    CleanedLP3 = Activity3 - TotalLP(11251:18750);
+    CleanedLP4 = Activity4 - TotalLP(18751:26250);
+    CleanedLP5 = Activity5 - TotalLP(26251:33750);
+    CleanedLP6 = Activity6 - TotalLP(33751:35989);
+            % 1. ORIGINAL en reposo vs sin ruido
+    [~,LOCS1CleanedMA] = GetPeakPoints(CleanedLP1(j,:),Fs,MinPeakWidthRest1,MaxWidthRest1,ProminenceInRest1,MinDistRest1);
+    % 2. CORRIENDO 1min se?al original vs sin ruido
+    [~,LOCS2CleanedMA] = GetPeakPoints(CleanedLP2(j,:),Fs,MinPeakWidthRun_2,MaxWidthRun2,ProminenceRun2,MinDistRun2);
+    % 3. CORRIENDO 1min se?al original vs sin ruido
+    [~,LOCS3CleanedMA] = GetPeakPoints(CleanedLP3(j,:),Fs,MinPeakWidthRun_3,MaxWidthRun3,ProminenceRun3,MinDistRun3);
+    % 4. CORRIENDO 1min se?al original vs sin ruido
+    [~,LOCS4CleanedMA] = GetPeakPoints(CleanedLP4(j,:),Fs,MinPeakWidthRun_4,MaxWidthRun4,ProminenceRun4,MinDistRun4);
+    % 5. CORRIENDO 1min se?al original vs sin ruido
+    [~,LOCS5CleanedMA] = GetPeakPoints(CleanedLP5(j,:),Fs,MinPeakWidthRun_5,MaxWidthRun5,ProminenceRun5,MinDistRun5);
+    % 6. REST 30s se?al original vs sin ruido
+    [~,LOCS6CleanedMA] = GetPeakPoints(CleanedLP6(j,:),Fs,MinPeakWidthRest6,MaxWidthRest6,ProminenceInRest6,MinDistRest6);
+
+%% VEAMOS EL CORRIMIENTO 
+%Actividad1
+lpcLOCSPPG1Cleaned=GetCorrimiento(ECG1Locs,LOCS1CleanedLP,CleanedLP1(j,:),CleanedActivityECG1(j,:),Fs);
+%Actividad2
+lpcLOCSPPG2Cleaned=GetCorrimiento(ECG2Locs,LOCS2CleanedLP,CleanedLP2(j,:),CleanedActivityECG2(j,:),Fs);
+%Actividad3
+lpcLOCSPPG3Cleaned=GetCorrimiento(ECG3Locs,LOCS3CleanedLP,CleanedLP3(j,:),CleanedActivityECG3(j,:),Fs);
+%Actividad4
+lpcLOCSPPG4Cleaned=GetCorrimiento(ECG4Locs,LOCS4CleanedLP,CleanedLP4(j,:),CleanedActivityECG4(j,:),Fs);
+%Actividad5
+lpcLOCSPPG5Cleaned=GetCorrimiento(ECG5Locs,LOCS5CleanedLP,CleanedLP5(j,:),CleanedActivityECG5(j,:),Fs);
+%Actividad6
+lpcLOCSPPG6Cleaned=GetCorrimiento(ECG6Locs,LOCS6CleanedLP,CleanedLP6(j,:),CleanedActivityECG6(j,:),Fs);
+
+% MODELO MA
+
+%Para la señal Cleaned
+ParametersMatrixCleanedlpc=[];
+ParametersMatrixCleanedlpc(1,(1:4))=GetConfussionValues(W1,ECG1Locs,lpcLOCSPPG1Cleaned,length(Activity1(j,:)),Fs);
+ParametersMatrixCleanedlpc(2,(1:4))=GetConfussionValues(W2,ECG2Locs,lpcLOCSPPG2Cleaned,length(Activity2(j,:)),Fs);
+ParametersMatrixCleanedlpc(3,(1:4))=GetConfussionValues(W3,ECG3Locs,lpcLOCSPPG3Cleaned,length(Activity3(j,:)),Fs);
+ParametersMatrixCleanedlpc(4,(1:4))=GetConfussionValues(W4,ECG4Locs,lpcLOCSPPG4Cleaned,length(Activity4(j,:)),Fs);
+ParametersMatrixCleanedlpc(5,(1:4))=GetConfussionValues(W5,ECG5Locs,lpcLOCSPPG5Cleaned,length(Activity5(j,:)),Fs);
+ParametersMatrixCleanedlpc(6,(1:4))=GetConfussionValues(W6,ECG6Locs,lpcLOCSPPG6Cleaned,length(Activity6(j,:)),Fs);
+
+%% MOSTRAMOS LOS RESULTADOS
+disp('MODELO LPC')
+fprintf('Actividad %d ',j);
+disp('Parametros de la matriz de confusión para la señal PPGCleaned vs. ECG')
+disp('TP     FP     TN     FN')
+disp(ParametersMatrixCleanedlpc)
