@@ -10,59 +10,59 @@ close all
 addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/db');
 addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/GeneralNoise');
 [mediamuestral,TamRealizaciones]=GetAveragedNoise();
-j = 12; %IMPORTANT!!! change this parameter to obtain errors from 
+j = 4; %IMPORTANT!!! change this parameter to obtain errors from 
           %different realizations
 %% PARAMETERS FOR PPG SIGNAL
 % MinPeakWidth
-MinPeakWidthRest1 = 0.07;
-MinPeakWidthRun_2 = 0.05;
-MinPeakWidthRun_3 = 0.1;
+MinPeakWidthRest1 = 0.09;
+MinPeakWidthRun_2 = 0.028;
+MinPeakWidthRun_3 = 0.08;
 MinPeakWidthRun_4 = 0.07;
-MinPeakWidthRun_5 = 0.05;
-MinPeakWidthRest6 = 0.1;
+MinPeakWidthRun_5 = 0.07;
+MinPeakWidthRest6 = 0.05;
 % MaxWidthPeak in PPG
-MaxWidthRest1 = 1;
-MaxWidthRun2 = 0.8;
-MaxWidthRun3 = 0.8;
-MaxWidthRun4 = 0.8;
-MaxWidthRun5 = 1;
-MaxWidthRest6 = 0.5;
+MaxWidthRest1 = 0.45;
+MaxWidthRun2 = 0.9;
+MaxWidthRun3 = 0.5;
+MaxWidthRun4 = 1.5;
+MaxWidthRun5 = 0.8;
+MaxWidthRest6 = 1.5;
 % Prominence in PPG
-ProminenceInRest1 = 0.03;
-ProminenceRun2 = 0.04;
-ProminenceRun3 = 0.12;
-ProminenceRun4 = 0.04;
-ProminenceRun5 = 0.12;
-ProminenceInRest6 = 0.04;
+ProminenceInRest1 = 0.009;
+ProminenceRun2 = 0.077;
+ProminenceRun3 = 0.05;
+ProminenceRun4 = 0.067;
+ProminenceRun5 = 0.04;
+ProminenceInRest6 = 0.01;
 % Min peak Distance in PPG
 MinDistRest1 = 0.4;
-MinDistRun2 = 0.35;
-MinDistRun3 = 0.28;
-MinDistRun4 = 0.25;
-MinDistRun5 = 0.28;
+MinDistRun2 = 0.28;
+MinDistRun3 = 0.2;
+MinDistRun4 = 0.1;
+MinDistRun5 = 0.3;
 MinDistRest6 = 0.2;
 %% PARAMETERS IN ECG SIGNAL
 % Min Height in ECG
-MinHeightECGRest1 = 0.02;
-MinHeightECGRun2  = 0.02;
-MinHeightECGRun3  = 0.02;
-MinHeightECGRun4  = 0.017;
-MinHeightECGRun5  = 0.017;
-MinHeightECGRest6 = 0.014;
+MinHeightECGRest1 = 0.025;
+MinHeightECGRun2  = 0.025;
+MinHeightECGRun3  = 0.03;
+MinHeightECGRun4  = 0.03;
+MinHeightECGRun5  = 0.04;
+MinHeightECGRest6 = 0.03;
 %Min Dist in ECG
 minDistECGRest1  = 0.5;
-minDistECGRun2   = 0.44;
-minDistECGRun3   = 0.3;
-minDistECGRun4   = 0.3;
-minDistECGRun5   = 0.3;
-minDistECGRest6  = 0.3;
+minDistECGRun2   = 0.4;
+minDistECGRun3   = 0.2;
+minDistECGRun4   = 0.2;
+minDistECGRun5   = 0.2;
+minDistECGRest6  = 0.2;
 %Max Width in ECG
 MaxPeakWidthECG1  = 0.05;
 MaxPeakWidthECG2   = 0.05;
 MaxPeakWidthECG3   = 0.05;
-MaxPeakWidthECG4   = 0.04;
-MaxPeakWidthECG5   = 0.04;
-MaxPeakWidthECG6  = 0.04;
+MaxPeakWidthECG4   = 0.05;
+MaxPeakWidthECG5   = 0.05;
+MaxPeakWidthECG6  = 0.05;
 
 %% EXTRACT THE SIGNALS
 for k = 1:12
