@@ -10,48 +10,48 @@ close all
 addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/db');
 addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/GeneralNoise');
 [mediamuestral,TamRealizaciones]=GetAveragedNoise();
-j = 1; %IMPORTANT!!! change this parameter to obtain errors from 
+j = 5; %IMPORTANT!!! change this parameter to obtain errors from 
           %different realizations
 %% PARAMETERS FOR PPG SIGNAL
 % MinPeakWidth
-MinPeakWidthRest1 = 0.11;
-MinPeakWidthRun_2 = 0.01;
-MinPeakWidthRun_3 = 0.07;
+MinPeakWidthRest1 = 0.09;
+MinPeakWidthRun_2 = 0.028;
+MinPeakWidthRun_3 = 0.08;
 MinPeakWidthRun_4 = 0.07;
 MinPeakWidthRun_5 = 0.07;
 MinPeakWidthRest6 = 0.05;
 % MaxWidthPeak in PPG
-MaxWidthRest1 = 0.5;
-MaxWidthRun2 = 0.6;
+MaxWidthRest1 = 0.49;
+MaxWidthRun2 = 0.9;
 MaxWidthRun3 = 0.5;
-MaxWidthRun4 = 0.8;
+MaxWidthRun4 = 1.5;
 MaxWidthRun5 = 0.8;
 MaxWidthRest6 = 1.5;
 % Prominence in PPG
 ProminenceInRest1 = 0.009;
-ProminenceRun2 = 0.049;
-ProminenceRun3 = 0.038;
-ProminenceRun4 = 0.04;
+ProminenceRun2 = 0.077;
+ProminenceRun3 = 0.05;
+ProminenceRun4 = 0.067;
 ProminenceRun5 = 0.04;
 ProminenceInRest6 = 0.01;
 % Min peak Distance in PPG
-MinDistRest1 = 0.3;
-MinDistRun2 = 0.1;
-MinDistRun3 = 0.1;
-MinDistRun4 = 0.15;
-MinDistRun5 = 0.1;
+MinDistRest1 = 0.4;
+MinDistRun2 = 0.28;
+MinDistRun3 = 0.2;
+MinDistRun4 = 0.1;
+MinDistRun5 = 0.3;
 MinDistRest6 = 0.2;
 %% PARAMETERS IN ECG SIGNAL
 % Min Height in ECG
 MinHeightECGRest1 = 0.025;
 MinHeightECGRun2  = 0.025;
-MinHeightECGRun3  = 0.04;
-MinHeightECGRun4  = 0.04;
+MinHeightECGRun3  = 0.03;
+MinHeightECGRun4  = 0.03;
 MinHeightECGRun5  = 0.04;
-MinHeightECGRest6 = 0.04;
+MinHeightECGRest6 = 0.03;
 %Min Dist in ECG
-minDistECGRest1  = 0.6;
-minDistECGRun2   = 0.5;
+minDistECGRest1  = 0.5;
+minDistECGRun2   = 0.4;
 minDistECGRun3   = 0.2;
 minDistECGRun4   = 0.2;
 minDistECGRun5   = 0.2;
@@ -186,8 +186,11 @@ NewLOCSPPG6Original=GetCorrimiento(ECG6Locs,LOCS6Original,Activity6(j,:),Cleaned
 NewLOCSPPG6Cleaned=GetCorrimiento(ECG6Locs,LOCS6Cleaned,CleanedSignal6(j,:),CleanedActivityECG6(j,:),Fs);
 
 %% CALCULAMOS LAS VENTANAS PARA EVALUACION
-%Vamos a calcular el intervalo RR para poder partirlo en 3 y mirar cuantas
-%unidades tiene cada ventana de corrimiento.
+%Vamos a calcular el intervalo RR para poder partirlo en 2 y mirar cuantas
+%unidades tiene cada ventana de corrimiento. Por lo tanto, cada ventana
+%será una medición. Cada actividad poseerá floor(L/W) mediciones donde L es la
+%longitud del intervalo en tiempo y W es la longitud de la ventana en
+%tiempo.
 W1=(mean(diff(ECG1Locs)))/2;
 W2=(mean(diff(ECG2Locs)))/2;
 W3=(mean(diff(ECG3Locs)))/2;
@@ -215,5 +218,13 @@ ParametersMatrixCleaned(4,(1:4))=GetConfussionValues(W4,ECG4Locs,NewLOCSPPG4Clea
 ParametersMatrixCleaned(5,(1:4))=GetConfussionValues(W5,ECG5Locs,NewLOCSPPG5Cleaned,length(Activity5(j,:)),Fs);
 ParametersMatrixCleaned(6,(1:4))=GetConfussionValues(W6,ECG6Locs,NewLOCSPPG6Cleaned,length(Activity6(j,:)),Fs);
 
+%% MOSTRAMOS LOS RESULTADOS
+fprintf('Actividad %d',j);
+disp('Parametros de la matriz de confusión para la señal PPGOriginal vs. ECG')
+disp('TP     FP     TN     FN')
+disp(ParametersMatrixOriginal)
 
+disp('Parametros de la matriz de confusión para la señal PPGCleaned vs. ECG')
+disp('TP     FP     TN     FN')
+disp(ParametersMatrixCleaned)
 
