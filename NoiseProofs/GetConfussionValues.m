@@ -49,5 +49,7 @@ function FinalParameters=GetConfussionValues(window,LOCSECG,LOCSPPG,L,Fs)
        end
    end
    FinalParameters=[TP FP TN FN];
+disp('datos guardados')
+   
 end
 

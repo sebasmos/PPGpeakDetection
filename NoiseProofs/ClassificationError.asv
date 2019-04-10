@@ -297,18 +297,31 @@ MALOCSPPG6Cleaned=GetCorrimiento(ECG6Locs,LOCS6CleanedMA,CleanedMA6(j,:),Cleaned
 
 % MODELO MA
 
+%Para la señal Original
+ParametersMatrixOriginalMA=[];
+ParametersMatrixOriginalMA(1,(1:4))=GetConfussionValues(W1,ECG1Locs,NewLOCSPPG1Original,length(Activity1(j,:)),Fs);
+ParametersMatrixOriginalMA(2,(1:4))=GetConfussionValues(W2,ECG2Locs,NewLOCSPPG2Original,length(Activity2(j,:)),Fs);
+ParametersMatrixOriginalMA(3,(1:4))=GetConfussionValues(W3,ECG3Locs,NewLOCSPPG3Original,length(Activity3(j,:)),Fs);
+ParametersMatrixOriginalMA(4,(1:4))=GetConfussionValues(W4,ECG4Locs,NewLOCSPPG4Original,length(Activity4(j,:)),Fs);
+ParametersMatrixOriginalMA(5,(1:4))=GetConfussionValues(W5,ECG5Locs,NewLOCSPPG5Original,length(Activity5(j,:)),Fs);
+ParametersMatrixOriginalMA(6,(1:4))=GetConfussionValues(W6,ECG6Locs,NewLOCSPPG6Original,length(Activity6(j,:)),Fs);
+
 %Para la señal Cleaned
 ParametersMatrixCleanedMA=[];
-ParametersMatrixCleanedMA(1,(1:4))=GetConfussionValues(W1,ECG1Locs,MALOCSPPG1Cleaned,length(Activity1(j,:)),Fs);
-ParametersMatrixCleanedMA(2,(1:4))=GetConfussionValues(W2,ECG2Locs,MALOCSPPG2Cleaned,length(Activity2(j,:)),Fs);
-ParametersMatrixCleanedMA(3,(1:4))=GetConfussionValues(W3,ECG3Locs,MALOCSPPG3Cleaned,length(Activity3(j,:)),Fs);
-ParametersMatrixCleanedMA(4,(1:4))=GetConfussionValues(W4,ECG4Locs,MALOCSPPG4Cleaned,length(Activity4(j,:)),Fs);
-ParametersMatrixCleanedMA(5,(1:4))=GetConfussionValues(W5,ECG5Locs,MALOCSPPG5Cleaned,length(Activity5(j,:)),Fs);
-ParametersMatrixCleanedMA(6,(1:4))=GetConfussionValues(W6,ECG6Locs,MALOCSPPG6Cleaned,length(Activity6(j,:)),Fs);
+ParametersMatrixCleanedMA(1,(1:4))=GetConfussionValues(W1,ECG1Locs,NewLOCSPPG1Cleaned,length(Activity1(j,:)),Fs);
+ParametersMatrixCleanedMA(2,(1:4))=GetConfussionValues(W2,ECG2Locs,NewLOCSPPG2Cleaned,length(Activity2(j,:)),Fs);
+ParametersMatrixCleanedMA(3,(1:4))=GetConfussionValues(W3,ECG3Locs,NewLOCSPPG3Cleaned,length(Activity3(j,:)),Fs);
+ParametersMatrixCleanedMA(4,(1:4))=GetConfussionValues(W4,ECG4Locs,NewLOCSPPG4Cleaned,length(Activity4(j,:)),Fs);
+ParametersMatrixCleanedMA(5,(1:4))=GetConfussionValues(W5,ECG5Locs,NewLOCSPPG5Cleaned,length(Activity5(j,:)),Fs);
+ParametersMatrixCleanedMA(6,(1:4))=GetConfussionValues(W6,ECG6Locs,NewLOCSPPG6Cleaned,length(Activity6(j,:)),Fs);
 
 %% MOSTRAMOS LOS RESULTADOS
 disp('MODELO MEDIAS MOVILES')
 fprintf('Actividad %d ',j);
+disp('Parametros de la matriz de confusión para la señal PPGOriginal vs. ECG')
+disp('TP     FP     TN     FN')
+disp(ParametersMatrixOriginal)
+
 disp('Parametros de la matriz de confusión para la señal PPGCleaned vs. ECG')
 disp('TP     FP     TN     FN')
-disp(ParametersMatrixCleanedMA)
+disp(ParametersMatrixCleaned)
