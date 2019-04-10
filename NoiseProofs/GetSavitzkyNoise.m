@@ -24,7 +24,7 @@ addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/db'
 %     else
 %         media = Detrending(sNorm,10);
 %     end
-    %media=ValoresMedia(sNorm);
-    Noise=sNorm-sfilt;
+    media=ValoresMedia(sNorm);
+    Noise=sNorm-sfilt+media;
 
 end
