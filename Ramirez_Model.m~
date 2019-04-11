@@ -187,7 +187,7 @@ plot(mediamuestral(1:3750)), hold on
 plot(ShortedBP(1:3750)),title('Activity RESTING: Savitzky Noise vs Band-Limited Gaussian Noise'),ylabel('Magnitude'), xlabel('samples'),grid on, axis tight,
 legend('Mediamuestral','Senal Gaussiana Limitada en banda')
 figure
-plot(mediamuestral(3750:11250)),hold on
+plot(mediamuestral(3750:11250)-Detrending(mediamuestral(3750:11250),10)),hold on
 plot(ShortedBP(3750:11250)),title('Activity RUNNING: Savitzky Noise vs Band-Limited Gaussian Noise'),ylabel('Magnitude'), xlabel('samples'),grid on, axis tight,
 legend('Mediamuestral','Senal Gaussiana Limitada en banda')
 %% Espectro de se�al modelo 1 limitada en banda
