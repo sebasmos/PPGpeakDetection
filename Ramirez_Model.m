@@ -3,6 +3,8 @@ clear all
 close all
 clc
 %% Add GetAverageNoise function
+%%IMPORTANTE!!!! SACAR MEDIAMUESTRAL DEL SCRIPT DE GETAVERAGEDNOISE
+%%QUITANDO LA PARTE EN LA QUE SE LE SUMA VALORESMEDIA
 addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/NoiseProofs')
 addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/GeneralNoise')
 addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/SpectrumAnalysis')
