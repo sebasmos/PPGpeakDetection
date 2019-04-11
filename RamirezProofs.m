@@ -162,3 +162,70 @@ findErrors(Activity1(j,:),Activity2(j,:),Activity3(j,:),Activity4(j,:),Activity5
     minDistRest1,minDistRun2,minDistRun3,minDistRun4,minDistRun5,minDistRest6,...
     maxWidthRest1,maxWidthRun2,maxWidthRun3,maxWidthRun4,maxWidthRun5,maxWidthRest6);
 
+%% PRUEBAS PARA SENSIBILIDAD
+
+% 1. PICOS DE LA SEÑAL SIN RUIDO
+    [~,LOCS1CleanedR] = GetPeakPoints(Cleaneds1(j,:),Fs,MinPeakWidthRest1,MaxWidthRest1,ProminenceInRest1,MinDistRest1);
+    % 2. CORRIENDO 1min se?al original vs sin ruido
+    [~,LOCS2CleanedR] = GetPeakPoints(Cleaneds2(j,:),Fs,MinPeakWidthRun_2,MaxWidthRun2,ProminenceRun2,MinDistRun2);
+    % 3. CORRIENDO 1min se?al original vs sin ruido
+    [~,LOCS3CleanedR] = GetPeakPoints(Cleaneds3(j,:),Fs,MinPeakWidthRun_3,MaxWidthRun3,ProminenceRun3,MinDistRun3);
+    % 4. CORRIENDO 1min se?al original vs sin ruido
+    [~,LOCS4CleanedR] = GetPeakPoints(Cleaneds4(j,:),Fs,MinPeakWidthRun_4,MaxWidthRun4,ProminenceRun4,MinDistRun4);
+    % 5. CORRIENDO 1min se?al original vs sin ruido
+    [~,LOCS5CleanedR] = GetPeakPoints(Cleaneds5(j,:),Fs,MinPeakWidthRun_5,MaxWidthRun5,ProminenceRun5,MinDistRun5);
+    % 6. REST 30s se?al original vs sin ruido
+    [~,LOCS6CleanedR] = GetPeakPoints(Cleaneds6(j,:),Fs,MinPeakWidthRest6,MaxWidthRest6,ProminenceInRest6,MinDistRest6);
+
+% 2. ECG PEAKS EXRACTION 
+    [~,ECG1Locs] = GetECGPeakPoints(CleanedActivityECG1(j,:),MinHeightECGRest1,minDistRest1,maxWidthRest1);
+    [~,ECG2Locs] = GetECGPeakPoints(CleanedActivityECG2(j,:),MinHeightECGRun2,minDistRun2,maxWidthRun2);
+    [~,ECG3Locs] = GetECGPeakPoints(CleanedActivityECG3(j,:),MinHeightECGRun3,minDistRun3,maxWidthRun3);
+    [~,ECG4Locs] = GetECGPeakPoints(CleanedActivityECG4(j,:),MinHeightECGRun4,minDistRun4,maxWidthRun4);
+    [~,ECG5Locs] = GetECGPeakPoints(CleanedActivityECG5(j,:),MinHeightECGRun5,minDistRun5,maxWidthRun5);
+    [~,ECG6Locs] = GetECGPeakPoints(CleanedActivityECG6(j,:),MinHeightECGRest6,minDistRest6,maxWidthRest6);
+
+% 3. CALCULAMOS LAS VENTANAS PARA EVALUACION
+%Vamos a calcular el intervalo RR para poder partirlo en 2 y mirar cuantas
+%unidades tiene cada ventana de corrimiento. Por lo tanto, cada ventana
+%será una medición. Cada actividad poseerá floor(L/W) mediciones donde L es la
+%longitud del intervalo en tiempo y W es la longitud de la ventana en
+%tiempo.
+    W1=(mean(diff(ECG1Locs)))/2;
+    W2=(mean(diff(ECG2Locs)))/2;
+    W3=(mean(diff(ECG3Locs)))/2;
+    W4=(mean(diff(ECG4Locs)))/2;
+    W5=(mean(diff(ECG5Locs)))/2;
+    W6=(mean(diff(ECG6Locs)))/2;
+
+% 4.VEAMOS EL CORRIMIENTO 
+    %Actividad1
+    RLOCSPPG1Cleaned=GetCorrimiento(ECG1Locs,LOCS1CleanedR,Cleaneds1(j,:),CleanedActivityECG1(j,:),Fs);
+    %Actividad2
+    RLOCSPPG2Cleaned=GetCorrimiento(ECG2Locs,LOCS2CleanedR,Cleaneds2(j,:),CleanedActivityECG2(j,:),Fs);
+    %Actividad3
+    RLOCSPPG3Cleaned=GetCorrimiento(ECG3Locs,LOCS3CleanedR,Cleaneds3(j,:),CleanedActivityECG3(j,:),Fs);
+    %Actividad4
+    RLOCSPPG4Cleaned=GetCorrimiento(ECG4Locs,LOCS4CleanedR,Cleaneds4(j,:),CleanedActivityECG4(j,:),Fs);
+    %Actividad5
+    RLOCSPPG5Cleaned=GetCorrimiento(ECG5Locs,LOCS5CleanedR,Cleaneds5(j,:),CleanedActivityECG5(j,:),Fs);
+    %Actividad6
+    RLOCSPPG6Cleaned=GetCorrimiento(ECG6Locs,LOCS6CleanedR,Cleaneds6(j,:),CleanedActivityECG6(j,:),Fs);
+
+% MODELO Ramirez
+
+%Para la señal Cleaned
+ParametersMatrixCleanedR=[];
+ParametersMatrixCleanedR(1,(1:4))=GetConfussionValues(W1,ECG1Locs,RLOCSPPG1Cleaned,length(Activity1(j,:)),Fs);
+ParametersMatrixCleanedR(2,(1:4))=GetConfussionValues(W2,ECG2Locs,RLOCSPPG2Cleaned,length(Activity2(j,:)),Fs);
+ParametersMatrixCleanedR(3,(1:4))=GetConfussionValues(W3,ECG3Locs,RLOCSPPG3Cleaned,length(Activity3(j,:)),Fs);
+ParametersMatrixCleanedR(4,(1:4))=GetConfussionValues(W4,ECG4Locs,RLOCSPPG4Cleaned,length(Activity4(j,:)),Fs);
+ParametersMatrixCleanedR(5,(1:4))=GetConfussionValues(W5,ECG5Locs,RLOCSPPG5Cleaned,length(Activity5(j,:)),Fs);
+ParametersMatrixCleanedR(6,(1:4))=GetConfussionValues(W6,ECG6Locs,RLOCSPPG6Cleaned,length(Activity6(j,:)),Fs);
+
+%% MOSTRAMOS LOS RESULTADOS
+disp('MODELO R')
+fprintf('Actividad %d ',j);
+disp('Parametros de la matriz de confusión para la señal PPGCleaned vs. ECG')
+disp('TP     FP     TN     FN')
+disp(ParametersMatrixCleanedR)

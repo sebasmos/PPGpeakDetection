@@ -1,8 +1,8 @@
 %% JOINT GAUSSIAN RANDOM VECTOR NOISE MODEL
 function [ShortedBP]=Ramirez_Model()
-clear all
-close all
-clc
+% clear all
+% close all
+% clc
 %% Add GetAverageNoise function
 %%IMPORTANTE!!!! SACAR MEDIAMUESTRAL DEL SCRIPT DE GETAVERAGEDNOISE
 %%QUITANDO LA PARTE EN LA QUE SE LE SUMA VALORESMEDIA
@@ -14,7 +14,8 @@ addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/db'
 %SampleFrequency
 Fs=125;
 %% OBTAIN SAMPLES AND GENERALIZED SAVITZKY NOISE MODEL
-[mediamuestral,TamRealizaciones,s,s1,s2,s3,s4,s5]=GetAveragedNoise();
+[mediamuestral,TamRealizaciones,s,s1,s2,s3,s4,s5]=GetAveragedNoise2();
+
 %% UNBIASED VARIANZA
 % The activities are separated according to each activity and its variance
 % Add is extracted vertically, operating varianamuestral function per column

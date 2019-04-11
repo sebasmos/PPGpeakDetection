@@ -3,7 +3,7 @@
 % n: Number of channel according to the dataset
 % m: Initial sample
 % s: Final Sample
-function Noise = GetSavitzkyNoise(name,n,m,s)
+function Noise = GetSavitzkyNoise2(name,n,m,s)
 
 %% Add Datasets
 addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/db');
@@ -19,12 +19,6 @@ addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/db'
     sNorm = (s2-min(s2))/(max(s2)-min(s2));
 %% Grafica del espectro de potencia
     sfilt=sgolayfilt(sNorm,3,41);
-%     if(length(sNorm)<=3750)
-%         media = Detrending(sNorm,5);
-%     else
-%         media = Detrending(sNorm,10);
-%     end
-    media=ValoresMedia(sNorm);
-    Noise=sNorm-sfilt+media;
+    Noise=sNorm-sfilt;
 
 end
