@@ -3,6 +3,8 @@ clear all
 close all
 clc
 %% Add GetAverageNoise function
+%%IMPORTANTE!!!! SACAR MEDIAMUESTRAL DEL SCRIPT DE GETAVERAGEDNOISE
+%%QUITANDO LA PARTE EN LA QUE SE LE SUMA VALORESMEDIA
 addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/NoiseProofs')
 addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/GeneralNoise')
 addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/SpectrumAnalysis')
@@ -155,7 +157,7 @@ end
 
 %% PROOF1: IF THE NOISE IS RIGHT, IT SHOULD MAINTAIN IT'S CORRELATED BEHAVIOR
 % We choose one of these realizations for the proof
-W=GaussianModels(1,:);
+W=GaussianModels(5,:);
 i=1;
 for t1=1:100:length(V)
     for t2=1:100:length(V)
@@ -182,12 +184,20 @@ Spectrum6 = GetSpectrum(mediamuestral,Fs);
 %% Caracter�sticas de frecuencia aplicadas: 0-10 hz, se dejan valores mayores 
 % a 10 para capturar detalles de alta frecuencia del ruido de alta
 % frecuencia
-ShortedBP = bandpass(W,[3 30],125);
+
+%Creación del filtro
+PBF = designfilt('bandpassiir','PassbandFrequency1',3.5,...
+'StopbandFrequency1',3,'StopbandFrequency2',30.5,...
+'PassbandFrequency2',30,...
+'StopbandAttenuation1',30,'StopbandAttenuation2',30,...
+'SampleRate',Fs,'DesignMethod','ellip');
+%% VEAMOS COMO SE COMPARA CON EL SAVITZKY
+ShortedBP = filtfilt(PBF,W);
 plot(mediamuestral(1:3750)), hold on
 plot(ShortedBP(1:3750)),title('Activity RESTING: Savitzky Noise vs Band-Limited Gaussian Noise'),ylabel('Magnitude'), xlabel('samples'),grid on, axis tight,
 legend('Mediamuestral','Senal Gaussiana Limitada en banda')
-figure
-plot(mediamuestral(3750:11250)-Detrending(mediamuestral(3750:11250),10)),hold on
+%% figure
+plot(mediamuestral(3750:11250)),hold on
 plot(ShortedBP(3750:11250)),title('Activity RUNNING: Savitzky Noise vs Band-Limited Gaussian Noise'),ylabel('Magnitude'), xlabel('samples'),grid on, axis tight,
 legend('Mediamuestral','Senal Gaussiana Limitada en banda')
 %% Espectro de se�al modelo 1 limitada en banda
@@ -201,7 +211,6 @@ legend('Mediamuestral','Senal Gaussiana Limitada en banda')
     title('SPECTRUM, BOTH CASES')
 % [~,peakBP ] = findpeaks(dP2,'MinPeakHeight',10,'MinPeakDistance',40);
 %  findpeaks(dP2,'MinPeakHeight',0.5,'MinPeakDistance',40);
-
 
 %% EXTRACT THE SIGNALS
 for k = 1:12
@@ -222,16 +231,7 @@ end
 %% ECG PEAKS EXTRACTION
 % Sample Frequency
     Fs = 125;
-%Convert to physical values: According to timesheet of the used wearable
-ecgFullSignal = (ECGdatasetSignals-128)./255;
-s2 = (PPGdatasetSignals-128)/(255);
-
-% Normalize the entire signal of all realizations.
-for k=1:12
-    sNorm(k,:) = (s2(k,:)-min(s2(k,:)))/(max(s2(k,:))-min(s2(k,:)));
-    ecgNorm(k,:) = (ecgFullSignal(k,:)-min(ecgFullSignal(k,:)))./(max(ecgFullSignal(k,:))-min(ecgFullSignal(k,:)));
-end
-    
+ 
 %% Separate Activities
 Activity1=sNorm(:,(1:3750));
 Activity2=sNorm(:,(3751:11250));
