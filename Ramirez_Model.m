@@ -1,8 +1,8 @@
 %% JOINT GAUSSIAN RANDOM VECTOR NOISE MODEL
 function [ShortedBP]=Ramirez_Model()
-clear all
-close all
-clc
+% clear all
+% close all
+% clc
 %% Add GetAverageNoise function
 %%IMPORTANTE!!!! SACAR MEDIAMUESTRAL DEL SCRIPT DE GETAVERAGEDNOISE
 %%QUITANDO LA PARTE EN LA QUE SE LE SUMA VALORESMEDIA
@@ -15,13 +15,14 @@ addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\P
 Fs=125;
 %% OBTAIN SAMPLES AND GENERALIZED SAVITZKY NOISE MODEL
 [mediamuestral,TamRealizaciones,s,s1,s2,s3,s4,s5]=GetAveragedNoise();
-
 %% UNBIASED VARIANZA
 % The activities are separated according to each activity and its variance
 % Add is extracted vertically, operating varianamuestral function per column
-V=[s s1 s2 s3 s4 s5];
-varianzamuestral= var(V);
 
+media=ValoresMedia(mediamuestral);
+mediamuestral = mediamuestral-media;
+V=[s-media(1:3750) s1-media(3751:11250) s2-media(11251:18750) s3-media(18751:26250) s4-media(26251:33750) s5-media(33751:end)];
+varianzamuestral= var(V);
 %% AUTOCORRELATION AND Autocovariance MATRIX
 
 [L,A]=size(V);
@@ -44,15 +45,6 @@ for k=1:length(mediamuestral)
     GaussianModels(:,k)=mediamuestral(k)+sqrt(varianzamuestral(k))*X;
 end
 
-media=ValoresMedia(mediamuestral);
-Noise=mediamuestral-media;
-V2=[s-media(1:3750) s1-media(3751:11250) s2-media(11251:18750) s3-media(18751:26250) s4-media(26251:33750) s5-media(33751:end)];
-varianzamuestral2= var(V2);
-X2 = randn(5,1);
-GaussianModels2=zeros(5,length(Noise));
-for k=1:length(Noise)
-    GaussianModels2(:,k)=Noise(k)+sqrt(varianzamuestral2(k))*X2;
-end
 
 %% PROOF1: IF THE NOISE IS RIGHT, IT SHOULD MAINTAIN IT'S CORRELATED BEHAVIOR
 % We choose one of these realizations for the proof
@@ -108,10 +100,4 @@ legend('Mediamuestral','Senal Gaussiana Limitada en banda')
     plot(f,dP1,f2,dP2),grid on, axis([0 50 -10 100 ])
     legend('Savitzky','Band-limited Gaussian Noise')
     title('SPECTRUM, BOTH CASES')
-    
-    
-ShortedBP2 = filtfilt(PBF,G);
-plot(ShortedBP2(1:3750)), hold on
-plot(ShortedBP(1:3750)),title('Activity RESTING: Savitzky Noise vs Band-Limited Gaussian Noise'),ylabel('Magnitude'), xlabel('samples'),grid on, axis tight,
-legend('Mediamuestral','Senal Gaussiana Limitada en banda')
 end
