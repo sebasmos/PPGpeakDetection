@@ -10,7 +10,11 @@ close all
 addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\db');
 addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\GeneralNoise');
 [mediamuestral,TamRealizaciones]=GetAveragedNoise();
+<<<<<<< HEAD
 j = 1; %IMPORTANT!!! change this parameter to obtain errors from 
+=======
+j =11; %IMPORTANT!!! change this parameter to obtain errors from 
+>>>>>>> 61b5fd51c5888d59b733cae6375d97e617b24ffd
           %different realizations
           % LPC COEFFICIENTS
 LPCActivity1 = 3500;
@@ -21,6 +25,7 @@ windowsizeRest = 40;
 windowsizeRun = 30;
 %% PARAMETERS FOR PPG SIGNAL
 % MinPeakWidth
+<<<<<<< HEAD
 MinPeakWidthRest1 = 0.11;
 MinPeakWidthRun_2 = 0.01;
 MinPeakWidthRun_3 = 0.07;
@@ -61,6 +66,48 @@ minDistECGRest1  = 0.6;
 minDistECGRun2   = 0.5;
 minDistECGRun3   = 0.2;
 minDistECGRun4   = 0.2;
+=======
+MinPeakWidthRest1 = 0.1;
+MinPeakWidthRun_2 = 0.01;
+MinPeakWidthRun_3 = 0.05;
+MinPeakWidthRun_4 = 0.07;
+MinPeakWidthRun_5 = 0.07;
+MinPeakWidthRest6 = 0.09;
+% MaxWidthPeak in PPG
+MaxWidthRest1 = 0.5;
+MaxWidthRun2 = 0.5;
+MaxWidthRun3 = 0.7;
+MaxWidthRun4 = 0.3;
+MaxWidthRun5 = 0.7;
+MaxWidthRest6 = 0.5;
+% Prominence in PPG
+ProminenceInRest1 = 0.005;
+ProminenceRun2 = 0.05;
+ProminenceRun3 = 0.05;
+ProminenceRun4 = 0.04;
+ProminenceRun5 = 0.04;
+ProminenceInRest6 = 0.04;
+% Min peak Distance in PPG
+MinDistRest1 = 0.4;
+MinDistRun2 = 0.25;
+MinDistRun3 = 0.23;
+MinDistRun4 = 0.2;
+MinDistRun5 = 0.2;
+MinDistRest6 = 0.2;
+%% PARAMETERS IN ECG SIGNAL
+% Min Height in ECG
+MinHeightECGRest1 = 0.05;
+MinHeightECGRun2  = 0.06;
+MinHeightECGRun3  = 0.05;
+MinHeightECGRun4  = 0.05;
+MinHeightECGRun5  = 0.05;
+MinHeightECGRest6 = 0.05;
+%Min Dist in ECG
+minDistECGRest1  = 0.48;
+minDistECGRun2   = 0.35;
+minDistECGRun3   = 0.25;
+minDistECGRun4   = 0.25;
+>>>>>>> 61b5fd51c5888d59b733cae6375d97e617b24ffd
 minDistECGRun5   = 0.2;
 minDistECGRest6  = 0.2;
 %Max Width in ECG
@@ -70,6 +117,10 @@ MaxPeakWidthECG3   = 0.05;
 MaxPeakWidthECG4   = 0.05;
 MaxPeakWidthECG5   = 0.05;
 MaxPeakWidthECG6  = 0.05;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 61b5fd51c5888d59b733cae6375d97e617b24ffd
 %% EXTRACT THE SIGNALS
 for k = 1:12
     if k >= 10

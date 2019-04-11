@@ -1,8 +1,10 @@
 %% ANALISIS DE ESPECTRO PARA EL APENDICE A
 clc
+clear all
 close all
 %% Add Datasets
 addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/db');
+addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/NoiseProofs');
 %% LOAD DATASETS
     for k = 1:12
     if k >= 10
@@ -39,7 +41,7 @@ t60s=(0:length(Activity2)-1)/Fs;
 tend=(0:length(Activity6)-1)/Fs;
 
 %% Transformada de Fourier de toda la señal PPG
-
+% 
 % for i=1:12
 %     Y(i,:)=fft(sNorm(i,:));
 % end
@@ -114,7 +116,43 @@ tend=(0:length(Activity6)-1)/Fs;
 % subplot(2,3,5),plot(f1min,EspectroActividad5),grid on, xlabel('Frequency (Hz)'),axis ([0 8 0 0.05]),title('Activity 5'),
 % subplot(2,3,6),plot(fend,EspectroActividad6),grid on, xlabel('Frequency (Hz)'),axis ([0 8 0 0.05]),title('Activity 6'),
 
-%% Transformada de Fourier para la realizacion entera (R=1)
+%% Transformada de Fourier para la realizacion entera (R=1) FILTRADA EN ALTA FRECUENCIA
+% Realization=1;
+% YRealization1=fft(sNorm(Realization,:));
+% %Dominio de la frecuencia para la gráfica
+% P1=abs(YRealization1/length(sNorm));
+% EspectroRealizacion1=P1(1:length(sNorm)/2+1);
+% EspectroRealizacion1(2:end-1) = 2*EspectroRealizacion1(2:end-1);
+% 
+% %Filtramos el ruido de altas frecuencias de la realización
+% sfilt=sgolayfilt(sNorm(Realization,:),3,41);
+% RealizacionFiltrada=hampel(sfilt,5,2);
+% 
+% %Transformada de Fourier para la señal filtrada
+% YRealizacionFiltrada=fft(RealizacionFiltrada);
+% %Dominio de frecuencia  para la gráfica
+% P2=abs(YRealizacionFiltrada/length(sNorm));
+% EspectroRealizacion1Filtrado=P2(1:length(sNorm)/2+1);
+% EspectroRealizacion1Filtrado(2:end-1) = 2*EspectroRealizacion1Filtrado(2:end-1);
+% 
+% %Restamos la señal limpia de la señal con ruido
+% RuidoRealizacion1=sNorm(Realization,:)-RealizacionFiltrada;
+% 
+% %Transformada de Fourier para la señal filtrada
+% YRuidoRealizacion1=fft(RuidoRealizacion1);
+% P3=abs(YRuidoRealizacion1/length(sNorm));
+% EspectroRuidoRealizacion1=P3(1:length(sNorm)/2+1);
+% EspectroRuidoRealizacion1(2:end-1) = 2*EspectroRuidoRealizacion1(2:end-1);
+% 
+% 
+% figure(3), plot(ftotal,EspectroRealizacion1),grid on, xlabel('Frequency(Hz)'),axis([0 8 0 0.01]), title('Frequency spectrum of realization 1'),hold on,
+% plot(ftotal,EspectroRealizacion1Filtrado),legend('Realización 1 unfiltered','Realización 1 filtered w/Saviztky-Golay')
+% 
+% figure(4),plot(ftotal,EspectroRealizacion1),grid on, xlabel('Frequency(Hz)'),axis([ 0 8 0 0.01]), title('Frequency spectrum comparation'), hold on,
+% plot(ftotal,EspectroRuidoRealizacion1),legend('Realizacion 1 unfiltered ','High-frequency noise spectrum')
+
+%% GRAFICA DE LA TRANSFORMADA DE FOURIER PARA EL RUIDO COMPLETO
+
 Realization=1;
 YRealization1=fft(sNorm(Realization,:));
 %Dominio de la frecuencia para la gráfica
@@ -122,9 +160,9 @@ P1=abs(YRealization1/length(sNorm));
 EspectroRealizacion1=P1(1:length(sNorm)/2+1);
 EspectroRealizacion1(2:end-1) = 2*EspectroRealizacion1(2:end-1);
 
-%Filtramos el ruido de altas frecuencias de la realización
-sfilt=sgolayfilt(sNorm(Realization,:),3,41);
-RealizacionFiltrada=hampel(sfilt,5,2);
+%Obtenemos el ruido total de la realización
+[mediamuestral,TamRealizaciones]=GetAveragedNoise();
+RealizacionFiltrada=sNorm(Realization,:)-mediamuestral;
 
 %Transformada de Fourier para la señal filtrada
 YRealizacionFiltrada=fft(RealizacionFiltrada);
@@ -133,8 +171,8 @@ P2=abs(YRealizacionFiltrada/length(sNorm));
 EspectroRealizacion1Filtrado=P2(1:length(sNorm)/2+1);
 EspectroRealizacion1Filtrado(2:end-1) = 2*EspectroRealizacion1Filtrado(2:end-1);
 
-%Restamos la señal limpia de la señal con ruido
-RuidoRealizacion1=sNorm(Realization,:)-RealizacionFiltrada;
+%Sacamos solo el ruido de la realizacion para su posterior transformada
+RuidoRealizacion1=mediamuestral;
 
 %Transformada de Fourier para la señal filtrada
 YRuidoRealizacion1=fft(RuidoRealizacion1);
@@ -144,71 +182,7 @@ EspectroRuidoRealizacion1(2:end-1) = 2*EspectroRuidoRealizacion1(2:end-1);
 
 
 figure(3), plot(ftotal,EspectroRealizacion1),grid on, xlabel('Frequency(Hz)'),axis([0 8 0 0.01]), title('Frequency spectrum of realization 1'),hold on,
-plot(ftotal,EspectroRealizacion1Filtrado),legend('Realización 1 unfiltered','Realización 1 filtered w/Saviztky-Golay')
+plot(ftotal,EspectroRealizacion1Filtrado),legend('Realización 1 unfiltered','Realización 1 filtered')
 
 figure(4),plot(ftotal,EspectroRealizacion1),grid on, xlabel('Frequency(Hz)'),axis([ 0 8 0 0.01]), title('Frequency spectrum comparation'), hold on,
-plot(ftotal,EspectroRuidoRealizacion1),legend('Realizacion 1 unfiltered ','High-frequency noise spectrum')
-
-%% Transformada de Fourier de las actividades tipo 1
-
-for i=1:12
-    Y(i,:)=fft(Activity1(i,:));
-end
-%Dominio de la frecuencia para la gráfica
-f30s = Fs*(0:(length(Activity1)/2))/length(Activity1);
-
-P1=abs(Y/length(Activity1));
-EspectroActividad1=P1(:,(1:length(Activity1)/2+1));
-EspectroActividad1(:,2:end-1) = 2*EspectroActividad1(:,2:end-1);
-
-figure(2),
-plot(f30s,EspectroActividad1(1,:)),hold on,
-plot(f30s,EspectroActividad1(2,:)),hold on,
-plot(f30s,EspectroActividad1(3,:)),hold on,
-plot(f30s,EspectroActividad1(4,:)),hold on,
-plot(f30s,EspectroActividad1(5,:)),hold on,
-plot(f30s,EspectroActividad1(6,:)),hold on,
-plot(f30s,EspectroActividad1(7,:)),hold on,
-plot(f30s,EspectroActividad1(8,:)),hold on,
-plot(f30s,EspectroActividad1(9,:)),hold on,
-plot(f30s,EspectroActividad1(10,:)),hold on,
-plot(f30s,EspectroActividad1(11,:)),hold on,
-plot(f30s,EspectroActividad1(12,:)),hold on,grid on, axis ([0 8 0 0.1]),xlabel('Frequency (Hz)')
-%% GRAFICA DE LA DENSIDAD ESPECTRAL DE POTENCIA
-
-Res = 20; % Resolucion en frecuencia = 10 Hz
-Npuntos = 2^nextpow2(Fs/2/Res);
-w = hanning(Npuntos);
-[P,F] = pwelch(sNorm',w,Npuntos/2,Npuntos,Fs);
-figure(3)
-pwelch(sNorm',w,Npuntos/2,Npuntos,Fs)
-% %hold on
-% %semilogx(F2*E1,Y2,'vr')
-% xlabel(['Frequency in ' 'Hz'])
-% ylabel('Power Spectrum ')
-% grid on
-% axis tight
-
-%%
-% figure(2)
-% plot(t,sNorm),hold on, plot(t,s2filt)
-% title('señal normal y filtrada con savitsky golay')
-% 
-% nueva=sNorm-s2filt;
-% figure(3),plot(t,nueva);
-% title('ruido obtenido con Savitzky Golay')
-% 
-% figure(4)
-% pwelch(nueva,w,Npuntos/2,Npuntos,Fs),
-% title('potencia espectral del ruido')
-% 
-% espectroruido=fft(sNorm-s2filt);
-% L=length(espectroruido);
-% P2 = abs(espectroruido/L);
-% P1 = P2(1:L/2+1);
-% P1(2:end-1) = 2*P1(2:end-1);
-% f = Fs*(0:(L/2))/L;
-% 
-% figure(5)
-% plot(f,P1)
-% title('Espectro se�al')
+plot(ftotal,EspectroRuidoRealizacion1),legend('Realizacion 1 unfiltered ','Entire artifact noise spectrum')
