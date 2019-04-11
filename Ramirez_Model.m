@@ -12,7 +12,8 @@ addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\P
 % Add is extracted vertically, operating varianamuestral function per column
 V=[s s1 s2 s3 s4 s5];
 varianzamuestral= var(V);
-
+% Sample frequency
+Fs = 125;
 %% AUTOCORRELATION AND Autocovariance MATRIX
 % Covariance matrix, is a matrix whose element 
 % in the i, j position is the covariance between the i-th and j-th elements 
@@ -31,12 +32,7 @@ for t1=1:100:b
     i=i+1;
     j=1;
 end
-%% MODELO 1
-x = randn(5,1);
-W=zeros(5,length(mediamuestral));
-for k=1:length(mediamuestral)
-    W(:,k)=mediamuestral(k)+sqrt(varianzamuestral(k))*x;
-end
+
 % figure
 % plot(W(1,:))
 %% MODELO 2
@@ -85,3 +81,35 @@ end
 % cInd.Sigma=initialSigma;
 % options = statset('MaxIter', 75536); 
 % gmm = fitgmdist(X(:), K,'Start',cInd,'CovarianceType','diagonal','Regularize',1e-5,'Options',options);
+
+
+%% MODELO GAUSIANO LIMITADO EN BANDA
+x = randn(5,1);
+W=zeros(5,length(mediamuestral));
+for k=1:length(mediamuestral)
+    W(:,k)=mediamuestral(k)+sqrt(varianzamuestral(k))*x;
+end
+% Detrend models
+for x = 1:length(x)
+ DetrendedW(x,:) = Detrending(W(x,:),10); 
+ HFComponent(x,:) = W(x,:) -DetrendedW(x,:); 
+end
+% Comparacion de modelos: 
+for i =1:5
+   plot(HFComponent(i,:)),hold on
+end
+hold on
+plot(mediamuestral-Detrending(mediamuestral,10))
+legend('w1','w2','w3','w4','w5','mediamuestral')
+% SPECTRAL ANALYSIS
+s1 = GetSpectrum(HFComponent(1,:),Fs);
+s2 = GetSpectrum(HFComponent(2,:),Fs);
+s3 = GetSpectrum(HFComponent(3,:),Fs);
+s4 = GetSpectrum(HFComponent(4,:),Fs);
+s5 = GetSpectrum(HFComponent(5,:),Fs);
+s6 = GetSpectrum(mediamuestral,Fs);
+% Características de frecuencia
+ShortedBP = bandpass(mediamuestral,[1 10],125);
+
+
+
