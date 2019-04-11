@@ -3,13 +3,12 @@ clear all
 close all
 clc
 %% Add GetAverageNoise function
-addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\NoiseProofs')
-addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\GeneralNoise')
+addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/NoiseProofs')
+addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/GeneralNoise')
 % Add databases
-addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\db')
-% OBTAIN SAMPLES AND GENERALIZED SAVITZKY NOISE MODEL
-[mediamuestral,TamRealizaciones,s,s1,s2,s3,s4,s5]=GetAveragedNoise();
-%% PRUEBA RAPIDA: RESTAR DE SEÑAL 1
+addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/db')
+
+%% PRUEBA RAPIDA: RESTAR DE SEï¿½AL 1
 j = 1; %IMPORTANT!!! change this parameter to obtain errors from 
           %different realizations
 %% Get and save signals in 'Realizaciones'
@@ -74,6 +73,8 @@ maxWidthRun4   = 0.05;
 maxWidthRun5   = 0.05;
 maxWidthRest6  = 0.05;
 
+%% OBTAIN SAMPLES AND GENERALIZED SAVITZKY NOISE MODEL
+[mediamuestral,TamRealizaciones,s,s1,s2,s3,s4,s5]=GetAveragedNoise();
 %% UNBIASED VARIANZA
 % The activities are separated according to each activity and its variance
 % Add is extracted vertically, operating varianamuestral function per column
@@ -175,7 +176,7 @@ s3 = GetSpectrum(HFComponent(3,:),Fs);
 s4 = GetSpectrum(HFComponent(4,:),Fs);
 s5 = GetSpectrum(HFComponent(5,:),Fs);
 s6 = GetSpectrum(mediamuestral,Fs);
-%% Características de frecuencia aplicadas: 0-10 hz, se dejan valores mayores 
+%% Caracterï¿½sticas de frecuencia aplicadas: 0-10 hz, se dejan valores mayores 
 % a 10 para capturar detalles de alta frecuencia del ruido de alta
 % frecuencia
 ShortedBP = bandpass(mediamuestral,[3 30],125);
@@ -186,7 +187,7 @@ figure
 plot(mediamuestral(3750:11250)-Detrending(mediamuestral(3750:11250),10)),hold on
 plot(ShortedBP(3750:11250)),title('Activity RUNNING: Savitzky Noise vs Band-Limited Gaussian Noise'),ylabel('Magnitude'), xlabel('samples'),grid on, axis tight,
 legend('Mediamuestral','Senal Gaussiana Limitada en banda')
-%% Espectro de señal modelo 1 limitada en banda
+%% Espectro de seï¿½al modelo 1 limitada en banda
     [~,~,f,dP1] = centerfreq(Fs,mediamuestral); 
     [~,~,f2,dP2] = centerfreq(Fs,ShortedBP); 
     [PS,NN] = PowSpecs(mediamuestral);
