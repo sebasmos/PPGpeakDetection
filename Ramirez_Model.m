@@ -6,11 +6,11 @@ function [ShortedBP]=Ramirez_Model()
 %% Add GetAverageNoise function
 %%IMPORTANTE!!!! SACAR MEDIAMUESTRAL DEL SCRIPT DE GETAVERAGEDNOISE
 %%QUITANDO LA PARTE EN LA QUE SE LE SUMA VALORESMEDIA
-addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\NoiseProofs')
-addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\GeneralNoise')
-addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\SpectrumAnalysis')
+addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/NoiseProofs')
+addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/GeneralNoise')
+addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/SpectrumAnalysis')
 % Add databases
-addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\db')
+addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/db')
 %SampleFrequency
 Fs=125;
 %% OBTAIN SAMPLES AND GENERALIZED SAVITZKY NOISE MODEL
@@ -52,6 +52,7 @@ windowsizeRun = 30;
    disp('conti')
 %% PROOF1: IF THE NOISE IS RIGHT, IT SHOULD MAINTAIN IT'S CORRELATED BEHAVIOR
 % We choose one of these realizations for the proof
+<<<<<<< HEAD
 % W=GaussianModels(5,:);
 % G = GaussianModels(5,:);
 % i=1;
@@ -64,6 +65,20 @@ windowsizeRun = 30;
 %     i=i+1;
 %     j=1;
 % end
+=======
+W=GaussianModels(5,:);
+
+i=1;
+for t1=1:100:length(V)
+    for t2=1:100:length(V)
+        RxxGaussiana(i,j)=(W(:,t1)'*W(:,t2))/L;
+        KxxGaussiana(i,j)=RxxGaussiana(i,j)-(mediamuestral(t1).*mediamuestral(t2));
+        j=j+1;
+    end
+    i=i+1;
+    j=1;
+end
+>>>>>>> 02fb8fb43d82a7aa379acb38567f1be46111714e
 %% Comparacion de modelos: 
 % for i =1:5
 %    plot(GaussianModels(i,:)),hold on

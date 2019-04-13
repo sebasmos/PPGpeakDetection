@@ -1,61 +1,61 @@
 %% Get and save signals in 'Realizaciones'
 
 %% PRUEBA RAPIDA: RESTAR DE SE�AL 1
-j = 4; %IMPORTANT!!! change this parameter to obtain errors from 
+j = 12; %IMPORTANT!!! change this parameter to obtain errors from 
           %different realizations
 
 %% Parameters for findpeaks Function
 % PARAMETERS FOR PPG SIGNAL
 % MinPeakWidth
-MinPeakWidthRest1 = 0.9;
-MinPeakWidthRun_2 = 0.11;
-MinPeakWidthRun_3 = 0.05;
-MinPeakWidthRun_4 = 0.07;
-MinPeakWidthRun_5 = 0.07;
-MinPeakWidthRest6 = 0.05;
+MinPeakWidthRest1 = 0.05;
+MinPeakWidthRun_2 = 0.03;
+MinPeakWidthRun_3 = 0.02;
+MinPeakWidthRun_4 = 0.02;
+MinPeakWidthRun_5 = 0.03;
+MinPeakWidthRest6 = 0.03;
 % MaxWidthPeak in PPG
-MaxWidthRest1 = 0.45;
-MaxWidthRun2 = 0.5;
-MaxWidthRun3 = 0.4;
-MaxWidthRun4 = 1.5;
-MaxWidthRun5 = 0.8;
-MaxWidthRest6 = 1.5;
+MaxWidthRest1 = 0.7;
+MaxWidthRun2 = 0.7;
+MaxWidthRun3 = 0.7;
+MaxWidthRun4 = 0.9;
+MaxWidthRun5 = 1;
+MaxWidthRest6 = 0.7;
 % Prominence in PPG
-ProminenceInRest1 = 0.009;
-ProminenceRun2 = 0.05;
-ProminenceRun3 = 0.01;
-ProminenceRun4 = 0.067;
-ProminenceRun5 = 0.04;
-ProminenceInRest6 = 0.01;
+ProminenceInRest1 = 0.004;
+ProminenceRun2 = 0.008;
+ProminenceRun3 = 0.009;
+ProminenceRun4 = 0.02;
+ProminenceRun5 = 0.03;
+ProminenceInRest6 = 0.03;
 % Min peak Distance in PPG
-MinDistRest1 = 0.4;
-MinDistRun2 = 0.1;
-MinDistRun3 = 0.22;
-MinDistRun4 = 0.1;
-MinDistRun5 = 0.3;
+MinDistRest1 = 0.35;
+MinDistRun2 = 0.25;
+MinDistRun3 = 0.23;
+MinDistRun4 = 0.2;
+MinDistRun5 = 0.175;
 MinDistRest6 = 0.2;
 %% PARAMETERS IN ECG SIGNAL
 % Min Height in ECG
-MinHeightECGRest1 = 0.025;
-MinHeightECGRun2  = 0.025;
-MinHeightECGRun3  = 0.03;
-MinHeightECGRun4  = 0.03;
+MinHeightECGRest1 = 0.06;
+MinHeightECGRun2  = 0.06;
+MinHeightECGRun3  = 0.06;
+MinHeightECGRun4  = 0.04;
 MinHeightECGRun5  = 0.04;
-MinHeightECGRest6 = 0.03;
+MinHeightECGRest6 = 0.04;
 %Min Dist in ECG
-minDistRest1  = 0.5;
-minDistRun2   = 0.4;
-minDistRun3   = 0.2;
-minDistRun4   = 0.2;
-minDistRun5   = 0.2;
-minDistRest6  = 0.2;
+minDistRest1  = 0.4;
+minDistRun2   = 0.35;
+minDistRun3   = 0.3;
+minDistRun4   = 0.3;
+minDistRun5   = 0.3;
+minDistRest6  = 0.3;
 %Max Width in ECG
 maxWidthRest1  = 0.05;
 maxWidthRun2   = 0.05;
 maxWidthRun3   = 0.05;
-maxWidthRun4   = 0.05;
-maxWidthRun5   = 0.05;
-maxWidthRest6  = 0.05;
+maxWidthRun4   = 0.04;
+maxWidthRun5   = 0.04;
+maxWidthRest6  = 0.04;
 
 
 %% EXTRACT THE SIGNALS
@@ -75,7 +75,6 @@ for k = 1:12
     end
 end
 %% EXTRACT THE SIGNAL TO OBTAIN LOWFREQUENCY COMPONENTS
-%%PONERLE +media EN SAVITZKY
 [mediamuestral,TamRealizaciones]=GetAveragedNoise();
 %% ECG PEAKS EXTRACTION
 % Sample Frequency
@@ -162,3 +161,70 @@ findErrors(Activity1(j,:),Activity2(j,:),Activity3(j,:),Activity4(j,:),Activity5
     minDistRest1,minDistRun2,minDistRun3,minDistRun4,minDistRun5,minDistRest6,...
     maxWidthRest1,maxWidthRun2,maxWidthRun3,maxWidthRun4,maxWidthRun5,maxWidthRest6);
 
+%% PRUEBAS PARA SENSIBILIDAD
+
+% 1. PICOS DE LA SEÑAL SIN RUIDO
+    [~,LOCS1CleanedR] = GetPeakPoints(Cleaneds1(j,:),Fs,MinPeakWidthRest1,MaxWidthRest1,ProminenceInRest1,MinDistRest1);
+    % 2. CORRIENDO 1min se?al original vs sin ruido
+    [~,LOCS2CleanedR] = GetPeakPoints(Cleaneds2(j,:),Fs,MinPeakWidthRun_2,MaxWidthRun2,ProminenceRun2,MinDistRun2);
+    % 3. CORRIENDO 1min se?al original vs sin ruido
+    [~,LOCS3CleanedR] = GetPeakPoints(Cleaneds3(j,:),Fs,MinPeakWidthRun_3,MaxWidthRun3,ProminenceRun3,MinDistRun3);
+    % 4. CORRIENDO 1min se?al original vs sin ruido
+    [~,LOCS4CleanedR] = GetPeakPoints(Cleaneds4(j,:),Fs,MinPeakWidthRun_4,MaxWidthRun4,ProminenceRun4,MinDistRun4);
+    % 5. CORRIENDO 1min se?al original vs sin ruido
+    [~,LOCS5CleanedR] = GetPeakPoints(Cleaneds5(j,:),Fs,MinPeakWidthRun_5,MaxWidthRun5,ProminenceRun5,MinDistRun5);
+    % 6. REST 30s se?al original vs sin ruido
+    [~,LOCS6CleanedR] = GetPeakPoints(Cleaneds6(j,:),Fs,MinPeakWidthRest6,MaxWidthRest6,ProminenceInRest6,MinDistRest6);
+
+% 2. ECG PEAKS EXRACTION 
+    [~,ECG1Locs] = GetECGPeakPoints(CleanedActivityECG1(j,:),MinHeightECGRest1,minDistRest1,maxWidthRest1);
+    [~,ECG2Locs] = GetECGPeakPoints(CleanedActivityECG2(j,:),MinHeightECGRun2,minDistRun2,maxWidthRun2);
+    [~,ECG3Locs] = GetECGPeakPoints(CleanedActivityECG3(j,:),MinHeightECGRun3,minDistRun3,maxWidthRun3);
+    [~,ECG4Locs] = GetECGPeakPoints(CleanedActivityECG4(j,:),MinHeightECGRun4,minDistRun4,maxWidthRun4);
+    [~,ECG5Locs] = GetECGPeakPoints(CleanedActivityECG5(j,:),MinHeightECGRun5,minDistRun5,maxWidthRun5);
+    [~,ECG6Locs] = GetECGPeakPoints(CleanedActivityECG6(j,:),MinHeightECGRest6,minDistRest6,maxWidthRest6);
+
+% 3. CALCULAMOS LAS VENTANAS PARA EVALUACION
+%Vamos a calcular el intervalo RR para poder partirlo en 2 y mirar cuantas
+%unidades tiene cada ventana de corrimiento. Por lo tanto, cada ventana
+%será una medición. Cada actividad poseerá floor(L/W) mediciones donde L es la
+%longitud del intervalo en tiempo y W es la longitud de la ventana en
+%tiempo.
+    W1=(mean(diff(ECG1Locs)))/2;
+    W2=(mean(diff(ECG2Locs)))/2;
+    W3=(mean(diff(ECG3Locs)))/2;
+    W4=(mean(diff(ECG4Locs)))/2;
+    W5=(mean(diff(ECG5Locs)))/2;
+    W6=(mean(diff(ECG6Locs)))/2;
+
+% 4.VEAMOS EL CORRIMIENTO 
+    %Actividad1
+    RLOCSPPG1Cleaned=GetCorrimiento(ECG1Locs,LOCS1CleanedR,Cleaneds1(j,:),CleanedActivityECG1(j,:),Fs);
+    %Actividad2
+    RLOCSPPG2Cleaned=GetCorrimiento(ECG2Locs,LOCS2CleanedR,Cleaneds2(j,:),CleanedActivityECG2(j,:),Fs);
+    %Actividad3
+    RLOCSPPG3Cleaned=GetCorrimiento(ECG3Locs,LOCS3CleanedR,Cleaneds3(j,:),CleanedActivityECG3(j,:),Fs);
+    %Actividad4
+    RLOCSPPG4Cleaned=GetCorrimiento(ECG4Locs,LOCS4CleanedR,Cleaneds4(j,:),CleanedActivityECG4(j,:),Fs);
+    %Actividad5
+    RLOCSPPG5Cleaned=GetCorrimiento(ECG5Locs,LOCS5CleanedR,Cleaneds5(j,:),CleanedActivityECG5(j,:),Fs);
+    %Actividad6
+    RLOCSPPG6Cleaned=GetCorrimiento(ECG6Locs,LOCS6CleanedR,Cleaneds6(j,:),CleanedActivityECG6(j,:),Fs);
+
+% MODELO Ramirez
+
+%Para la señal Cleaned
+ParametersMatrixCleanedR=[];
+ParametersMatrixCleanedR(1,(1:4))=GetConfussionValues(W1,ECG1Locs,RLOCSPPG1Cleaned,length(Activity1(j,:)),Fs);
+ParametersMatrixCleanedR(2,(1:4))=GetConfussionValues(W2,ECG2Locs,RLOCSPPG2Cleaned,length(Activity2(j,:)),Fs);
+ParametersMatrixCleanedR(3,(1:4))=GetConfussionValues(W3,ECG3Locs,RLOCSPPG3Cleaned,length(Activity3(j,:)),Fs);
+ParametersMatrixCleanedR(4,(1:4))=GetConfussionValues(W4,ECG4Locs,RLOCSPPG4Cleaned,length(Activity4(j,:)),Fs);
+ParametersMatrixCleanedR(5,(1:4))=GetConfussionValues(W5,ECG5Locs,RLOCSPPG5Cleaned,length(Activity5(j,:)),Fs);
+ParametersMatrixCleanedR(6,(1:4))=GetConfussionValues(W6,ECG6Locs,RLOCSPPG6Cleaned,length(Activity6(j,:)),Fs);
+
+% MOSTRAMOS LOS RESULTADOS
+disp('MODELO R')
+fprintf('Actividad %d ',j);
+disp('Parametros de la matriz de confusión para la señal PPGCleaned vs. ECG')
+disp('TP     FP     TN     FN')
+disp(ParametersMatrixCleanedR)
