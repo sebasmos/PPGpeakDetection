@@ -19,6 +19,6 @@ addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/db'
     sNorm = (s2-min(s2))/(max(s2)-min(s2));
 %% Grafica del espectro de potencia
     sfilt=sgolayfilt(sNorm,3,41);
-    Noise=sNorm-sfilt;
-
+    media=ValoresMedia(sNorm);
+    Noise=sNorm-sfilt+media;
 end

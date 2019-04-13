@@ -1,5 +1,5 @@
 
-function [h,TamRealizaciones,s,s1,s2,s3,s4,s5] = GetAveragedNoise2()
+function [MA,TamRealizaciones,s,s1,s2,s3,s4,s5] = GetAveragedNoise2()
 %% ARTIFITIAL NOISE DESIGN 
 
 % This code intends to proof the viability of the obtained noise from the
@@ -14,9 +14,11 @@ function [h,TamRealizaciones,s,s1,s2,s3,s4,s5] = GetAveragedNoise2()
 % 4. Running 8km/h (1min)  corresponds to 6 km/h in activity type 2
 % 5. Running 15km/h (1min) corresponds to 12 km/h in activity type 2
 % 6. Rest (30 min)
-
+addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\GeneralNoise')
 % Initial Conditions
 
+windowsizeRest = 100;
+windowsizeRun = 40;
 k=0;
 prom=0;
 sm0=0;
@@ -95,7 +97,24 @@ v=[Media0(1,:) Media0(2,:) Media0(3,:) Media0(4,:) Media0(5,:) Media0(6,:)];
 
 % Delete extra zeros and make the output fit the right format.
 
-mediamuestral=nonzeros(v);
-mediamuestral=mediamuestral';
-h=hampel(mediamuestral,5,2);
+    mediamuestral=nonzeros(v);
+    mediamuestral=mediamuestral';
+%% Separate noise for PPG with its correspondent activity.
+Noise1 = mediamuestral(1:3750);
+Noise2 = mediamuestral(3751:11250);
+Noise3 = mediamuestral(11251:18750);
+Noise4 = mediamuestral(18751:26250);
+Noise5 = mediamuestral(26251:33750);
+Noise6 = mediamuestral(33751:end);
+%% Model MA
+    MA(1:3750)      = Function_2_MA(Noise1,windowsizeRest); 
+    MA(1:100)        =mean(Noise1); % Fixex with variance highter values
+    MA(3751:11250)  = Function_2_MA(Noise2,windowsizeRun);
+    MA(11251:18750) = Function_2_MA(Noise3,windowsizeRun);
+    MA(18751:26250) = Function_2_MA(Noise4,windowsizeRun);
+    MA(26251:33750) = Function_2_MA(Noise5,windowsizeRun);
+    MA(33751:35989) = Function_2_MA(Noise6,windowsizeRest);
+    
+   % h=hampel(MA,5,2);
+    
 end
