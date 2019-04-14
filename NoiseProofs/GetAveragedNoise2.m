@@ -18,7 +18,7 @@ addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\P
 % Initial Conditions
 
 windowsizeRest = 100;
-windowsizeRun = 40;
+windowsizeRun = 80;
 k=0;
 prom=0;
 sm0=0;
@@ -108,13 +108,15 @@ Noise5 = mediamuestral(26251:33750);
 Noise6 = mediamuestral(33751:end);
 %% Model MA
     MA(1:3750)      = Function_2_MA(Noise1,windowsizeRest); 
-    MA(1:100)        =mean(Noise1); % Fixex with variance highter values
+    MA(1:100)       = mean(Noise1); % Fixex with variance highter values
     MA(3751:11250)  = Function_2_MA(Noise2,windowsizeRun);
     MA(11251:18750) = Function_2_MA(Noise3,windowsizeRun);
     MA(18751:26250) = Function_2_MA(Noise4,windowsizeRun);
     MA(26251:33750) = Function_2_MA(Noise5,windowsizeRun);
     MA(33751:35989) = Function_2_MA(Noise6,windowsizeRest);
-    
-   % h=hampel(MA,5,2);
-    
+
+% h=hampel(MA,100,0.02);
+% plot(h)
+% hold on
+% plot(MA)
 end

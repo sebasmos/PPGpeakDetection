@@ -49,10 +49,8 @@ windowsizeRest = 40;
 windowsizeRun = 30;
    b = 1/windowsizeRest*ones(1,windowsizeRest);
    MA = filter(b,1,mediamuestral(1:3750));
-   disp('conti')
 %% PROOF1: IF THE NOISE IS RIGHT, IT SHOULD MAINTAIN IT'S CORRELATED BEHAVIOR
 % We choose one of these realizations for the proof
-<<<<<<< HEAD
 % W=GaussianModels(5,:);
 % G = GaussianModels(5,:);
 % i=1;
@@ -65,20 +63,18 @@ windowsizeRun = 30;
 %     i=i+1;
 %     j=1;
 % end
-=======
 W=GaussianModels(5,:);
 
-i=1;
-for t1=1:100:length(V)
-    for t2=1:100:length(V)
-        RxxGaussiana(i,j)=(W(:,t1)'*W(:,t2))/L;
-        KxxGaussiana(i,j)=RxxGaussiana(i,j)-(mediamuestral(t1).*mediamuestral(t2));
-        j=j+1;
-    end
-    i=i+1;
-    j=1;
-end
->>>>>>> 02fb8fb43d82a7aa379acb38567f1be46111714e
+% i=1;
+% for t1=1:100:length(V)
+%     for t2=1:100:length(V)
+%         RxxGaussiana(i,j)=(W(:,t1)'*W(:,t2))/L;
+%         KxxGaussiana(i,j)=RxxGaussiana(i,j)-(mediamuestral(t1).*mediamuestral(t2));
+%         j=j+1;
+%     end
+%     i=i+1;
+%     j=1;
+% end
 %% Comparacion de modelos: 
 % for i =1:5
 %    plot(GaussianModels(i,:)),hold on

@@ -32,6 +32,7 @@ windowsizeRest = 40;
 windowsizeRun = 30;
    b = 1/windowsizeRest*ones(1,windowsizeRest);
    MA = filter(b,1,mediamuestral(1:3750));
+   MArun = filter(b,1,mediamuestral);
 %% FILTER
 PBF = designfilt('bandpassiir','PassbandFrequency1',2.5,...
 'StopbandFrequency1',2,'StopbandFrequency2',26.5,...
@@ -90,8 +91,9 @@ mediaMA=ValoresMedia(mediamuestralMA);
 mediamuestralMA = mediamuestralMA-mediaMA;
 VMA=[s-mediaMA(1:3750) s1-mediaMA(3751:11250) s2-mediaMA(11251:18750) s3-mediaMA(18751:26250) s4-mediaMA(26251:33750) s5-mediaMA(33751:end)];
 varianzamuestralMA= var(VMA);
-% Modelos optimos para XMA entre 0 y 0.3 aprox, crear rand en dicho interv
-XMA = [0.05 0.001 0.0002 0.1 0.2 0.3 0.4];
+% Modelos optimos para XMA entre 0 y 0.15 aprox, crear rand en dicho interv
+%% mejor valor: 0.05
+XMA = [0.05 0.001 0.1 0.2 0.4 ];
 GaussianModelsMA=zeros(length(XMA),length(mediamuestralMA));
 for k=1:length(mediamuestralMA)
     GaussianModelsMA(:,k)=mediamuestralMA(k)+sqrt(varianzamuestralMA(k))*XMA;
@@ -99,7 +101,8 @@ end
 for u = 1:length(XMA)
    plot(GaussianModelsMA(u,:)),hold on
 end
-legend('0.05','0.001', '0.0002','0.1', '0.2', '0.3', '0.4')
+plot(MArun,'LineWidth',1.5),grid on, title('Best seed values under max-Amplitud in MA model')
+legend('0.05','0.001', '0.1','0.2','0.4','MA')
 figure
 plot(mediamuestral(1:3750)),hold on
 plot(GaussianModelsMA(2,1:3750)),hold on
