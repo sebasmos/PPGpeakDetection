@@ -39,7 +39,8 @@ for t1=1:100:length(V)
 end
 
 %% MODELO GAUSIANO LIMITADO EN BANDA
-X = randn(5,1);
+X = randn(4,1);
+X(5)=0;
 GaussianModels=zeros(5,length(mediamuestral));
 for k=1:length(mediamuestral)
     GaussianModels(:,k)=mediamuestral(k)+sqrt(varianzamuestral(k))*X;
@@ -78,8 +79,8 @@ legend('w1','w2','w3','w4','w5','mediamuestral')
 % frecuencia
 %Creación del filtro
 PBF = designfilt('bandpassiir','PassbandFrequency1',3.5,...
-'StopbandFrequency1',3,'StopbandFrequency2',30.5,...
-'PassbandFrequency2',30,...
+'StopbandFrequency1',3,'StopbandFrequency2',26.5,...
+'PassbandFrequency2',26,...
 'StopbandAttenuation1',30,'StopbandAttenuation2',30,...
 'SampleRate',Fs,'DesignMethod','ellip');
 %% VEAMOS COMO SE COMPARA CON EL SAVITZKY
