@@ -114,7 +114,7 @@ for k=1:12
 end
 
 %% Separate noise for PPG with its correspondent activity.
-%SACAMOS EL MODELO DE RAMIREZ, RECUERDA QUITARLE EL +media EN SAVITZKY
+%ESTA FUNCION ESTA EN SpectrumAnalysIs
 ShortedBP=Ramirez_Model();
 Noise1 = ShortedBP(1:3750);
 Noise2 = ShortedBP(3751:11250);
