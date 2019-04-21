@@ -23,32 +23,28 @@ mediamuestral = mediamuestral-media;
 V=[s-media(1:3750) s1-media(3751:11250) s2-media(11251:18750) s3-media(18751:26250) s4-media(26251:33750) s5-media(33751:end)];
 varianzamuestral= var(V);
 %% AUTOCORRELATION AND Autocovariance MATRIX
-% 
-% [L,A]=size(V);
-% i=1;
-% j=1;
-% for t1=1:100:length(V)
-%     for t2=1:100:length(V)
-%         RxxTotal(i,j)=(V(:,t1)'*V(:,t2))/L;
-%         KxxTotal(i,j)=RxxTotal(i,j)-(mediamuestral(t1).*mediamuestral(t2));
-%         j=j+1;
-%     end
-%     i=i+1;
-%     j=1;
-% end
 
-% MODELO GAUSIANO LIMITADO EN BANDA
-X = randn(5,1);
-GaussianModels=zeros(5,length(mediamuestral));
-for k=1:length(mediamuestral)
-    GaussianModels(:,k)=mediamuestral(k)+sqrt(varianzamuestral(k))*0.05;
+[L,A]=size(V);
+i=1;
+j=1;
+for t1=1:100:length(V)
+    for t2=1:100:length(V)
+        RxxTotal(i,j)=(V(:,t1)'*V(:,t2))/L;
+        KxxTotal(i,j)=RxxTotal(i,j)-(mediamuestral(t1).*mediamuestral(t2));
+        j=j+1;
+    end
+    i=i+1;
+    j=1;
 end
 
- %% Modelo MA:
-windowsizeRest = 40;
-windowsizeRun = 30;
-   b = 1/windowsizeRest*ones(1,windowsizeRest);
-   MA = filter(b,1,mediamuestral(1:3750));
+%% MODELO GAUSIANO LIMITADO EN BANDA
+X = randn(5,1);
+
+GaussianModels=zeros(5,length(mediamuestral));
+for k=1:length(mediamuestral)
+    GaussianModels(:,k)=mediamuestral(k)+sqrt(varianzamuestral(k))*X;
+end
+
 %% PROOF1: IF THE NOISE IS RIGHT, IT SHOULD MAINTAIN IT'S CORRELATED BEHAVIOR
 % We choose one of these realizations for the proof
 % W=GaussianModels(5,:);
@@ -93,8 +89,8 @@ W=GaussianModels(5,:);
 % frecuencia
 %Creación del filtro
 PBF = designfilt('bandpassiir','PassbandFrequency1',3.5,...
-'StopbandFrequency1',3,'StopbandFrequency2',30.5,...
-'PassbandFrequency2',30,...
+'StopbandFrequency1',3,'StopbandFrequency2',26.5,...
+'PassbandFrequency2',26,...
 'StopbandAttenuation1',30,'StopbandAttenuation2',30,...
 'SampleRate',Fs,'DesignMethod','ellip');
 %% VEAMOS COMO SE COMPARA CON EL SAVITZKY
