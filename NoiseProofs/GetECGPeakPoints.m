@@ -8,12 +8,12 @@ function [ECGPeaks,ECGLocs] = GetECGPeakPoints(signal,minHeight,MinDistance,MaxW
         
 [ECGPeaks,ECGLocs] = findpeaks(signal,125,'MinPeakHeight',minHeight,'MinPeakDistance',MinDistance,...
         'MaxPeakWidth',MaxWidth,'Annotate','extents');
-        figure
-        findpeaks(signal,125,'MinPeakHeight',minHeight,'MinPeakDistance',MinDistance,...
-            'MaxPeakWidth',MaxWidth,'Annotate','extents');
-        hold on
-        plot(ECGLocs,ECGPeaks,'o')   
-        xlabel('Tiempo');
-        ylabel('Signal');
-        hold on
+%         figure
+%         findpeaks(signal,125,'MinPeakHeight',minHeight,'MinPeakDistance',MinDistance,...
+%             'MaxPeakWidth',MaxWidth,'Annotate','extents');
+%         hold on
+%         plot(ECGLocs,ECGPeaks,'o')   
+%         xlabel('Tiempo');
+%         ylabel('Signal');
+%         hold on
 end

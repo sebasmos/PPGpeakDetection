@@ -4,8 +4,6 @@ function [final]=GetGaussianNoise()
  close all
  clc
 %% Add GetAverageNoise function
-%%IMPORTANTE!!!! SACAR MEDIAMUESTRAL DEL SCRIPT DE GETAVERAGEDNOISE
-%%QUITANDO LA PARTE EN LA QUE SE LE SUMA VALORESMEDIA
 addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\NoiseProofs')
 addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1')
 addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\GeneralNoise')

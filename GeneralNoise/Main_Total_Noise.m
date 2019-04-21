@@ -8,7 +8,7 @@ addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/Noi
 j = 1; %IMPORTANT!!! change this parameter to obtain errors from 
           %different realizations
 %% Get and save signals in 'Realizaciones'
-% NOISE MODEL PARAMETERS
+% NOISE MODEL PARAMETERS    
 % LPC COEFFICIENTS
 LPCActivity1 = 3500;
 LPCActivity6 = 2200;

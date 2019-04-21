@@ -2,6 +2,7 @@
 clc
 clear all
 close all
+addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1')
 [mediamuestral,TamRealizaciones]=GetAveragedNoise();
 % Get and save signals in 'Realizaciones'
 for k = 1:12
@@ -110,7 +111,7 @@ subplot(2,1,1)
 plot(t,nueva);
 title('RUIDO POR SAVITZKY')
 
-%ANALISIS EN EL ESPECTRO DE FRECUENCIA
+%%ANALISIS EN EL ESPECTRO DE FRECUENCIA
 % 1.Potencia espectral: (comparaciÃ³n)
 Res = 10; 
 Npuntos = 2^nextpow2(Fs/2/Res);
@@ -123,22 +124,29 @@ title('Potencia espectral de la seÃ±al filtrada con S.Golay');
 pwelch(s2filt,w,Npuntos/2,Npuntos,Fs),
 legend('normal','filtrado')
 
-% 2.Densidad espectral (ruido):
+%% 2.Densidad espectral (ruido):
 figure(9) 
 title('Densidad espectral de ruido Savitzky');
 pwelch(nueva,w,Npuntos/2,Npuntos,Fs),
 
-% 3. Espectro del ruido:
+%% 3. Espectro del ruido:
 espectroruido=fft(nueva);
 L=length(espectroruido);
 P2 = abs(espectroruido/L);
 P1 = P2(1:L/2+1);
 P1(2:end-1) = 2*P1(2:end-1);
-f = Fs*(0:(L/2))/L;
-figure(10)
-plot(f,P1)
-title('Espectro (transf.de Fourier) del ruido Savitzky');
 
+espectroruidow=fft(Ruido);
+Lw=length(espectroruidow);
+P2w = abs(espectroruidow/Lw);
+P1w = P2w(1:Lw/2+1);
+P1w(2:end-1) = 2*P1w(2:end-1);
+fw = Fs*(0:(Lw/2))/Lw;
+figure(10)
+plot(f,P1),hold on
+plot(f,P1w),grid on, xlabel('Frequency(Hz)')
+title('Frequency-domain Analysis')
+legend('Savitzky noise model ','Wavelet noise model ')
 %% COMPARACIÃ“N ENTRE LOS DOS RUIDOS:
 %En frecuencia:
 figure(11)
@@ -148,17 +156,18 @@ subplot(2,1,2)
 hold on
 plot(f3,dP3)
 hold on
-plot(f4,dP4)
-title('POTENCIA ESPECTRAL: RUIDO SAVITZKY VS RUIDO WAVELETS')
-legend('Savitzky','Wavelet')
+plot(f4,dP4),grid on, xlabel('Frequency(Hz)')
+title('Power Spectral Analysis')
+legend('Savitzky noise model ','Wavelet noise model ')
 
 %En tiempo:
 figure(12)
 plot(Ruido)
-title('COMPARACION DE RUIDOS EN EL TIEMPO')
+title('High-frequency noise components of models')
 hold on
-plot(nueva)
-legend('WAVELETS','SAVITZKY')
+plot(nueva),grid on, xlabel('Frequency(Hz)')
+
+legend('Savitzky noise model ','Wavelet noise model ')
 
 %% CREACIÃ“N DEL RUIDO DEFINITIVO
 % Ahora que se ha decidido que se utilizarÃ¡ el ruido S.G para generar los
@@ -197,7 +206,6 @@ sfilt=sgolayfilt(act1 ,70,1001);
 %% Para que LPC siga mejor la señal, debe ser pequeño, de lo contrario para
 % calcular un estimativo general, debe ser similar al tamaño total de ña
 % señal
-close all
 LinearPredictor = lpc(act1,7000);
 LP = filter([0 -LinearPredictor(2:end)],1,act1);
 % Método de verificación para determinar ventaneo es el sgte:
@@ -210,14 +218,23 @@ LP = filter([0 -LinearPredictor(2:end)],1,act1);
 % hold on
 % plot(act1)
 % windowsize para actividades en reposo debe ser 40
-windowsize = 30;
+close all
+
+b2 = 1/30*ones(1,30);
+y2 = filter(b2,1,act1)
+
+windowsize = 100;
 b = 1/windowsize*ones(1,windowsize);
 y = filter(b,1,act1)
 % Al graficar las 3 formas nos damos cuenta que el método de medias móviles 
 % representa mejor la señal
-plot(y,'r'),hold on
-plot(act1,'b'),hold on
-plot(sfilt,'g'),hold on
-plot(LP,'y'),hold on
-%legend('act1','lp')
- legend('Medias moviles','Senal original rest 30s','savitzky','Linear Predictor')
+% plot(y,'r'),hold on
+% plot(act1,'b'),hold on
+% plot(sfilt,'g'),hold on
+% plot(LP,'y'),hold on
+plot(y2,'r'),hold on
+hold on
+plot(y,'g'),hold on
+axis([2200 4200 0.4 0.6])
+legend('30','40')
+%  legend('Medias moviles','Senal original rest 30s','savitzky','Linear Predictor')

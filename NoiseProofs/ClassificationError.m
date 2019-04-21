@@ -7,8 +7,8 @@ clc
 clear all
 close all
 %% Add Datasets
-addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/db');
-addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/GeneralNoise');
+addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\db');
+addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\GeneralNoise');
 [mediamuestral,TamRealizaciones]=GetAveragedNoise();
 j =11; %IMPORTANT!!! change this parameter to obtain errors from 
           %different realizations

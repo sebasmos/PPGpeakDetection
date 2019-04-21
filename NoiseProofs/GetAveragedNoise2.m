@@ -114,7 +114,6 @@ Noise6 = mediamuestral(33751:end);
     MA(18751:26250) = Function_2_MA(Noise4,windowsizeRun);
     MA(26251:33750) = Function_2_MA(Noise5,windowsizeRun);
     MA(33751:35989) = Function_2_MA(Noise6,windowsizeRest);
-
 % h=hampel(MA,100,0.02);
 % plot(h)
 % hold on
