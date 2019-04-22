@@ -4,11 +4,11 @@ function [final]=GetGaussianNoise()
  close all
  clc
 %% Add GetAverageNoise function
-addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\NoiseProofs')
-addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1')
-addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\GeneralNoise')
+addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/NoiseProofs')
+addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data')
+addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/GeneralNoise')
 % Add databases
-addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\db')
+addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/db')
 %SampleFrequency
 Fs=125;
  [mediamuestral,TamRealizaciones,s,s1,s2,s3,s4,s5]=GetAveragedNoise();
@@ -29,7 +29,7 @@ mediamuestralMA = hampel(mediamuestralMA,4000,2);
 VMA=[sa-mediaMA(1:3750) sa1-mediaMA(3751:11250) sa2-mediaMA(11251:18750) sa3-mediaMA(18751:26250) sa4-mediaMA(26251:33750) sa5-mediaMA(33751:end)];
 varianzamuestralMA= var(VMA);
 % Modelos optimos para XMA entre 0 y 0.15 aprox, crear rand en dicho
-% interv. Mejor Valor: 0.05, ver gráfica
+% interv. Mejor Valor: 0.05, ver grï¿½fica
  %% Modelo MA general por analisis comparatorio
 windowsizeRest = 40;
 windowsizeRun = 30;
