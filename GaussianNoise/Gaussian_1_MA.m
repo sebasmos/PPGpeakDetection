@@ -160,6 +160,7 @@ ZeroCenteredNoise6=Noise6-WandererBaseline6;
     'SampleRate',Fs,'DesignMethod','ellip');
 %    Modelo final:
     TotalMA = filtfilt(PBF,GaussianModelsMA(1,:));
+    
     % Cleaning signal with MA
     CleanedMA1 = Activity1 - TotalMA(1:3750);
     CleanedMA2 = Activity2 - TotalMA(3751:11250);

@@ -17,8 +17,8 @@ function [MA,TamRealizaciones,s,s1,s2,s3,s4,s5] = GetAveragedNoise2()
 addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\GeneralNoise')
 % Initial Conditions
 
-windowsizeRest = 100;
-windowsizeRun = 80;
+windowsizeRest = 30;
+windowsizeRun = 70;
 k=0;
 prom=0;
 sm0=0;
@@ -48,21 +48,21 @@ for k = 1:12
     if k >= 10
         labelstring = int2str(k);
         word = strcat({'DATA_'},labelstring,{'_TYPE02.mat'});
-        s(k,:) =  GetSavitzkyNoise2(char(word),2,1,3750);
-        s1(k,:) =  GetSavitzkyNoise2(char(word),2,3751,11250);
-        s2(k,:) =  GetSavitzkyNoise2(char(word),2,11251,18750);
-        s3(k,:) =  GetSavitzkyNoise2(char(word),2,18751,26250);
-        s4(k,:) =  GetSavitzkyNoise2(char(word),2,26251,33750);        
-        s5(k,:) =  GetSavitzkyNoise2(char(word),2,33751,min(TamRealizaciones));
+        s(k,:) =  GetSavitzkyNoise(char(word),2,1,3750);
+        s1(k,:) =  GetSavitzkyNoise(char(word),2,3751,11250);
+        s2(k,:) =  GetSavitzkyNoise(char(word),2,11251,18750);
+        s3(k,:) =  GetSavitzkyNoise(char(word),2,18751,26250);
+        s4(k,:) =  GetSavitzkyNoise(char(word),2,26251,33750);        
+        s5(k,:) =  GetSavitzkyNoise(char(word),2,33751,min(TamRealizaciones));
     else       
         labelstring = int2str(k);
         word = strcat({'DATA_0'},labelstring,{'_TYPE02.mat'});
-        s(k,:) =  GetSavitzkyNoise2(char(word),2,1,3750);
-        s1(k,:) =  GetSavitzkyNoise2(char(word),2,3751,11250);
-        s2(k,:) =  GetSavitzkyNoise2(char(word),2,11251,18750);
-        s3(k,:) =  GetSavitzkyNoise2(char(word),2,18751,26250);
-        s4(k,:) =  GetSavitzkyNoise2(char(word),2,26251,33750);        
-        s5(k,:) =  GetSavitzkyNoise2(char(word),2,33751,min(TamRealizaciones));
+        s(k,:) =  GetSavitzkyNoise(char(word),2,1,3750);
+        s1(k,:) =  GetSavitzkyNoise(char(word),2,3751,11250);
+        s2(k,:) =  GetSavitzkyNoise(char(word),2,11251,18750);
+        s3(k,:) =  GetSavitzkyNoise(char(word),2,18751,26250);
+        s4(k,:) =  GetSavitzkyNoise(char(word),2,26251,33750);        
+        s5(k,:) =  GetSavitzkyNoise(char(word),2,33751,min(TamRealizaciones));
     end
     % In this part, after the noise has been obtained for each activity, we
     % proceed to make a sum for each one of the activities.
