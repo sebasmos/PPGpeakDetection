@@ -8,7 +8,7 @@
 % INPUTS: *windosizeRest [30,40]
 %         *windowsizeRun [70]
 %OUTPUTS: [sensitibity,especificity]
-function [Sensitibity,Especificity] = GetSensitibityMA(windowsizeRest,windowsizeRun)
+function [Sensitibity,Especificity] = GetSensitivityMA(windowsizeRest,windowsizeRun)
 % clc
 % clear all
 % close all
