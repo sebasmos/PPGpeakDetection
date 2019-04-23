@@ -8,7 +8,7 @@
 % INPUTS: *windosizeRest [30,40]
 %         *windowsizeRun [70]
 %OUTPUTS: [sensitibity,especificity]
-function [Sensibity,Especificity] = Pandora(windowsizeRest,windowsizeRun)
+function [Sensitibity,Especificity] = GetSensitibityMA(windowsizeRest,windowsizeRun)
 % clc
 % clear all
 % close all
@@ -170,5 +170,5 @@ FN = 0;
    end
    %%
    Especificity  = sum(TN)./(sum(TN)+sum(FP));
-   Sensibity    = sum(TP)./(sum(TP)+sum(FN));
+   Sensitibity    = sum(TP)./(sum(TP)+sum(FN));
 end

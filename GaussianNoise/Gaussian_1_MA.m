@@ -3,9 +3,9 @@ function [Sensibity,Especificity] = Gaussian_1_MA(windowsizeRest,windowsizeRun)
 % clear all
 % close all
 %% Add Datasets
-addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\db');
-addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\GeneralNoise');
-addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\NoiseProofs');
+addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/db');
+addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/GeneralNoise');
+addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/NoiseProofs');
 [mediamuestral,TamRealizaciones,s,s1,s2,s3,s4,s5]=GetAveragedNoise();
 % UNBIASED VARIANZA
 %The activities are separated according to each activity and its variance
@@ -146,7 +146,7 @@ ZeroCenteredNoise6=Noise6-WandererBaseline6;
     TotalMA(33751:35989) = WandererBaseline6 + MA(33751:35989);
       % MODELO GAUSIANO LIMITADO EN BANDA, 
     % Anadimos varianza de Savitzky a modelo Gaussiano para alterar la
-    % señal con mayor intensidad
+    % seï¿½al con mayor intensidad
 %   X = randn(5,1);
     XMA = [0.05 0.001 0.1 0.2 0.4 ];
     GaussianModelsMA=zeros(length(XMA),length(mediamuestralMA));

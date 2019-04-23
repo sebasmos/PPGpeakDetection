@@ -18,11 +18,7 @@ addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/Gen
 % Initial Conditions
 
 windowsizeRest = 30;
-<<<<<<< HEAD
-windowsizeRun = 70;
-=======
 windowsizeRun = 40;
->>>>>>> 4ca36005bc4c329b71d34c4a12275aa4ec292553
 k=0;
 prom=0;
 sm0=0;
@@ -118,8 +114,8 @@ Noise6 = mediamuestral(33751:end);
     MA(18751:26250) = Function_2_MA(Noise4,windowsizeRun);
     MA(26251:33750) = Function_2_MA(Noise5,windowsizeRun);
     MA(33751:35989) = Function_2_MA(Noise6,windowsizeRest);
-% h=hampel(MA,500);
-% plot(h)
-% hold on
-% plot(MA)
+h=hampel(MA,500);
+plot(h)
+hold on
+plot(MA)
 end

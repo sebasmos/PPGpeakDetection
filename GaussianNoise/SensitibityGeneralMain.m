@@ -8,13 +8,12 @@ addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\P
 % AVERAGE MEAN
 windowsizeRest = 25;
 windowsizeRun = 65;
-%% La idea de este script es encontrar los mejores parámetros para el modelo gaussiano
-%% Encontrar mejor modelo automaticamente
+%% Find automatically window size for best noise performance
 i=25;
 j=65;
 
 while i<200
- while j<200
+ while j<300
     [sen,ecp] = GMA(i,j);
    % fprintf('(i,j)=(%d,%d)  ----   (Sen,esp)= (%d,%d)',i,j,sen,ecp)
     VectorSen(i,j) = sen;

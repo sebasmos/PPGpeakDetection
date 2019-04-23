@@ -10,3 +10,6 @@
 #Se han borrado ciertas funciones de GeneralNoise que tambien se encuentran en NoiseProofs para no confundirse, simplemente se le ha cambiado el path.
 
 #ArrhythmiaDetection: Contiene Arrhythmia_Main, se hacen pruebas en dataset a1065l con Bradicardias y Taquicardias, para determinar si el número de picos en señales originales son similares o parecidos al añadir ruido artificial Savitzky model 1. Se quita baseline para poder añadir correctamente ruido de bajas frecuencias del modelo 1.
+
+
+#GaussianNoise: Este folder contiene todos los modelos generados por la distribución gaussiana al ser alimentada por diferentes tipos de señales. Hasta el momento tiene la mejor sensibilidad.
