@@ -14,7 +14,7 @@ j=65;
 
 while i<200
  while j<300
-    [sen,ecp] = GMA(i,j);
+    [sen,ecp] = GetSensitibityMA(i,j);
    % fprintf('(i,j)=(%d,%d)  ----   (Sen,esp)= (%d,%d)',i,j,sen,ecp)
     VectorSen(i,j) = sen;
     VectorEsp(i,j)= ecp;

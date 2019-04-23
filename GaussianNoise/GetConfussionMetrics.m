@@ -16,7 +16,7 @@
 % 5. param(5): Prominence
 % 6. param(6): MinPeakDistance
 % 7. param(7): MinPeakDistance
-function ParametersMatrixCleaned = GetPandoraA(ecgCleaned,ppgOriginal,ppgCleaned,params,Fs)
+function ParametersMatrixCleaned = GetConfussionMetrics(ecgCleaned,ppgOriginal,ppgCleaned,params,Fs)
      % EXTRACCION DE LOS PICOS DE ECG CON RUIDO Y SIN RUIDO
     % 1. ECG
    [~,ECG1Locs] = GetECGPeakPoints(ecgCleaned,params(5),params(6),params(7));
