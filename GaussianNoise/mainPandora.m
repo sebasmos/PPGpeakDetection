@@ -7,7 +7,7 @@ addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\P
 addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\NoiseProofs');
 % AVERAGE MEAN
 windowsizeRest = 30;
-windowsizeRun = 40;
+windowsizeRun = 70;
 %% La idea de este script es encontrar los mejores par�metros para el modelo gaussiano
 %% Encontrar mejor modelo automaticamente
 i=30;

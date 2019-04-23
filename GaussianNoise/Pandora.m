@@ -13,10 +13,11 @@ function [Sensibity,Especificity] = Pandora(windowsizeRest,windowsizeRun)
 % clear all
 % close all
 %% Add Datasets
-addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\db');
-addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\GeneralNoise');
-addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\NoiseProofs');
+addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/db');
+addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/GeneralNoise');
+addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/NoiseProofs');
 [mediamuestral,TamRealizaciones,s,s1,s2,s3,s4,s5]=GetAveragedNoise();
+media=ValoresMedia(mediamuestral);
 % LPC COEFFICIENTS
 LPCActivity1 = 3500;
 LPCActivity6 = 2200;
@@ -103,12 +104,12 @@ Noise6 = mediamuestral(33751:end);
 %% Detrend noise by activities.
 nRest = 10;
 nRun = 10;
-WandererBaseline1=Detrending(Noise1,nRest);
-WandererBaseline2=Detrending(Noise2,nRun);
-WandererBaseline3=Detrending(Noise3,nRun);
-WandererBaseline4=Detrending(Noise4,nRun);
-WandererBaseline5=Detrending(Noise5,nRun);
-WandererBaseline6=Detrending(Noise6,nRest);
+WandererBaseline1=media(1:3750);
+WandererBaseline2=media(3751:11250);
+WandererBaseline3=media(11251:18750);
+WandererBaseline4=media(18751:26250);
+WandererBaseline5=media(26251:33750);
+WandererBaseline6=media(33751:end);
 % Zero centered noise extraction
 ZeroCenteredNoise1=Noise1-WandererBaseline1;
 ZeroCenteredNoise2=Noise2-WandererBaseline2;
