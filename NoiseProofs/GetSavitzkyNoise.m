@@ -6,7 +6,7 @@
 function Noise = GetSavitzkyNoise(name,n,m,s)
 
 %% Add Datasets
-addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/db');
+addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\db');
 
     ppg=load(name);
     ppgSignal = ppg.sig;

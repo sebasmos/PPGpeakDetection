@@ -8,7 +8,7 @@
 % INPUTS: *windosizeRest [30,40]
 %         *windowsizeRun [70]
 %OUTPUTS: [sensitibity,especificity]
-function [Sensibity,Especificity] = Pandora(windowsizeRest,windowsizeRun)
+function [Sensitibity,Especificity] = GetSensitibityMA(windowsizeRest,windowsizeRun)
 % clc
 % clear all
 % close all
@@ -157,12 +157,12 @@ FP = 0;
 TN = 0;
 FN = 0;
    for i=1:12
-    alfa(i,(1:4))  = GetPandoraA(CleanedActivityECG1(i,:),Activity1(i,:),CleanedMA1(i,:),P(i,(1:7)),Fs);
-    alfa(i,(5:8))  = GetPandoraA(CleanedActivityECG2(i,:),Activity2(i,:),CleanedMA2(i,:),P(i,(8:14)),Fs);
-    alfa(i,(9:12)) = GetPandoraA(CleanedActivityECG3(i,:),Activity3(i,:),CleanedMA3(i,:),P(i,(15:21)),Fs);
-    alfa(i,(13:16))= GetPandoraA(CleanedActivityECG4(i,:),Activity4(i,:),CleanedMA4(i,:),P(i,(22:28)),Fs);  
-    alfa(i,(17:20))= GetPandoraA(CleanedActivityECG5(i,:),Activity5(i,:),CleanedMA5(i,:),P(i,(29:35)),Fs);
-    alfa(i,(21:24))= GetPandoraA(CleanedActivityECG6(i,:),Activity6(i,:),CleanedMA6(i,:),P(i,(36:42)),Fs);
+    alfa(i,(1:4))  = GetConfussionMetrics(CleanedActivityECG1(i,:),Activity1(i,:),CleanedMA1(i,:),P(i,(1:7)),Fs);
+    alfa(i,(5:8))  = GetConfussionMetrics(CleanedActivityECG2(i,:),Activity2(i,:),CleanedMA2(i,:),P(i,(8:14)),Fs);
+    alfa(i,(9:12)) = GetConfussionMetrics(CleanedActivityECG3(i,:),Activity3(i,:),CleanedMA3(i,:),P(i,(15:21)),Fs);
+    alfa(i,(13:16))= GetConfussionMetrics(CleanedActivityECG4(i,:),Activity4(i,:),CleanedMA4(i,:),P(i,(22:28)),Fs);  
+    alfa(i,(17:20))= GetConfussionMetrics(CleanedActivityECG5(i,:),Activity5(i,:),CleanedMA5(i,:),P(i,(29:35)),Fs);
+    alfa(i,(21:24))= GetConfussionMetrics(CleanedActivityECG6(i,:),Activity6(i,:),CleanedMA6(i,:),P(i,(36:42)),Fs);
 
       TP = [TP alfa(i,1) alfa(i,5) alfa(i,9)  alfa(i,13)  alfa(i,17)  alfa(i,21)];
       FP = [FP alfa(i,2) alfa(i,6) alfa(i,10) alfa(i,14)  alfa(i,18)  alfa(i,22)];
@@ -171,5 +171,5 @@ FN = 0;
    end
    %%
    Especificity  = sum(TN)./(sum(TN)+sum(FP));
-   Sensibity    = sum(TP)./(sum(TP)+sum(FN));
+   Sensitibity    = sum(TP)./(sum(TP)+sum(FN));
 end

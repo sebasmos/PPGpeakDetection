@@ -17,8 +17,10 @@ function [h,TamRealizaciones,s,s1,s2,s3,s4,s5] = GetAveragedNoise2()
 addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/GeneralNoise')
 % Initial Conditions
 
+
 windowsizeRest = 40;
 windowsizeRun = 70;
+
 k=0;
 prom=0;
 sm0=0;
