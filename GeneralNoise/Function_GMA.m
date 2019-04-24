@@ -12,10 +12,10 @@ function [Sensibity,Especificity] = Function_GMA(windowsizeRest,windowsizeRun)
 % 4. Running 8km/h (1min)  corresponds to 6 km/h in activity type 2
 % 5. Running 15km/h (1min) corresponds to 12 km/h in activity type 2
 % 6. Rest (30 min)
-addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\NoiseProofs')
-addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\GaussianNoise')
+addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/NoiseProofs')
+addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/GaussianNoise')
 
-addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\db')
+addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/db')
 % Initial Conditions
 % 
 % windowsizeRest = 30;
