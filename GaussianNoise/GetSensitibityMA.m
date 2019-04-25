@@ -1,4 +1,4 @@
-% function [Sensibity,Especificity] = Pandora(windowsizeRest,windowsizeRun)
+% functmeion [Sensibity,Especificity] = Pandora(windowsizeRest,windowsizeRun)
 
 % DESCRIPTION: Pandora FINDS the confussion matrix params for MA model, in
 % the same way it does for Main_Total_Noise in order to find the best
