@@ -2,11 +2,12 @@ clc
 clear all
 close all
 %% Add Datasets
-addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\db');
-addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\NoiseProofs');
+addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/db');
+addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/NoiseProofs');
+addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/GeneralNoise');
 [mediamuestral,TamRealizaciones]=GetAveragedNoise();
 % Set realization as desired.
-j = 1; 
+j = 2; 
 
 %% Get and save signals in 'Realizaciones'
 % NOISE MODEL PARAMETERS    
@@ -28,33 +29,33 @@ sm5=0;
 %% Parameters for findpeaks Function
 % PARAMETERS FOR PPG SIGNAL
 % MinPeakWidth
-MinPeakWidthRest1 = 0.11;
-MinPeakWidthRun_2 = 0.01;
+MinPeakWidthRest1 = 0.09;
+MinPeakWidthRun_2 = 0.05;
 MinPeakWidthRun_3 = 0.07;
 MinPeakWidthRun_4 = 0.07;
 MinPeakWidthRun_5 = 0.07;
 MinPeakWidthRest6 = 0.05;
 % MaxWidthPeak in PPG
-MaxWidthRest1 = 0.5;
-MaxWidthRun2 = 0.6;
+MaxWidthRest1 = 0.45;
+MaxWidthRun2 = 0.45;
 MaxWidthRun3 = 0.5;
 MaxWidthRun4 = 0.8;
 MaxWidthRun5 = 0.8;
 MaxWidthRest6 = 1.5;
 % Prominence in PPG
 ProminenceInRest1 = 0.009;
-ProminenceRun2 = 0.049;
+ProminenceRun2 = 0.05;
 ProminenceRun3 = 0.038;
 ProminenceRun4 = 0.04;
 ProminenceRun5 = 0.04;
 ProminenceInRest6 = 0.01;
 % Min peak Distance in PPG
-MinDistRest1 = 0.3;
-MinDistRun2 = 0.1;
+MinDistRest1 = 0.4;
+MinDistRun2 = 0.35;
 MinDistRun3 = 0.1;
-MinDistRun4 = 0.15;
-MinDistRun5 = 0.1;
-MinDistRest6 = 0.2;
+MinDistRun4 = 0.3;
+MinDistRun5 = 0.2;
+MinDistRest6 = 0.4;
 %% PARAMETERS IN ECG SIGNAL
 % Min Height in ECG
 MinHeightECGRest1 = 0.025;
@@ -309,8 +310,7 @@ ZeroCenteredNoise6=Noise6-WandererBaseline6;
     minDistRest1,minDistRun2,minDistRun3,minDistRun4,minDistRun5,minDistRest6,...
     maxWidthRest1,maxWidthRun2,maxWidthRun3,maxWidthRun4,maxWidthRun5,maxWidthRest6);
 %% 4. FINAL MODEL: Band-Limited Gaussian noise model
-    h=hampel(MA,500); %% ARREGLAR
-    media=ValoresMedia(h);
+    h=hampel(MA,500); 
     MAHF=MA;
     V=[s-WandererBaseline1 s1-WandererBaseline2 s2-WandererBaseline3 s3-WandererBaseline4 s4-WandererBaseline5 s5-WandererBaseline6];
     varianzamuestralMA= var(V);

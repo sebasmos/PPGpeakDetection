@@ -1,4 +1,4 @@
-% function [Sensibity,Especificity] = Pandora(windowsizeRest,windowsizeRun)
+% function [Sensivity,Especificity] = Pandora(windowsizeRest,windowsizeRun)
 
 % DESCRIPTION: Pandora FINDS the confussion matrix params for MA model, in
 % the same way it does for Main_Total_Noise in order to find the best
@@ -8,16 +8,15 @@
 % INPUTS: *windosizeRest [30,40]
 %         *windowsizeRun [70]
 %OUTPUTS: [sensitibity,especificity]
-function [Sensitibity,Especificity] = GetSensitivityMA(windowsizeRest,windowsizeRun)
-% clc
-% clear all
-% close all
+function [Sensitivity,Especificity] = GetSensitivityMA(windowsizeRest,windowsizeRun)
+clc
+clear all
+close all
 %% Add Datasets
 addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/db');
-addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/GeneralNoise');
 addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/NoiseProofs');
+addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/GeneralNoise');
 [mediamuestral,TamRealizaciones,s,s1,s2,s3,s4,s5]=GetAveragedNoise();
-media=ValoresMedia(mediamuestral);
 % LPC COEFFICIENTS
 LPCActivity1 = 3500;
 LPCActivity6 = 2200;
@@ -104,12 +103,12 @@ Noise6 = mediamuestral(33751:end);
 %% Detrend noise by activities.
 nRest = 10;
 nRun = 10;
-WandererBaseline1=media(1:3750);
-WandererBaseline2=media(3751:11250);
-WandererBaseline3=media(11251:18750);
-WandererBaseline4=media(18751:26250);
-WandererBaseline5=media(26251:33750);
-WandererBaseline6=media(33751:end);
+WandererBaseline1=Detrending(Noise1,nRest);
+WandererBaseline2=Detrending(Noise2,nRun);
+WandererBaseline3=Detrending(Noise3,nRun);
+WandererBaseline4=Detrending(Noise4,nRun);
+WandererBaseline5=Detrending(Noise5,nRun);
+WandererBaseline6=Detrending(Noise6,nRest);
 % Zero centered noise extraction
 ZeroCenteredNoise1=Noise1-WandererBaseline1;
 ZeroCenteredNoise2=Noise2-WandererBaseline2;
@@ -134,6 +133,7 @@ ZeroCenteredNoise6=Noise6-WandererBaseline6;
     MA(18751:26250) = Function_2_MA(ZeroCenteredNoise4,windowsizeRun);
     MA(26251:33750) = Function_2_MA(ZeroCenteredNoise5,windowsizeRun);
     MA(33751:35989) = Function_2_MA(ZeroCenteredNoise6,windowsizeRest);
+    
 %   Ruido total 2: o(t) = n(t)+w(t)
     TotalMA(1:3750)      = WandererBaseline1 + MA(1:3750);
     TotalMA(3751:11250)  = WandererBaseline2 + MA(3751:11250);
@@ -171,5 +171,5 @@ FN = 0;
    end
    %%
    Especificity  = sum(TN)./(sum(TN)+sum(FP));
-   Sensitibity    = sum(TP)./(sum(TP)+sum(FN));
+   Sensitivity    = sum(TP)./(sum(TP)+sum(FN));
 end
