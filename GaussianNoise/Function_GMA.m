@@ -124,9 +124,14 @@ Media0 = M./Realizaciones;
 v=[Media0(1,:) Media0(2,:) Media0(3,:) Media0(4,:) Media0(5,:) Media0(6,:)];
 
 % Delete extra zeros and make the output fit the right format.
-
-    mediamuestral=nonzeros(v);
-    mediamuestral=mediamuestral';
+    mediamuestralCleared=nonzeros(v);
+    mediamuestralCleared=mediamuestralCleared';
+%% In order to delete big peaks between activities, use hampel to find the 
+% 3 or more standard deviation around N adjacent samples and replace large
+% peaks.
+% This model won't obtain similar results as 
+ 
+    mediamuestral=hampel(mediamuestralCleared,5,2);
 
 %% EXTRACT 2 ECG AND PPG CHANNELS AND SAVE THEM IN ARRAYS.
 for k = 1:12
@@ -144,17 +149,15 @@ for k = 1:12
         ECGdatasetSignals(k,:)=a.sig(1,(1:35989));
     end
 end
-
 % Sample Frequency
     Fs = 125;
-% Convert to physical values: According to timesheet of the used wearable
+%Convert to physical values: According to timesheet of the used wearable
 ecgFullSignal = (ECGdatasetSignals-128)./255;
-signal = (PPGdatasetSignals-128)/(255);
+signal2 = (PPGdatasetSignals-128)/(255);
 
 % Normalize the entire signal of all realizations.
-
 for k=1:12
-    sNorm(k,:)   = (signal(k,:)-min(signal(k,:)))/(max(signal(k,:))-min(signal(k,:)));
+    sNorm(k,:) = (signal2(k,:)-min(signal2(k,:)))/(max(signal2(k,:))-min(signal2(k,:)));
     ecgNorm(k,:) = (ecgFullSignal(k,:)-min(ecgFullSignal(k,:)))./(max(ecgFullSignal(k,:))-min(ecgFullSignal(k,:)));
 end
 %% Separate signals in its corresponding activities 
@@ -183,8 +186,7 @@ for k=1:12
     CleanedActivityECG5(k,:)=DenoiseECG(ActivityECG5(k,:));
     CleanedActivityECG6(k,:)=DenoiseECG(ActivityECG6(k,:));
 end
-
-%% Separate Savitzky-noise for PPG with its correspondent activity.
+%% Separate Savitzky noise for PPG with its correspondent activity.
 Noise1 = mediamuestral(1:3750);
 Noise2 = mediamuestral(3751:11250);
 Noise3 = mediamuestral(11251:18750);
@@ -207,23 +209,15 @@ ZeroCenteredNoise3=Noise3-WandererBaseline3;
 ZeroCenteredNoise4=Noise4-WandererBaseline4;
 ZeroCenteredNoise5=Noise5-WandererBaseline5;
 ZeroCenteredNoise6=Noise6-WandererBaseline6;
-%% Model MA: Average by windows size
+%% MOVING AVERAGE MODEL
     MA(1:3750)      = Function_2_MA(ZeroCenteredNoise1,windowsizeRest);
-    % Fixex with variance highter values: 100/125: 0.8 seconds
-    MA(1:100)       = mean(Noise1); 
     MA(3751:11250)  = Function_2_MA(ZeroCenteredNoise2,windowsizeRun);
     MA(11251:18750) = Function_2_MA(ZeroCenteredNoise3,windowsizeRun);
     MA(18751:26250) = Function_2_MA(ZeroCenteredNoise4,windowsizeRun);
     MA(26251:33750) = Function_2_MA(ZeroCenteredNoise5,windowsizeRun);
     MA(33751:35989) = Function_2_MA(ZeroCenteredNoise6,windowsizeRest);
-%% In order to delete big peaks between activities, use hampel to find the 
-% 3 or more standard deviation around N adjacent samples and replace large
-% peaks.
-    h=hampel(MA,500); 
-    
 %% As the high-frequency noise components have been zero-centered using 
 % detrending function, similarly unbiased sample variance are
-
     V=[s-WandererBaseline1 s1-WandererBaseline2 s2-WandererBaseline3 s3-WandererBaseline4 s4-WandererBaseline5 s5-WandererBaseline6];
     varianzamuestralMA= var(V);
     
@@ -232,25 +226,28 @@ ZeroCenteredNoise6=Noise6-WandererBaseline6;
 % conditional for passband filtering is created to avoid unexpected signal
 % distortion
 % Seed pool.
-    XMA = [0.05 0.06 0.07 ];
+    seed = [0 0.05 0.06 0.03 0.04];
+    Seed_Position = 2;
 % Save memory for XMA band-limited Gaussian noise models
-    GaussianModelsMA=zeros(length(XMA),length(MA));
+    GaussianModelsMA=zeros(length(seed),length(MA));
 % Create Gaussian Noise Models varying variance for each seed-value
     for k=1:length(MA)
-        GaussianModelsMA(:,k)=MA(k)+sqrt(varianzamuestralMA(k))*XMA;
+        GaussianModelsMA(:,k) = MA(k) + sqrt(varianzamuestralMA(k))*seed;
     end
-% Passband filtering for supressing frequencies above 26 hz and below 3hz.
-if XMA ~= 0    
-    PBF = designfilt('bandpassiir','PassbandFrequency1',2.5,...
+
+if Seed_Position == 1
+     TotalMAHF = GaussianModelsMA(Seed_Position,:);
+else
+    % Passband filtering for supressing frequencies above 26 hz and below 3hz.
+     PBF = designfilt('bandpassiir','PassbandFrequency1',2.5,...
     'StopbandFrequency1',2,'StopbandFrequency2',26.5,...
     'PassbandFrequency2',26,...
     'StopbandAttenuation1',10,'StopbandAttenuation2',10,...
     'SampleRate',Fs,'DesignMethod','ellip');
 %    Apply filter with filtfilt
-    TotalMAHF = filtfilt(PBF,GaussianModelsMA(1,:));
-else % Obtain main model.
-    TotalMAHF = GaussianModelsMA;
+     TotalMAHF = filtfilt(PBF,GaussianModelsMA(Seed_Position,:));
 end
+%%   Ruido total 2: o(t) = n(t)+w(t)
     TotalGaussianNoise(1:3750)      = WandererBaseline1 + TotalMAHF(1:3750);
     TotalGaussianNoise(3751:11250)  = WandererBaseline2 + TotalMAHF(3751:11250);
     TotalGaussianNoise(11251:18750) = WandererBaseline3 + TotalMAHF(11251:18750);

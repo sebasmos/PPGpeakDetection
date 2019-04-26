@@ -41,7 +41,9 @@ for k = 1:12
     end
 end
 
-
+%% Obtain Savitzky noise as a subtraction of filtered signals from the original signals.
+% Each 's' drifts each activities in different arrays, in order to save its
+% information separately.
 for k = 1:12
     if k >= 10
         labelstring = int2str(k);

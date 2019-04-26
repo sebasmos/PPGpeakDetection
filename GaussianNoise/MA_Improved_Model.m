@@ -51,7 +51,7 @@ P=[0.11 0.5  0.009 0.3  0.025  0.6  0.05    0.01  0.6  0.049  0.1   0.025 0.5 0.
    0.07 1    0.03  0.4  0.02   0.5  0.05    0.05  0.8  0.04   0.35  0.02  0.44 0.05  0.1   0.8 0.12   0.28 0.02  0.3  0.05  0.07 0.8 0.04  0.25  0.017 0.3 0.04    0.05 1   0.12  0.28  0.017 0.3 0.04  0.1  0.5 0.04  0.2  0.014 0.3 0.04
    ];
 
-%% EXTRACT THE SIGNALS
+%% EXTRACT 2 ECG AND PPG CHANNELS AND SAVE THEM IN ARRAYS.
 for k = 1:12
     if k >= 10
         labelstring = int2str(k);
@@ -72,11 +72,11 @@ end
     Fs = 125;
 %Convert to physical values: According to timesheet of the used wearable
 ecgFullSignal = (ECGdatasetSignals-128)./255;
-s2 = (PPGdatasetSignals-128)/(255);
+signal2 = (PPGdatasetSignals-128)/(255);
 
 % Normalize the entire signal of all realizations.
 for k=1:12
-    sNorm(k,:) = (s2(k,:)-min(s2(k,:)))/(max(s2(k,:))-min(s2(k,:)));
+    sNorm(k,:) = (signal2(k,:)-min(signal2(k,:)))/(max(signal2(k,:))-min(signal2(k,:)));
     ecgNorm(k,:) = (ecgFullSignal(k,:)-min(ecgFullSignal(k,:)))./(max(ecgFullSignal(k,:))-min(ecgFullSignal(k,:)));
 end
 %% Separate signals in its corresponding activities 
@@ -105,14 +105,14 @@ for k=1:12
     CleanedActivityECG5(k,:)=DenoiseECG(ActivityECG5(k,:));
     CleanedActivityECG6(k,:)=DenoiseECG(ActivityECG6(k,:));
 end
-%% Separate noise for PPG with its correspondent activity.
+%% Separate Savitzky noise for PPG with its correspondent activity.
 Noise1 = mediamuestral(1:3750);
 Noise2 = mediamuestral(3751:11250);
 Noise3 = mediamuestral(11251:18750);
 Noise4 = mediamuestral(18751:26250);
 Noise5 = mediamuestral(26251:33750);
 Noise6 = mediamuestral(33751:end);
-%% Detrend noise by activities.
+%% Center all activities to zero using detrend function.
 nRest = 10;
 nRun = 10;
 WandererBaseline1=Detrending(Noise1,nRest);

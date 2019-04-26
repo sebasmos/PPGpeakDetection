@@ -31,6 +31,7 @@ sm4=0;
 sm5=0;
 %% Parameters for findpeaks Function
 % PARAMETERS FOR PPG SIGNAL
+
 % MinPeakWidth
 MinPeakWidthRest1 = 0.09;
 MinPeakWidthRun_2 = 0.05;
@@ -56,9 +57,9 @@ ProminenceInRest6 = 0.01;
 MinDistRest1 = 0.4;
 MinDistRun2 = 0.35;
 MinDistRun3 = 0.1;
-MinDistRun4 = 0.3;
-MinDistRun5 = 0.2;
-MinDistRest6 = 0.4;
+MinDistRun4 = 0.15;
+MinDistRun5 = 0.3;
+MinDistRest6 = 0.2;
 %% PARAMETERS IN ECG SIGNAL
 % Min Height in ECG
 MinHeightECGRest1 = 0.025;
@@ -66,7 +67,7 @@ MinHeightECGRun2  = 0.025;
 MinHeightECGRun3  = 0.04;
 MinHeightECGRun4  = 0.04;
 MinHeightECGRun5  = 0.04;
-MinHeightECGRest6 = 0.03;
+MinHeightECGRest6 = 0.04;
 %Min Dist in ECG
 minDistRest1  = 0.6;
 minDistRun2   = 0.5;
@@ -81,6 +82,9 @@ maxWidthRun3   = 0.05;
 maxWidthRun4   = 0.05;
 maxWidthRun5   = 0.05;
 maxWidthRest6  = 0.05;
+ 
+
+
 %% EXTRACT THE SIGNALS
 for k = 1:12
     if k >= 10
@@ -313,7 +317,7 @@ ZeroCenteredNoise6=Noise6-WandererBaseline6;
     minDistRest1,minDistRun2,minDistRun3,minDistRun4,minDistRun5,minDistRest6,...
     maxWidthRest1,maxWidthRun2,maxWidthRun3,maxWidthRun4,maxWidthRun5,maxWidthRest6);
 %% 4. FINAL MODEL: Band-Limited Gaussian noise model
-    h=hampel(MA,500); 
+   
     MAHF=MA;
     V=[s-WandererBaseline1 s1-WandererBaseline2 s2-WandererBaseline3 s3-WandererBaseline4 s4-WandererBaseline5 s5-WandererBaseline6];
     varianzamuestralMA= var(V);
