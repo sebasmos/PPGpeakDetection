@@ -10,7 +10,7 @@ addpath('C:\MATLAB2018\MATLAB\Tesis\IEEE-Processing-Cup\competition_data\PPGpeak
 addpath('C:\MATLAB2018\MATLAB\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\NoiseProofs');
 [mediamuestral,TamRealizaciones]=GetAveragedNoise();
 % Set realization as desired.
-j = 2; 
+j = 3; 
 
 %% Get and save signals in 'Realizaciones'
 % NOISE MODEL PARAMETERS    
@@ -43,21 +43,21 @@ MinPeakWidthRest6 = 0.05;
 MaxWidthRest1 = 0.45;
 MaxWidthRun2 = 0.45;
 MaxWidthRun3 = 0.5;
-MaxWidthRun4 = 0.8;
+MaxWidthRun4 = 1.5;
 MaxWidthRun5 = 0.8;
 MaxWidthRest6 = 1.5;
 % Prominence in PPG
 ProminenceInRest1 = 0.009;
 ProminenceRun2 = 0.05;
 ProminenceRun3 = 0.038;
-ProminenceRun4 = 0.04;
+ProminenceRun4 = 0.038;
 ProminenceRun5 = 0.04;
 ProminenceInRest6 = 0.01;
 % Min peak Distance in PPG
 MinDistRest1 = 0.4;
-MinDistRun2 = 0.35;
+MinDistRun2 = 0.2;
 MinDistRun3 = 0.1;
-MinDistRun4 = 0.15;
+MinDistRun4 = 0.12;
 MinDistRun5 = 0.3;
 MinDistRest6 = 0.2;
 %% PARAMETERS IN ECG SIGNAL
@@ -69,7 +69,7 @@ MinHeightECGRun4  = 0.04;
 MinHeightECGRun5  = 0.04;
 MinHeightECGRest6 = 0.04;
 %Min Dist in ECG
-minDistRest1  = 0.6;
+minDistRest1  = 0.5;
 minDistRun2   = 0.5;
 minDistRun3   = 0.2;
 minDistRun4   = 0.2;
@@ -82,7 +82,6 @@ maxWidthRun3   = 0.05;
 maxWidthRun4   = 0.05;
 maxWidthRun5   = 0.05;
 maxWidthRest6  = 0.05;
- 
 
 
 %% EXTRACT THE SIGNALS
