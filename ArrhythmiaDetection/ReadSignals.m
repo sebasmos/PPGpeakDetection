@@ -8,6 +8,15 @@
 %separados de primeros en todos los registros y los que estan de ultimos
 %son los que no tienen ningun evento.
 
+%MANUALMENTE SE VIO QUE: 
+%En bradicardia, hay positivos hasta el 46, del 47 al 89 son negativos
+%En taquicardia hay positivos hasta el 131, del 131 al 140 son negativos
+%En ventricular hay positivos hasta el 88, del 89 al 341 son negativos
+%EN TOTAL PARA TAQUICARDIA QUEDARIAN 140+341=481 registros
+
+%En total hay 573 registros.
+
+%Se usa comando rdmat preferiblemente que rdsamp (use rdmat to load the signal in physical units)
 
 addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/dbTachBrad')
 %% Extraemos las señales de bradicardia, en total son 90
@@ -220,10 +229,10 @@ TACHYPPGLong=[TACHPPGLong((1:limitTachPositivesLong),:);VTACHPPGLong((1:limitVTa
 
 save('BRADECGLong','BRADECGLong');
 save('BRADECGShort','BRADECGShort');
-save('TACHYECGLong','TACHYECGLong');
-save('TACHYECGShort','TACHYECGShort');
+%save('TACHYECGLong','TACHYECGLong');
+%save('TACHYECGShort','TACHYECGShort');
 
 save('BRADPPGLong','BRADPPGLong');
 save('BRADPPGShort','BRADPPGShort');
-save('TACHYPPGLong','TACHYPPGLong');
-save('TACHYPPGShort','TACHYPPGShort');
+%save('TACHYPPGLong','TACHYPPGLong');
+%save('TACHYPPGShort','TACHYPPGShort');
