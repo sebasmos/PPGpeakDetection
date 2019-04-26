@@ -1,16 +1,16 @@
 close all
 clc
 %% Dataset with bradycardia and Tachycardia
-addpath("C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\db")
-addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\NoiseProofs');
+addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/db');
+addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/NoiseProofs');
 % Get artificial noise with savitzky
-[mediamuestral,TamRealizaciones]=GetAveragedNoise();
+%[mediamuestral,TamRealizaciones]=GetAveragedNoise();
 Signal = load("a103l");
 Signal = Signal.val;
 %% Size sample to analyse
 m = 3750;
 % Sample Frequency
-    Fs = 250;
+Fs = 250;
 % Physical Conversion and Normalization
 for i=1:3
     Signal1(i,:) = (Signal(i,:)-125)/255;
