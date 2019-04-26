@@ -211,3 +211,19 @@ fprintf('El número de señales largas en negativos de taquicardia ventricular s
 %vamos a unir las que sean de taquicardia y taquicardia ventricular. Tanto
 %para cortas como para largas
 
+TACHYECGShort=[TACHECGShort((1:limitTachPositivesShort),:);VTACHECGShort((1:limitVTachPositivesShort),:);TACHECGShort((limitTachPositivesShort+1:end),:);VTACHECGShort((limitVTachPositivesShort+1:end),:)];
+TACHYECGLong=[TACHECGLong((1:limitTachPositivesLong),:);VTACHECGLong((1:limitVTachPositivesLong),:);TACHECGLong((limitTachPositivesLong+1:end),:);VTACHECGLong((limitVTachPositivesLong+1:end),:)];
+TACHYPPGShort=[TACHPPGShort((1:limitTachPositivesShort),:);VTACHPPGShort((1:limitVTachPositivesShort),:);TACHPPGShort((limitTachPositivesShort+1:end),:);VTACHPPGShort((limitVTachPositivesShort+1:end),:)];
+TACHYPPGLong=[TACHPPGLong((1:limitTachPositivesLong),:);VTACHPPGLong((1:limitVTachPositivesLong),:);TACHPPGLong((limitTachPositivesLong+1:end),:);VTACHPPGLong((limitVTachPositivesLong+1:end),:)];
+
+%% Ya que los organizamos, vamos a exportarlos o guardarlos.
+
+save('BRADECGLong','BRADECGLong');
+save('BRADECGShort','BRADECGShort');
+save('TACHYECGLong','TACHYECGLong');
+save('TACHYECGShort','TACHYECGShort');
+
+save('BRADPPGLong','BRADPPGLong');
+save('BRADPPGShort','BRADPPGShort');
+save('TACHYPPGLong','TACHYPPGLong');
+save('TACHYPPGShort','TACHYPPGShort');

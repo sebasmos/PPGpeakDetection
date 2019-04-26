@@ -16,11 +16,13 @@ BradNegatives=89;
 TachPositives=131;
 TachNegatives=140;
 VTachPositives=88;
-VTachNegatives=342;
+VTachNegatives=341;
 shortBradPositives=1;
 longBradPositives=1;
 shortTachPositives=1;
 longTachPositives=1;
+shortVTachPositives=1;
+longVTachPositives=1;
 %% EXTRACCION Y ORGANIZACION DE LAS SEÑALES DE BRADICARDIA
 %Hay señales que son mas largas que otras, por esta razon y para poder
 %sumar el ruido de una manera mas facil en un futuro, se decide guardarlas
@@ -146,3 +148,67 @@ end
 
 fprintf('El número de señales cortas en negativos de taquicardia son %d \n',shortTachPositives-limitTachPositivesShort-1);
 fprintf('El número de señales largas en negativos de taquicardia son %d \n',longTachPositives-limitTachPositivesLong-1);
+
+%% EXTRACCION Y ORGANIZACION DE LAS SEÑALES DE TAQUICARDIA VENTRICULAR
+for k = 1:VTachPositives
+    if k >= 10
+        labelstring = int2str(k);
+        word = strcat({'v'},labelstring);
+        [tm,signal,Fs,siginfo]=rdmat(word{1});
+        TamRealizacion=length(signal);
+        if(TamRealizacion==75000)
+            VTACHPPGShort(shortVTachPositives,:)=signal(:,3)';
+            VTACHECGShort(shortVTachPositives,:)=signal(:,1)';
+            shortVTachPositives=shortVTachPositives+1;
+        else
+            VTACHPPGLong(longVTachPositives,:)=signal(:,3)';
+            VTACHECGLong(longVTachPositives,:)=signal(:,1)';
+            longVTachPositives=longVTachPositives+1;
+        end
+    else
+        labelstring = int2str(k);
+        word = strcat({'v0'},labelstring);
+        [tm,signal,Fs,siginfo]=rdmat(word{1});
+        TamRealizacion=length(signal);
+        if(TamRealizacion==75000)
+            VTACHPPGShort(shortVTachPositives,:)=signal(:,3)';
+            VTACHECGShort(shortVTachPositives,:)=signal(:,1)';
+            shortVTachPositives=shortVTachPositives+1;
+        else
+            VTACHPPGLong(longVTachPositives,:)=signal(:,3)';
+            VTACHECGLong(longVTachPositives,:)=signal(:,1)';
+            longVTachPositives=longVTachPositives+1;
+        end
+    end
+end
+
+fprintf('El número de señales cortas en positivos de taquicardia ventricular son %d \n',shortVTachPositives-1);
+fprintf('El número de señales largas en positivos de taquicardia ventricular son %d \n',longVTachPositives-1);
+limitVTachPositivesShort=shortVTachPositives-1;
+limitVTachPositivesLong=longVTachPositives-1;
+%%
+for k = VTachPositives+1:VTachNegatives
+    labelstring = int2str(k);
+    word = strcat({'v'},labelstring);
+    [tm,signal,Fs,siginfo]=rdmat(word{1});
+    TamRealizacion=length(signal);
+    if(TamRealizacion==75000)
+        VTACHPPGShort(shortVTachPositives,:)=signal(:,3)';
+        VTACHECGShort(shortVTachPositives,:)=signal(:,1)';
+        shortVTachPositives=shortVTachPositives+1;
+    else
+        VTACHPPGLong(longVTachPositives,:)=signal(:,3)';
+        VTACHECGLong(longVTachPositives,:)=signal(:,1)';
+        longVTachPositives=longVTachPositives+1;
+    end
+end
+
+fprintf('El número de señales cortas en negativos de taquicardia ventricular son %d \n',shortVTachPositives-limitVTachPositivesShort-1);
+fprintf('El número de señales largas en negativos de taquicardia ventricular son %d \n',longVTachPositives-limitVTachPositivesLong-1);
+
+
+%% Ahora que ya tenemos todas las señales divididas en largas y cortas, 
+%vamos a unir las que sean de taquicardia y taquicardia ventricular. Tanto
+%para cortas como para largas
+
+TACHYECGShort=[TACHECGShort((1:limitTachPositivesShort),:);VTACHECGShort((1:limitVTachPositivesShort),:);TACHECGShort((limitTachPositivesShort+1:end),:);VTACHECGShort(]
