@@ -312,7 +312,7 @@ ZeroCenteredNoise6=Noise6-WandererBaseline6;
     MinHeightECGRest1,MinHeightECGRun2,MinHeightECGRun3,MinHeightECGRun4,MinHeightECGRun5,MinHeightECGRest6,...
     minDistRest1,minDistRun2,minDistRun3,minDistRun4,minDistRun5,minDistRest6,...
     maxWidthRest1,maxWidthRun2,maxWidthRun3,maxWidthRun4,maxWidthRun5,maxWidthRest6);
-%% 4. FINAL MODEL: Band-Limited Gaussian noise model
+%% 4. Band-Limited Gaussian noise model
     h=hampel(MA,500); 
     MAHF=MA;
     V=[s-WandererBaseline1 s1-WandererBaseline2 s2-WandererBaseline3 s3-WandererBaseline4 s4-WandererBaseline5 s5-WandererBaseline6];
