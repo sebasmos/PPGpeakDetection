@@ -1,26 +1,36 @@
-% function [Sensibity,Especificity] = Pandora(windowsizeRest,windowsizeRun)
+% function [Sensitivity,Especificity] = MA_Improved_Model(windowsizeRest,windowsizeRun)
 
-% DESCRIPTION: Pandora FINDS the confussion matrix params for MA model, in
+% DESCRIPTION:  FINDS the confussion matrix params for MA model, in
 % the same way it does for Main_Total_Noise in order to find the best
 % windowsize coefficients automatically in mainPandora.m. Best Gaussian
-% Model is implemented in Gaussian_V2.m
+% Model is implemented in Gaussian_V2.m. This function determines the 
+% band-limited gaussian noise model using a range of seed-values 
+% for determining an noise model fed with MA noise.
+% This code intends to proof the viability of the obtained noise from the
+% substraction of the signal minus the Savitzky-golay's filter through the
+% function findpeaks as demonstrated below
+% Activities type 1 from type 2 differ only from the 2nd activities ahead,
+% where the set speeds for the trendmill in activities type2 are under 6
+% and 12 km/h:
+% 1. Rest (30s)
+% 2. Running 8km/h (1min) corresponds to 6 km/h in activity type 2
+% 3. Running 15km/h (1min) corresponds to 12 km/h in activity type 2
+% 4. Running 8km/h (1min)  corresponds to 6 km/h in activity type 2
+% 5. Running 15km/h (1min) corresponds to 12 km/h in activity type 2
+% 6. Rest (30 min)
 
 % INPUTS: *windosizeRest [30,40]
 %         *windowsizeRun [70]
 %OUTPUTS: [sensitibity,especificity]
-function [Sensitivity,Especificity] = GetSensitivityMA(windowsizeRest,windowsizeRun)
-% clc
-% clear all
-% close all
+function [Sensivility,Especificity] = MA_Improved_Model(windowsizeRest,windowsizeRun)
 %% Add Datasets
+% addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/NoiseProofs')
+% addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/GaussianNoise')
+% addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/db')
 addpath('C:\MATLAB2018\MATLAB\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\db');
 addpath('C:\MATLAB2018\MATLAB\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\GeneralNoise');
 addpath('C:\MATLAB2018\MATLAB\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\NoiseProofs');
 [mediamuestral,TamRealizaciones,s,s1,s2,s3,s4,s5]=GetAveragedNoise();
-% LPC COEFFICIENTS
-LPCActivity1 = 3500;
-LPCActivity6 = 2200;
-LPCActivity = 7000;
 % % AVERAGE MEAN
 % windowsizeRest = 90;
 % windowsizeRun = 70;
@@ -69,13 +79,15 @@ for k=1:12
     sNorm(k,:) = (s2(k,:)-min(s2(k,:)))/(max(s2(k,:))-min(s2(k,:)));
     ecgNorm(k,:) = (ecgFullSignal(k,:)-min(ecgFullSignal(k,:)))./(max(ecgFullSignal(k,:))-min(ecgFullSignal(k,:)));
 end
-%% Separate Activities
+%% Separate signals in its corresponding activities 
+% PPG channel
 Activity1=sNorm(:,(1:3750));
 Activity2=sNorm(:,(3751:11250));
 Activity3=sNorm(:,(11251:18750));
 Activity4=sNorm(:,(18751:26250));
 Activity5=sNorm(:,(26251:33750));
 Activity6=sNorm(:,(33751:end));
+% ECG channel
 ActivityECG1=ecgNorm(:,(1:3750));
 ActivityECG2=ecgNorm(:,(3751:11250));
 ActivityECG3=ecgNorm(:,(11251:18750));
@@ -83,7 +95,7 @@ ActivityECG4=ecgNorm(:,(18751:26250));
 ActivityECG5=ecgNorm(:,(26251:33750));
 ActivityECG6=ecgNorm(:,(33751:end));
 
-%% Clean each ECG activity
+%% Detrend and square each ECG activity
 
 for k=1:12
     CleanedActivityECG1(k,:)=DenoiseECG(ActivityECG1(k,:));
@@ -116,17 +128,7 @@ ZeroCenteredNoise3=Noise3-WandererBaseline3;
 ZeroCenteredNoise4=Noise4-WandererBaseline4;
 ZeroCenteredNoise5=Noise5-WandererBaseline5;
 ZeroCenteredNoise6=Noise6-WandererBaseline6;
-%% 1. Savitzky smoothing filter.
-%   Ruido total 1: o(t) = n(t)+w(t)
-    TotalS=mediamuestral;
-% Cleaning signal with MA
-    CleanedSignal1 = Activity1 - TotalS(1:3750);
-    CleanedSignal2 = Activity2 - TotalS(3751:11250);
-    CleanedSignal3 = Activity3 - TotalS(11251:18750);
-    CleanedSignal4 = Activity4 - TotalS(18751:26250);
-    CleanedSignal5 = Activity5 - TotalS(26251:33750);
-    CleanedSignal6 = Activity6 - TotalS(33751:35989);
-%% MODELO MEDIAS MOVILES
+%% MOVING AVERAGE MODEL
     MA(1:3750)      = Function_2_MA(ZeroCenteredNoise1,windowsizeRest);
     MA(3751:11250)  = Function_2_MA(ZeroCenteredNoise2,windowsizeRun);
     MA(11251:18750) = Function_2_MA(ZeroCenteredNoise3,windowsizeRun);
@@ -148,27 +150,25 @@ ZeroCenteredNoise6=Noise6-WandererBaseline6;
     CleanedMA5 = Activity5 - TotalMA(26251:33750);
     CleanedMA6 = Activity6 - TotalMA(33751:35989);
     
-    
-%% PERFORMANCE PARAMS
-close all
+%% PERFORMANCE PARAMS:  Se, sc and Acc is determined.
 TP = 0; 
 FP = 0;
 TN = 0;
 FN = 0;
    for i=1:12
-    alfa(i,(1:4))  = GetConfussionMetrics(CleanedActivityECG1(i,:),Activity1(i,:),CleanedMA1(i,:),P(i,(1:7)),Fs);
-    alfa(i,(5:8))  = GetConfussionMetrics(CleanedActivityECG2(i,:),Activity2(i,:),CleanedMA2(i,:),P(i,(8:14)),Fs);
-    alfa(i,(9:12)) = GetConfussionMetrics(CleanedActivityECG3(i,:),Activity3(i,:),CleanedMA3(i,:),P(i,(15:21)),Fs);
-    alfa(i,(13:16))= GetConfussionMetrics(CleanedActivityECG4(i,:),Activity4(i,:),CleanedMA4(i,:),P(i,(22:28)),Fs);  
-    alfa(i,(17:20))= GetConfussionMetrics(CleanedActivityECG5(i,:),Activity5(i,:),CleanedMA5(i,:),P(i,(29:35)),Fs);
-    alfa(i,(21:24))= GetConfussionMetrics(CleanedActivityECG6(i,:),Activity6(i,:),CleanedMA6(i,:),P(i,(36:42)),Fs);
+    alfa(i,(1:4))  = GetMetrics(CleanedActivityECG1(i,:),Activity1(i,:),CleanedMA1(i,:),P(i,(1:7)),Fs);
+    alfa(i,(5:8))  = GetMetrics(CleanedActivityECG2(i,:),Activity2(i,:),CleanedMA2(i,:),P(i,(8:14)),Fs);
+    alfa(i,(9:12)) = GetMetrics(CleanedActivityECG3(i,:),Activity3(i,:),CleanedMA3(i,:),P(i,(15:21)),Fs);
+    alfa(i,(13:16))= GetMetrics(CleanedActivityECG4(i,:),Activity4(i,:),CleanedMA4(i,:),P(i,(22:28)),Fs);  
+    alfa(i,(17:20))= GetMetrics(CleanedActivityECG5(i,:),Activity5(i,:),CleanedMA5(i,:),P(i,(29:35)),Fs);
+    alfa(i,(21:24))= GetMetrics(CleanedActivityECG6(i,:),Activity6(i,:),CleanedMA6(i,:),P(i,(36:42)),Fs);
 
       TP = [TP alfa(i,1) alfa(i,5) alfa(i,9)  alfa(i,13)  alfa(i,17)  alfa(i,21)];
       FP = [FP alfa(i,2) alfa(i,6) alfa(i,10) alfa(i,14)  alfa(i,18)  alfa(i,22)];
       TN = [TN alfa(i,3) alfa(i,7) alfa(i,11) alfa(i,15)  alfa(i,19)  alfa(i,23)];
       FN = [FN alfa(i,4) alfa(i,8) alfa(i,12) alfa(i,16)  alfa(i,20)  alfa(i,24)];     
    end
-   %%
-   Especificity  = sum(TN)./(sum(TN)+sum(FP));
-   Sensitivity    = sum(TP)./(sum(TP)+sum(FN));
+   Presicion     = sum(TP)./(sum(TP)+sum(FP))
+   Especificity  = sum(TN)./(sum(TN)+sum(FP))
+   Sensivility   = sum(TP)./(sum(TP)+sum(FN))
 end
