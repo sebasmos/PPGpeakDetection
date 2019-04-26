@@ -3,9 +3,9 @@ function [Sensibity,Especificity] = Gaussian_1_MA()
 % clear all
 % close all
 %% Add Datasets
-addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/db');
-addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/GeneralNoise');
-addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/NoiseProofs');
+% addpath('C:\MATLAB2018\MATLAB\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\db');
+% addpath('C:\MATLAB2018\MATLAB\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\GeneralNoise');
+% addpath('C:\MATLAB2018\MATLAB\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\NoiseProofs');
 % [mediamuestral,TamRealizaciones,s,s1,s2,s3,s4,s5]=GetAveragedNoise();
 % % UNBIASED VARIANZA
 % %The activities are separated according to each activity and its variance
@@ -26,8 +26,8 @@ LPCActivity1 = 3500;
 LPCActivity6 = 2200;
 LPCActivity = 7000;
 % % AVERAGE MEAN
-% windowsizeRest = 90;
-% windowsizeRun = 70;
+windowsizeRest = 45;
+windowsizeRun = 70;
 %% PARAMETRIZE FINDPEAKS
 %  ---------ACTIVIDAD 1------                 -------ACTIVIDAD 2---------             -------ACTIVIDAD 3---------            -------ACTIVIDAD 4---------            -------ACTIVIDAD 5---------          -------ACTIVIDAD 6---------                 
 %  MinW|MW   |PROM|MinD| MH    |MD  |MW     MinW|MW |PROM| MinD| MH |MD |MW          MinW|MW |PROM| MinD| MH |MD |MW  

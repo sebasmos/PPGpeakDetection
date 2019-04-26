@@ -1,4 +1,4 @@
-% function [Sensivity,Especificity] = Pandora(windowsizeRest,windowsizeRun)
+% function [Sensibity,Especificity] = Pandora(windowsizeRest,windowsizeRun)
 
 % DESCRIPTION: Pandora FINDS the confussion matrix params for MA model, in
 % the same way it does for Main_Total_Noise in order to find the best
@@ -9,13 +9,13 @@
 %         *windowsizeRun [70]
 %OUTPUTS: [sensitibity,especificity]
 function [Sensitivity,Especificity] = GetSensitivityMA(windowsizeRest,windowsizeRun)
-clc
-clear all
-close all
+% clc
+% clear all
+% close all
 %% Add Datasets
-addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/db');
-addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/NoiseProofs');
-addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/GeneralNoise');
+addpath('C:\MATLAB2018\MATLAB\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\db');
+addpath('C:\MATLAB2018\MATLAB\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\GeneralNoise');
+addpath('C:\MATLAB2018\MATLAB\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\NoiseProofs');
 [mediamuestral,TamRealizaciones,s,s1,s2,s3,s4,s5]=GetAveragedNoise();
 % LPC COEFFICIENTS
 LPCActivity1 = 3500;
@@ -133,7 +133,6 @@ ZeroCenteredNoise6=Noise6-WandererBaseline6;
     MA(18751:26250) = Function_2_MA(ZeroCenteredNoise4,windowsizeRun);
     MA(26251:33750) = Function_2_MA(ZeroCenteredNoise5,windowsizeRun);
     MA(33751:35989) = Function_2_MA(ZeroCenteredNoise6,windowsizeRest);
-    
 %   Ruido total 2: o(t) = n(t)+w(t)
     TotalMA(1:3750)      = WandererBaseline1 + MA(1:3750);
     TotalMA(3751:11250)  = WandererBaseline2 + MA(3751:11250);
