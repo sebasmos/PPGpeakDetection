@@ -1,34 +1,34 @@
-%% ARTIFITIAL NOISE DESIGN 
-function [Sensibity,Especificity] = Function_GMA(windowsizeRest,windowsizeRun)
-% This code intends to proof the viability of the obtained noise from the
-% substraction of the signal minus the Savitzky-golay's filter through the
-% function findpeaks as demonstrated below
-% Activities type 1 from type 2 differ only from the 2nd activities ahead,
-% where the set speeds for the trendmill in activities type2 are under 6
-% and 12 km/h:
-% 1. Rest (30s)
-% 2. Running 8km/h (1min) corresponds to 6 km/h in activity type 2
-% 3. Running 15km/h (1min) corresponds to 12 km/h in activity type 2
-% 4. Running 8km/h (1min)  corresponds to 6 km/h in activity type 2
-% 5. Running 15km/h (1min) corresponds to 12 km/h in activity type 2
-% 6. Rest (30 min)
-addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/NoiseProofs')
-addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/GaussianNoise')
+%% Model used for the creation of the MA_Improved_Model for the best 
+% perf params outcomes
 
-addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/db')
-% Initial Conditions
-% 
-% windowsizeRest = 30;
-% windowsizeRun = 70;
-k=0;
-prom=0;
-sm0=0;
-sm1=0;
-sm2=0;
-sm3=0;
-sm4=0;
-sm5=0;
+function [Sensibity,Especificity] = Gaussian_1_MA()
 
+%% Add Datasets
+% addpath('C:\MATLAB2018\MATLAB\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\db');
+% addpath('C:\MATLAB2018\MATLAB\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\GeneralNoise');
+% addpath('C:\MATLAB2018\MATLAB\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\NoiseProofs');
+% [mediamuestral,TamRealizaciones,s,s1,s2,s3,s4,s5]=GetAveragedNoise();
+% % UNBIASED VARIANZA
+% %The activities are separated according to each activity and its variance
+% %Add is extracted vertically, operating varianamuestral function per column
+% media=ValoresMedia(mediamuestral);
+% mediamuestral = mediamuestral-media;
+% V=[s-media(1:3750) s1-media(3751:11250) s2-media(11251:18750) s3-media(18751:26250) s4-media(26251:33750) s5-media(33751:end)];
+% varianzamuestral= var(V);
+[mediamuestralMA,TamRealizaciones2,sa,sa1,sa2,sa3,sa4,sa5]=GetAveragedNoise2();
+
+mediaMA=ValoresMedia(mediamuestralMA);
+mediamuestralMA = mediamuestralMA-mediaMA;
+%mediamuestralMA = hampel(mediamuestralMA,4000,2);
+VMA=[sa-mediaMA(1:3750) sa1-mediaMA(3751:11250) sa2-mediaMA(11251:18750) sa3-mediaMA(18751:26250) sa4-mediaMA(26251:33750) sa5-mediaMA(33751:end)];
+varianzamuestralMA= var(VMA);
+% LPC COEFFICIENTS
+LPCActivity1 = 3500;
+LPCActivity6 = 2200;
+LPCActivity = 7000;
+% % AVERAGE MEAN
+windowsizeRest = 45;
+windowsizeRun = 70;
 %% PARAMETRIZE FINDPEAKS
 %  ---------ACTIVIDAD 1------                 -------ACTIVIDAD 2---------             -------ACTIVIDAD 3---------            -------ACTIVIDAD 4---------            -------ACTIVIDAD 5---------          -------ACTIVIDAD 6---------                 
 %  MinW|MW   |PROM|MinD| MH    |MD  |MW     MinW|MW |PROM| MinD| MH |MD |MW          MinW|MW |PROM| MinD| MH |MD |MW  
@@ -45,81 +45,6 @@ P=[0.11 0.5  0.009 0.3  0.025  0.6  0.05    0.01  0.6  0.049  0.1   0.025 0.5 0.
    0.1  0.5  0.005 0.4  0.05   0.48 0.05    0.01  0.5  0.05   0.25  0.06  0.35 0.05  0.05  0.7 0.05   0.23 0.05  0.25 0.05  0.07 0.3 0.04  0.2   0.05 0.25 0.05    0.07 0.7 0.04  0.2   0.05 0.2 0.05   0.09 0.5 0.04  0.2  0.05 0.2  0.05;
    0.07 1    0.03  0.4  0.02   0.5  0.05    0.05  0.8  0.04   0.35  0.02  0.44 0.05  0.1   0.8 0.12   0.28 0.02  0.3  0.05  0.07 0.8 0.04  0.25  0.017 0.3 0.04    0.05 1   0.12  0.28  0.017 0.3 0.04  0.1  0.5 0.04  0.2  0.014 0.3 0.04
    ];
-
-
-%%
-% Lecture of datasets
-for k = 1:12
-    if k >= 10
-        labelstring = int2str(k);
-        word = strcat({'DATA_'},labelstring,{'_TYPE02.mat'});
-        a = load(char(word));
-        TamRealizaciones(k) = length(a.sig);
-    else
-        labelstring = int2str(k);
-        word = strcat({'DATA_0'},labelstring,{'_TYPE02.mat'});
-        a = load(char(word));
-        TamRealizaciones(k) = length(a.sig);
-    end
-end
-
-
-
-for k = 1:12
-    if k >= 10
-        labelstring = int2str(k);
-        word = strcat({'DATA_'},labelstring,{'_TYPE02.mat'});
-        s(k,:) =  GetSavitzkyNoise(char(word),2,1,3750);
-        s1(k,:) =  GetSavitzkyNoise(char(word),2,3751,11250);
-        s2(k,:) =  GetSavitzkyNoise(char(word),2,11251,18750);
-        s3(k,:) =  GetSavitzkyNoise(char(word),2,18751,26250);
-        s4(k,:) =  GetSavitzkyNoise(char(word),2,26251,33750);        
-        s5(k,:) =  GetSavitzkyNoise(char(word),2,33751,min(TamRealizaciones));
-    else       
-        labelstring = int2str(k);
-        word = strcat({'DATA_0'},labelstring,{'_TYPE02.mat'});
-        s(k,:) =  GetSavitzkyNoise(char(word),2,1,3750);
-        s1(k,:) =  GetSavitzkyNoise(char(word),2,3751,11250);
-        s2(k,:) =  GetSavitzkyNoise(char(word),2,11251,18750);
-        s3(k,:) =  GetSavitzkyNoise(char(word),2,18751,26250);
-        s4(k,:) =  GetSavitzkyNoise(char(word),2,26251,33750);        
-        s5(k,:) =  GetSavitzkyNoise(char(word),2,33751,min(TamRealizaciones));
-    end
-    % In this part, after the noise has been obtained for each activity, we
-    % proceed to make a sum for each one of the activities.
-    sm0 = sm0 + s(k,:);
-    sm1 = sm1 + s1(k,:);
-    sm2 = sm2 + s2(k,:);
-    sm3 = sm3 + s3(k,:);
-    sm4 = sm4 + s4(k,:);
-    sm5 = sm5 + s5(k,:);
-
-end
-
-%% SAMPLE MEAN
-% Noise is organized in a single matrix M with size 6x7500, where the rows
-% represent the type of activity and the columns represent the samples of
-% each dataset. For the signals in the samples 0-3750 (30s activity), 3750
-% zeros are added in order to fit the matrix with the right dimension.
-
-M=[sm0 zeros(1,3750); sm1; sm2; sm3; sm4; sm5 zeros(1,7500-length(sm5))];
-Realizaciones = 12;
-
-% Here, we divide the beforehand mentioned sum of noises organized in a 
-% matrix and divide it between the number of realizations, so in the final 
-% we obtain the mean value for the high-frequency noise.
-
-Media0 = M./Realizaciones;
-
-% Re-set the sampled mean on a single line linking the 6 activity signals
-% one by one with the adjacent
-
-v=[Media0(1,:) Media0(2,:) Media0(3,:) Media0(4,:) Media0(5,:) Media0(6,:)];
-
-% Delete extra zeros and make the output fit the right format.
-
-    mediamuestral=nonzeros(v);
-    mediamuestral=mediamuestral';
 
 %% EXTRACT THE SIGNALS
 for k = 1:12
@@ -142,11 +67,11 @@ end
     Fs = 125;
 %Convert to physical values: According to timesheet of the used wearable
 ecgFullSignal = (ECGdatasetSignals-128)./255;
-signal = (PPGdatasetSignals-128)/(255);
+s2 = (PPGdatasetSignals-128)/(255);
 
 % Normalize the entire signal of all realizations.
 for k=1:12
-    sNorm(k,:) = (signal(k,:)-min(signal(k,:)))/(max(signal(k,:))-min(signal(k,:)));
+    sNorm(k,:) = (s2(k,:)-min(s2(k,:)))/(max(s2(k,:))-min(s2(k,:)));
     ecgNorm(k,:) = (ecgFullSignal(k,:)-min(ecgFullSignal(k,:)))./(max(ecgFullSignal(k,:))-min(ecgFullSignal(k,:)));
 end
 %% Separate Activities
@@ -173,7 +98,6 @@ for k=1:12
     CleanedActivityECG5(k,:)=DenoiseECG(ActivityECG5(k,:));
     CleanedActivityECG6(k,:)=DenoiseECG(ActivityECG6(k,:));
 end
-
 %% Separate noise for PPG with its correspondent activity.
 Noise1 = mediamuestral(1:3750);
 Noise2 = mediamuestral(3751:11250);
@@ -197,25 +121,40 @@ ZeroCenteredNoise3=Noise3-WandererBaseline3;
 ZeroCenteredNoise4=Noise4-WandererBaseline4;
 ZeroCenteredNoise5=Noise5-WandererBaseline5;
 ZeroCenteredNoise6=Noise6-WandererBaseline6;
-%% Model MA
-    MA(1:3750)      = Function_2_MA(ZeroCenteredNoise1,windowsizeRest); 
-    MA(1:100)       = mean(Noise1); % Fixex with variance highter values
+%% 1. Savitzky smoothing filter.
+%   Ruido total 1: o(t) = n(t)+w(t)
+    TotalS=mediamuestral;
+% Cleaning signal with MA
+    CleanedSignal1 = Activity1 - TotalS(1:3750);
+    CleanedSignal2 = Activity2 - TotalS(3751:11250);
+    CleanedSignal3 = Activity3 - TotalS(11251:18750);
+    CleanedSignal4 = Activity4 - TotalS(18751:26250);
+    CleanedSignal5 = Activity5 - TotalS(26251:33750);
+    CleanedSignal6 = Activity6 - TotalS(33751:35989);
+%% MODELO MEDIAS MOVILES
+    MA(1:3750)      = Function_2_MA(ZeroCenteredNoise1,windowsizeRest);
     MA(3751:11250)  = Function_2_MA(ZeroCenteredNoise2,windowsizeRun);
     MA(11251:18750) = Function_2_MA(ZeroCenteredNoise3,windowsizeRun);
     MA(18751:26250) = Function_2_MA(ZeroCenteredNoise4,windowsizeRun);
     MA(26251:33750) = Function_2_MA(ZeroCenteredNoise5,windowsizeRun);
     MA(33751:35989) = Function_2_MA(ZeroCenteredNoise6,windowsizeRest);
-    h=hampel(MA,500); %% ARREGLAR
-    media=ValoresMedia(h);
-    MAHF=MA;
-    V=[s-WandererBaseline1 s1-WandererBaseline2 s2-WandererBaseline3 s3-WandererBaseline4 s4-WandererBaseline5 s5-WandererBaseline6];
-    varianzamuestralMA= var(V);
     
-%%
+%   Ruido total 2: o(t) = n(t)+w(t)
+    TotalMA(1:3750)      = WandererBaseline1 + MA(1:3750);
+    TotalMA(3751:11250)  = WandererBaseline2 + MA(3751:11250);
+    TotalMA(11251:18750) = WandererBaseline3 + MA(11251:18750);
+    TotalMA(18751:26250) = WandererBaseline4 + MA(18751:26250);
+    TotalMA(26251:33750) = WandererBaseline5 + MA(26251:33750);
+    TotalMA(33751:35989) = WandererBaseline6 + MA(33751:35989);
+    
+      % MODELO GAUSIANO LIMITADO EN BANDA, 
+    % Anadimos varianza de Savitzky a modelo Gaussiano para alterar la
+    % se�al con mayor intensidad
+%   X = randn(5,1);
     XMA = [0.05 0.001 0.1 0.2 0.4 ];
-    GaussianModelsMA=zeros(length(XMA),length(MAHF));
-    for k=1:length(MAHF)
-        GaussianModelsMA(:,k)=MAHF(k)+sqrt(varianzamuestralMA(k))*XMA;
+    GaussianModelsMA=zeros(length(XMA),length(mediamuestralMA));
+    for k=1:length(mediamuestralMA)
+        GaussianModelsMA(:,k)=mediamuestralMA(k)+sqrt(varianzamuestralMA(k))*XMA;
     end
     PBF = designfilt('bandpassiir','PassbandFrequency1',2.5,...
     'StopbandFrequency1',2,'StopbandFrequency2',26.5,...
@@ -223,21 +162,17 @@ ZeroCenteredNoise6=Noise6-WandererBaseline6;
     'StopbandAttenuation1',10,'StopbandAttenuation2',10,...
     'SampleRate',Fs,'DesignMethod','ellip');
 %    Modelo final:
-    TotalMAHF = filtfilt(PBF,GaussianModelsMA(1,:));
-    TotalMA(1:3750)      = WandererBaseline1 + TotalMAHF(1:3750);
-    TotalMA(3751:11250)  = WandererBaseline2 + TotalMAHF(3751:11250);
-    TotalMA(11251:18750) = WandererBaseline3 + TotalMAHF(11251:18750);
-    TotalMA(18751:26250) = WandererBaseline4 + TotalMAHF(18751:26250);
-    TotalMA(26251:33750) = WandererBaseline5 + TotalMAHF(26251:33750);
-    TotalMA(33751:35989) = WandererBaseline6 + TotalMAHF(33751:35989);
-% Cleaning signal with MA
-    CleanedMA1 = Activity1 - TotalMA(1:3750);
-    CleanedMA2 = Activity2 - TotalMA(3751:11250);
-    CleanedMA3 = Activity3 - TotalMA(11251:18750);
-    CleanedMA4 = Activity4 - TotalMA(18751:26250);
-    CleanedMA5 = Activity5 - TotalMA(26251:33750);
-    CleanedMA6 = Activity6 - TotalMA(33751:35989);
+    TotalMA = filtfilt(PBF,GaussianModelsMA(1,:));
 
+    % Cleaning signal with MA
+    CleanedMA1 = Activity1 - GaussianTotalMA(1:3750);
+    CleanedMA2 = Activity2 - GaussianTotalMA(3751:11250);
+    CleanedMA3 = Activity3 - GaussianTotalMA(11251:18750);
+    CleanedMA4 = Activity4 - GaussianTotalMA(18751:26250);
+    CleanedMA5 = Activity5 - GaussianTotalMA(26251:33750);
+    CleanedMA6 = Activity6 - GaussianTotalMA(33751:35989);
+    
+    
 %% PERFORMANCE PARAMS
 close all
 TP = 0; 
@@ -245,12 +180,12 @@ FP = 0;
 TN = 0;
 FN = 0;
    for i=1:12
-    alfa(i,(1:4))  = GetConfussionMetrics(CleanedActivityECG1(i,:),Activity1(i,:),CleanedMA1(i,:),P(i,(1:7)),Fs);
-    alfa(i,(5:8))  = GetConfussionMetrics(CleanedActivityECG2(i,:),Activity2(i,:),CleanedMA2(i,:),P(i,(8:14)),Fs);
-    alfa(i,(9:12)) = GetConfussionMetrics(CleanedActivityECG3(i,:),Activity3(i,:),CleanedMA3(i,:),P(i,(15:21)),Fs);
-    alfa(i,(13:16))= GetConfussionMetrics(CleanedActivityECG4(i,:),Activity4(i,:),CleanedMA4(i,:),P(i,(22:28)),Fs);  
-    alfa(i,(17:20))= GetConfussionMetrics(CleanedActivityECG5(i,:),Activity5(i,:),CleanedMA5(i,:),P(i,(29:35)),Fs);
-    alfa(i,(21:24))= GetConfussionMetrics(CleanedActivityECG6(i,:),Activity6(i,:),CleanedMA6(i,:),P(i,(36:42)),Fs);
+    alfa(i,(1:4))  = GetMetrics(CleanedActivityECG1(i,:),Activity1(i,:),CleanedMA1(i,:),P(i,(1:7)),Fs);
+    alfa(i,(5:8))  = GetPandoraA(CleanedActivityECG2(i,:),Activity2(i,:),CleanedMA2(i,:),P(i,(8:14)),Fs);
+    alfa(i,(9:12)) = GetPandoraA(CleanedActivityECG3(i,:),Activity3(i,:),CleanedMA3(i,:),P(i,(15:21)),Fs);
+    alfa(i,(13:16))= GetPandoraA(CleanedActivityECG4(i,:),Activity4(i,:),CleanedMA4(i,:),P(i,(22:28)),Fs);  
+    alfa(i,(17:20))= GetPandoraA(CleanedActivityECG5(i,:),Activity5(i,:),CleanedMA5(i,:),P(i,(29:35)),Fs);
+    alfa(i,(21:24))= GetPandoraA(CleanedActivityECG6(i,:),Activity6(i,:),CleanedMA6(i,:),P(i,(36:42)),Fs);
 
       TP = [TP alfa(i,1) alfa(i,5) alfa(i,9)  alfa(i,13)  alfa(i,17)  alfa(i,21)];
       FP = [FP alfa(i,2) alfa(i,6) alfa(i,10) alfa(i,14)  alfa(i,18)  alfa(i,22)];
@@ -258,6 +193,6 @@ FN = 0;
       FN = [FN alfa(i,4) alfa(i,8) alfa(i,12) alfa(i,16)  alfa(i,20)  alfa(i,24)];     
    end
    %%
-   Especificity  = sum(TN)./(sum(TN)+sum(FP))
-   Sensibity    = sum(TP)./(sum(TP)+sum(FN))
+   Especificity  = sum(TN)./(sum(TN)+sum(FP));
+   Sensibity    = sum(TP)./(sum(TP)+sum(FN));
 end

@@ -1,3 +1,4 @@
+%% This code helped to find automcatically the best window sizes for MA model
 clc
 clear all
 close all
@@ -14,7 +15,7 @@ j=65;
 
 while i<200
  while j<300
-    [sen,ecp] = GetSensitibityMA(i,j);
+    [sen,ecp] = Function_GMA(i,j);
    % fprintf('(i,j)=(%d,%d)  ----   (Sen,esp)= (%d,%d)',i,j,sen,ecp)
     VectorSen(i,j) = sen;
     VectorEsp(i,j)= ecp;

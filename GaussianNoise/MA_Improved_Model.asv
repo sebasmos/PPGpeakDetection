@@ -1,26 +1,22 @@
-function [Sensibity,Especificity] = Gaussian_1_MA()
+% function [Sensitivity,Especificity] = GetSensitivityMA(windowsizeRest,windowsizeRun)
+
+% DESCRIPTION: Pandora FINDS the confussion matrix params for MA model, in
+% the same way it does for Main_Total_Noise in order to find the best
+% windowsize coefficients automatically in mainPandora.m. Best Gaussian
+% Model is implemented in Gaussian_V2.m
+
+% INPUTS: *windosizeRest [30,40]
+%         *windowsizeRun [70]
+%OUTPUTS: [sensitibity,especificity]
+function [Sensitivity,Especificity] = GetSensitivityMA(windowsizeRest,windowsizeRun)
 % clc
 % clear all
 % close all
 %% Add Datasets
-addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/db');
-addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/GeneralNoise');
-addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/NoiseProofs');
-% [mediamuestral,TamRealizaciones,s,s1,s2,s3,s4,s5]=GetAveragedNoise();
-% % UNBIASED VARIANZA
-% %The activities are separated according to each activity and its variance
-% %Add is extracted vertically, operating varianamuestral function per column
-% media=ValoresMedia(mediamuestral);
-% mediamuestral = mediamuestral-media;
-% V=[s-media(1:3750) s1-media(3751:11250) s2-media(11251:18750) s3-media(18751:26250) s4-media(26251:33750) s5-media(33751:end)];
-% varianzamuestral= var(V);
-[mediamuestralMA,TamRealizaciones2,sa,sa1,sa2,sa3,sa4,sa5]=GetAveragedNoise2();
-
-mediaMA=ValoresMedia(mediamuestralMA);
-mediamuestralMA = mediamuestralMA-mediaMA;
-%mediamuestralMA = hampel(mediamuestralMA,4000,2);
-VMA=[sa-mediaMA(1:3750) sa1-mediaMA(3751:11250) sa2-mediaMA(11251:18750) sa3-mediaMA(18751:26250) sa4-mediaMA(26251:33750) sa5-mediaMA(33751:end)];
-varianzamuestralMA= var(VMA);
+addpath('C:\MATLAB2018\MATLAB\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\db');
+addpath('C:\MATLAB2018\MATLAB\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\GeneralNoise');
+addpath('C:\MATLAB2018\MATLAB\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\NoiseProofs');
+[mediamuestral,TamRealizaciones,s,s1,s2,s3,s4,s5]=GetAveragedNoise();
 % LPC COEFFICIENTS
 LPCActivity1 = 3500;
 LPCActivity6 = 2200;
@@ -137,7 +133,6 @@ ZeroCenteredNoise6=Noise6-WandererBaseline6;
     MA(18751:26250) = Function_2_MA(ZeroCenteredNoise4,windowsizeRun);
     MA(26251:33750) = Function_2_MA(ZeroCenteredNoise5,windowsizeRun);
     MA(33751:35989) = Function_2_MA(ZeroCenteredNoise6,windowsizeRest);
-    
 %   Ruido total 2: o(t) = n(t)+w(t)
     TotalMA(1:3750)      = WandererBaseline1 + MA(1:3750);
     TotalMA(3751:11250)  = WandererBaseline2 + MA(3751:11250);
@@ -145,31 +140,13 @@ ZeroCenteredNoise6=Noise6-WandererBaseline6;
     TotalMA(18751:26250) = WandererBaseline4 + MA(18751:26250);
     TotalMA(26251:33750) = WandererBaseline5 + MA(26251:33750);
     TotalMA(33751:35989) = WandererBaseline6 + MA(33751:35989);
-    
-      % MODELO GAUSIANO LIMITADO EN BANDA, 
-    % Anadimos varianza de Savitzky a modelo Gaussiano para alterar la
-    % se�al con mayor intensidad
-%   X = randn(5,1);
-    XMA = [0.05 0.001 0.1 0.2 0.4 ];
-    GaussianModelsMA=zeros(length(XMA),length(mediamuestralMA));
-    for k=1:length(mediamuestralMA)
-        GaussianModelsMA(:,k)=mediamuestralMA(k)+sqrt(varianzamuestralMA(k))*XMA;
-    end
-    PBF = designfilt('bandpassiir','PassbandFrequency1',2.5,...
-    'StopbandFrequency1',2,'StopbandFrequency2',26.5,...
-    'PassbandFrequency2',26,...
-    'StopbandAttenuation1',10,'StopbandAttenuation2',10,...
-    'SampleRate',Fs,'DesignMethod','ellip');
-%    Modelo final:
-    TotalMA = filtfilt(PBF,GaussianModelsMA(1,:));
-
     % Cleaning signal with MA
-    CleanedMA1 = Activity1 - GaussianTotalMA(1:3750);
-    CleanedMA2 = Activity2 - GaussianTotalMA(3751:11250);
-    CleanedMA3 = Activity3 - GaussianTotalMA(11251:18750);
-    CleanedMA4 = Activity4 - GaussianTotalMA(18751:26250);
-    CleanedMA5 = Activity5 - GaussianTotalMA(26251:33750);
-    CleanedMA6 = Activity6 - GaussianTotalMA(33751:35989);
+    CleanedMA1 = Activity1 - TotalMA(1:3750);
+    CleanedMA2 = Activity2 - TotalMA(3751:11250);
+    CleanedMA3 = Activity3 - TotalMA(11251:18750);
+    CleanedMA4 = Activity4 - TotalMA(18751:26250);
+    CleanedMA5 = Activity5 - TotalMA(26251:33750);
+    CleanedMA6 = Activity6 - TotalMA(33751:35989);
     
     
 %% PERFORMANCE PARAMS
@@ -179,12 +156,12 @@ FP = 0;
 TN = 0;
 FN = 0;
    for i=1:12
-    alfa(i,(1:4))  = GetPandoraA(CleanedActivityECG1(i,:),Activity1(i,:),CleanedMA1(i,:),P(i,(1:7)),Fs);
-    alfa(i,(5:8))  = GetPandoraA(CleanedActivityECG2(i,:),Activity2(i,:),CleanedMA2(i,:),P(i,(8:14)),Fs);
-    alfa(i,(9:12)) = GetPandoraA(CleanedActivityECG3(i,:),Activity3(i,:),CleanedMA3(i,:),P(i,(15:21)),Fs);
-    alfa(i,(13:16))= GetPandoraA(CleanedActivityECG4(i,:),Activity4(i,:),CleanedMA4(i,:),P(i,(22:28)),Fs);  
-    alfa(i,(17:20))= GetPandoraA(CleanedActivityECG5(i,:),Activity5(i,:),CleanedMA5(i,:),P(i,(29:35)),Fs);
-    alfa(i,(21:24))= GetPandoraA(CleanedActivityECG6(i,:),Activity6(i,:),CleanedMA6(i,:),P(i,(36:42)),Fs);
+    alfa(i,(1:4))  = GetConfussionMetrics(CleanedActivityECG1(i,:),Activity1(i,:),CleanedMA1(i,:),P(i,(1:7)),Fs);
+    alfa(i,(5:8))  = GetConfussionMetrics(CleanedActivityECG2(i,:),Activity2(i,:),CleanedMA2(i,:),P(i,(8:14)),Fs);
+    alfa(i,(9:12)) = GetConfussionMetrics(CleanedActivityECG3(i,:),Activity3(i,:),CleanedMA3(i,:),P(i,(15:21)),Fs);
+    alfa(i,(13:16))= GetConfussionMetrics(CleanedActivityECG4(i,:),Activity4(i,:),CleanedMA4(i,:),P(i,(22:28)),Fs);  
+    alfa(i,(17:20))= GetConfussionMetrics(CleanedActivityECG5(i,:),Activity5(i,:),CleanedMA5(i,:),P(i,(29:35)),Fs);
+    alfa(i,(21:24))= GetConfussionMetrics(CleanedActivityECG6(i,:),Activity6(i,:),CleanedMA6(i,:),P(i,(36:42)),Fs);
 
       TP = [TP alfa(i,1) alfa(i,5) alfa(i,9)  alfa(i,13)  alfa(i,17)  alfa(i,21)];
       FP = [FP alfa(i,2) alfa(i,6) alfa(i,10) alfa(i,14)  alfa(i,18)  alfa(i,22)];
@@ -193,5 +170,5 @@ FN = 0;
    end
    %%
    Especificity  = sum(TN)./(sum(TN)+sum(FP));
-   Sensibity    = sum(TP)./(sum(TP)+sum(FN));
+   Sensitivity    = sum(TP)./(sum(TP)+sum(FN));
 end

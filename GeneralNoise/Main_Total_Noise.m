@@ -2,9 +2,12 @@ clc
 clear all
 close all
 %% Add Datasets
-addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/db');
-addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/NoiseProofs');
-addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/GeneralNoise');
+% addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/NoiseProofs')
+% addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/GaussianNoise')
+% addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/db')
+addpath('C:\MATLAB2018\MATLAB\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\db');
+addpath('C:\MATLAB2018\MATLAB\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\GaussianNoise');
+addpath('C:\MATLAB2018\MATLAB\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\NoiseProofs');
 [mediamuestral,TamRealizaciones]=GetAveragedNoise();
 % Set realization as desired.
 j = 2; 

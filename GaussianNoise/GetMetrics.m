@@ -1,4 +1,4 @@
-%% ParametersMatrixCleaned = GetPandoraA(ecgCleaned,ppgOriginal,ppgCleaned,params,Fs)
+%% ParametersMatrixCleaned = GetMetrics(ecgCleaned,ppgOriginal,ppgCleaned,params,Fs)
 % This function allows us obtaining confusion matrix metrics 
 % INPUTS
 % ecgCleaned: Vector containing the signal of a determined
@@ -13,19 +13,19 @@
 % 2. param(2): MaxPeakWidth
 % 3. param(3): Prominence
 % 4. param(4): MinPeakDistance
-% 5. param(5): Prominence
+% 5. param(5): minWidth
 % 6. param(6): MinPeakDistance
-% 7. param(7): MinPeakDistance
-function ParametersMatrixCleaned = GetConfussionMetrics(ecgCleaned,ppgOriginal,ppgCleaned,params,Fs)
-     % EXTRACCION DE LOS PICOS DE ECG CON RUIDO Y SIN RUIDO
-    % 1. ECG
+% 7. param(7): minHeight
+function ParametersMatrixCleaned = GetMetrics(ecgCleaned,ppgOriginal,ppgCleaned,params,Fs)
+     % ECGPeaks extration w/without noise
+     % 1. ECG
    [~,ECG1Locs] = GetECGPeakPoints(ecgCleaned,params(5),params(6),params(7));
-      % EXTRACCION DE LOS PICOS DE PPG CON RUIDO Y SIN RUIDO
-    % 1. PPG
+     % PPGPeaks extration w/without noise
+     % 2. PPG
     [~,LOCS1Original] = GetPeakPoints(ppgOriginal,Fs,params(1),params(2),params(3),params(4));
     [~,LOCS1Cleaned] = GetPeakPoints(ppgCleaned,Fs,params(1),params(2),params(3),params(4));
     noise = 0;
-    % CORRIMIENTO 
+    % Shifting
     NewLOCSPPGOriginal=GetCorrimiento(ECG1Locs,LOCS1Original,ppgOriginal,ecgCleaned,Fs);
     NewLOCSPPGCleaned=GetCorrimiento(ECG1Locs,LOCS1Cleaned,ppgCleaned,ecgCleaned,Fs);
     % Windows
