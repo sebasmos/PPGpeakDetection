@@ -1,35 +1,60 @@
+%% function FinalParameters=GetConfussionValues(window,LOCSECG,LOCSPPG,L,Fs)
+% DESCRITION: Determine performance parameters using set intervals
+% INPUTS: window: window size quivalent to RR or MM interval or similar,
+%                   this can change according to inspection. This
+%                   particular case splits 2 sub intervals for each RR
+%                   Interval.
+%          LOCSECG: Ecg peaks
+%          LOCSPPG: PPG peaks
+%          L: Signal's lentgh
+%          Fs: Sample Frequency
 function FinalParameters=GetConfussionValues(window,LOCSECG,LOCSPPG,L,Fs)
-    limiteinf=0; %fijo el limite superior de la ventana
-    limitesup=window; %fijo el limite inferior de la ventana
-    i=1; %vector para posicionamiento de picos 
-    ECGIND=zeros(1,floor(L/(Fs*window))); %calculo cuantas mediciones habrá en esta actividad
-    PPGIND=zeros(1,floor(L/(Fs*window))); %tanto para ECG como para PPG, deben dar lo mismo pues ambas tienen la misma duración
-    while(limitesup<=(L/Fs)) %hasta que la ventana se desplace a lo largo de toda la duración de la actividad
+    % Set lower limit for window size
+    limiteinf=0; 
+    % Set upper window size
+    limitesup=window; 
+    i=1; 
+    % Set the number of measurements (windows) within the input signal, setting W:
+    % L/winwsize. For ECG and PPG.
+    ECGIND=zeros(1,floor(L/(Fs*window)));
+    PPGIND=zeros(1,floor(L/(Fs*window)));
+    % Wait until window drifts along the whole activity (the entire input signal)
+    % This for each one of the W windows:
+    while(limitesup<=(L/Fs)) 
+        % Find the number of ECG peaks withing the windowsizes
         for j=1:length(LOCSECG) 
-          if(LOCSECG(j)>limiteinf && LOCSECG(j)<limitesup) %busco si hay algun pico ECG dentro de esta ventana de tiempo
+          if(LOCSECG(j)>limiteinf && LOCSECG(j)<limitesup) 
                 ECGIND(i)=ECGIND(i)+1;
           end  
         end
+        % Find the number of PPG peaks withing the windowsizes
         for j=1:length(LOCSPPG)
-          if(LOCSPPG(j)>limiteinf && LOCSPPG(j)<limitesup) %busco si hay algun pico PPG dentro de esta ventana de tiempo
+          if(LOCSPPG(j)>limiteinf && LOCSPPG(j)<limitesup) 
                 PPGIND(i)=PPGIND(i)+1;
           end  
         end
-        limiteinf=limiteinf+window; %muevo la ventana
+        % Shift towards next window and so on until moving along the whole
+        % signal.
+        limiteinf=limiteinf+window; 
         limitesup=limitesup+window;
         i=i+1; 
     end
     
-    for j=1:length(ECGIND) %me aseguro de que no hayan 2 en el vector, solo en el       
-        if(ECGIND(j)~=0 && ECGIND(j)~=1) %muy improbable caso de que hayan dos picos
-            ECGIND(j)=1;                %en un mismo intervalo de la ventana
+    %% OPCTIONAL: Proof tests to make sure there are no more than 2 peaks within
+    % the same window. This  because if there is thirds or forth partition
+    % the motion artifacts could set more than 1 peak within a single
+    % window
+    for j=1:length(ECGIND) 
+        if(ECGIND(j)~=0 && ECGIND(j)~=1) 
+            ECGIND(j)=1;               
         end
     end
-    for j=1:length(PPGIND)  %lo mismo en PPG
+    for j=1:length(PPGIND)          
         if(PPGIND(j)~=0 && PPGIND(j)~=1)
             PPGIND(j)=1;
         end
     end
+%% Determine Metrics
   TP=0;
   FP=0;
   TN=0;
@@ -48,7 +73,6 @@ function FinalParameters=GetConfussionValues(window,LOCSECG,LOCSPPG,L,Fs)
            TN=TN+1;
        end
    end
-   FinalParameters=[TP FP TN FN];
-   
+   FinalParameters=[TP FP TN FN];   
 end
 

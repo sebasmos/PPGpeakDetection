@@ -1,3 +1,5 @@
+%% NoiseProof1Parametrizado determines the experimental errors for each realization
+% Change parameters according to Appendix B 
 clear all
 close all
 clc
@@ -148,8 +150,8 @@ CleanedSignal6 = Activity6-ruido6;
     [~,LOCS6Original] = GetPeakPoints(Activity6(j,:),Fs,MinPeakWidthRest6,MaxWidthRest6,ProminenceInRest6,MinDistRest6);
     [~,LOCS6Cleaned] = GetPeakPoints(CleanedSignal6(j,:),Fs,MinPeakWidthRest6,MaxWidthRest6,ProminenceInRest6,MinDistRest6);
 
-    %% ERROR FOR LP
-disp('ERRORES CALCULADOS POR LINEAR PREDICTOR')
+
+disp('ERRORES CALCULADOS POR Savitky')
 findErrors(Activity1(j,:),Activity2(j,:),Activity3(j,:),Activity4(j,:),Activity5(j,:),Activity6(j,:),...
     CleanedSignal1(j,:),CleanedSignal2(j,:),CleanedSignal3(j,:),CleanedSignal4(j,:),CleanedSignal5(j,:),CleanedSignal6(j,:), ...
     Fs,MinPeakWidthRest1,MinPeakWidthRun_2,MinPeakWidthRun_3,MinPeakWidthRun_4,MinPeakWidthRun_5,MinPeakWidthRest6,...

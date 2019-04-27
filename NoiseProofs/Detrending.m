@@ -1,3 +1,9 @@
+%% function valoresmedia = Detrending(signal,n)
+%Description: Determines and joins breakpoints as a representation of the 
+% low-frequency noise component
+% INPUT: Signal: Input signal
+%        n: Order 
+%        output: Detended signal.
 function valoresmedia = Detrending(signal,n)
     L=length(signal);
     bp=[];

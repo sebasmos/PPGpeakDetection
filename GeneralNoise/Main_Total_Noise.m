@@ -1,3 +1,7 @@
+% This code is aimed at determinen 4 different noise models, 1) Using
+% Savizky-Golay Smoothing filter, 2) Using Linear Predictor with its 
+% respective coefficientsfiltering LPC, 3)Using Moving Average (MA)
+% filtering and using a Band-limited Gaussian Noise.
 clc
 clear all
 close all
@@ -218,69 +222,69 @@ ZeroCenteredNoise4=Noise4-WandererBaseline4;
 ZeroCenteredNoise5=Noise5-WandererBaseline5;
 ZeroCenteredNoise6=Noise6-WandererBaseline6;
 
-% %% 1. Savitzky smoothing filter.
-% %   Ruido total 1: o(t) = n(t)+w(t)
-%     TotalS=mediamuestral;
-% % Cleaning signal with MA
-%     Cleaneds1 = Activity1 - TotalS(1:3750);
-%     Cleaneds2 = Activity2 - TotalS(3751:11250);
-%     Cleaneds3 = Activity3 - TotalS(11251:18750);
-%     Cleaneds4 = Activity4 - TotalS(18751:26250);
-%     Cleaneds5 = Activity5 - TotalS(26251:33750);
-%     Cleaneds6 = Activity6 - TotalS(33751:35989);
-%     %% ERROR FOR SAVITZKY
-% disp('ERRORES CALCULADOS POR SAVITZKY')
-% findErrors(Activity1(j,:),Activity2(j,:),Activity3(j,:),Activity4(j,:),Activity5(j,:),Activity6(j,:),...
-%     Cleaneds1(j,:),Cleaneds2(j,:),Cleaneds3(j,:),Cleaneds4(j,:),Cleaneds5(j,:),Cleaneds6(j,:), ...
-%     Fs,MinPeakWidthRest1,MinPeakWidthRun_2,MinPeakWidthRun_3,MinPeakWidthRun_4,MinPeakWidthRun_5,MinPeakWidthRest6,...
-%     MaxWidthRest1,MaxWidthRun2,MaxWidthRun3,MaxWidthRun4,MaxWidthRun5,MaxWidthRest6,...
-%     ProminenceInRest1,ProminenceRun2,ProminenceRun3,ProminenceRun4,ProminenceRun5,ProminenceInRest6,...
-%     MinDistRest1,MinDistRun2,MinDistRun3,MinDistRun4,MinDistRun5,MinDistRest6,...
-%     CleanedActivityECG1(j,:),CleanedActivityECG2(j,:),CleanedActivityECG3(j,:),...
-%     CleanedActivityECG4(j,:),CleanedActivityECG5(j,:),CleanedActivityECG6(j,:),...
-%     MinHeightECGRest1,MinHeightECGRun2,MinHeightECGRun3,MinHeightECGRun4,MinHeightECGRun5,MinHeightECGRest6,...
-%     minDistRest1,minDistRun2,minDistRun3,minDistRun4,minDistRun5,minDistRest6,...
-%     maxWidthRest1,maxWidthRun2,maxWidthRun3,maxWidthRun4,maxWidthRun5,maxWidthRest6);
-% 
-% %% 2. Linear Predictor Artificial noise Model
-% %1 High frequency component
-%      LP(1:3750)      = Function_1_LP(ZeroCenteredNoise1,LPCActivity1);  
-%      LP(3751:11250)  = Function_1_LP(ZeroCenteredNoise2,LPCActivity);    
-%      LP(11251:18750) = Function_1_LP(ZeroCenteredNoise3,LPCActivity);   
-%      LP(18751:26250) = Function_1_LP(ZeroCenteredNoise4,LPCActivity);   
-%      LP(26251:33750) = Function_1_LP(ZeroCenteredNoise5,LPCActivity);   
-%      LP(33751:35989) = Function_1_LP(ZeroCenteredNoise6,LPCActivity6); 
-% % TOTAL LINEAR PREDICTOR ARTIFITIAL NOISE 
-% % Ruido total 1: o(t) = n(t)+w(t)
-% % **Wanderer baseline is added
-% % This noise includes lpc linear predictor with the described orders
-% % also includes filter for modeling average noise extracted from signal.
-%     TotalLP(1:3750)      = WandererBaseline1 + LP(1:3750);
-%     TotalLP(3751:11250)  = WandererBaseline2 + LP(3751:11250);
-%     TotalLP(11251:18750) = WandererBaseline3 + LP(11251:18750);
-%     TotalLP(18751:26250) = WandererBaseline4 + LP(18751:26250);
-%     TotalLP(26251:33750) = WandererBaseline5 + LP(26251:33750);
-%     TotalLP(33751:35989) = WandererBaseline6 + LP(33751:35989);
-% % Cleaning signal with LP
-%     CleanedLP1 = Activity1 - TotalLP(1:3750);
-%     CleanedLP2 = Activity2 - TotalLP(3751:11250);
-%     CleanedLP3 = Activity3 - TotalLP(11251:18750);
-%     CleanedLP4 = Activity4 - TotalLP(18751:26250);
-%     CleanedLP5 = Activity5 - TotalLP(26251:33750);
-%     CleanedLP6 = Activity6 - TotalLP(33751:35989);
-%     %% ERROR FOR LP
-% disp('ERRORES CALCULADOS POR LINEAR PREDICTOR')
-% findErrors(Activity1(j,:),Activity2(j,:),Activity3(j,:),Activity4(j,:),Activity5(j,:),Activity6(j,:),...
-%     CleanedLP1(j,:),CleanedLP2(j,:),CleanedLP3(j,:),CleanedLP4(j,:),CleanedLP5(j,:),CleanedLP6(j,:), ...
-%     Fs,MinPeakWidthRest1,MinPeakWidthRun_2,MinPeakWidthRun_3,MinPeakWidthRun_4,MinPeakWidthRun_5,MinPeakWidthRest6,...
-%     MaxWidthRest1,MaxWidthRun2,MaxWidthRun3,MaxWidthRun4,MaxWidthRun5,MaxWidthRest6,...
-%     ProminenceInRest1,ProminenceRun2,ProminenceRun3,ProminenceRun4,ProminenceRun5,ProminenceInRest6,...
-%     MinDistRest1,MinDistRun2,MinDistRun3,MinDistRun4,MinDistRun5,MinDistRest6,...
-%     CleanedActivityECG1(j,:),CleanedActivityECG2(j,:),CleanedActivityECG3(j,:),...
-%     CleanedActivityECG4(j,:),CleanedActivityECG5(j,:),CleanedActivityECG6(j,:),...
-%     MinHeightECGRest1,MinHeightECGRun2,MinHeightECGRun3,MinHeightECGRun4,MinHeightECGRun5,MinHeightECGRest6,...
-%     minDistRest1,minDistRun2,minDistRun3,minDistRun4,minDistRun5,minDistRest6,...
-%     maxWidthRest1,maxWidthRun2,maxWidthRun3,maxWidthRun4,maxWidthRun5,maxWidthRest6);
+%% 1. Savitzky smoothing filter.
+%   Ruido total 1: o(t) = n(t)+w(t)
+    TotalS=mediamuestral;
+% Cleaning signal with MA
+    Cleaneds1 = Activity1 - TotalS(1:3750);
+    Cleaneds2 = Activity2 - TotalS(3751:11250);
+    Cleaneds3 = Activity3 - TotalS(11251:18750);
+    Cleaneds4 = Activity4 - TotalS(18751:26250);
+    Cleaneds5 = Activity5 - TotalS(26251:33750);
+    Cleaneds6 = Activity6 - TotalS(33751:35989);
+    %% ERROR FOR SAVITZKY
+disp('ERRORES CALCULADOS POR SAVITZKY')
+findErrors(Activity1(j,:),Activity2(j,:),Activity3(j,:),Activity4(j,:),Activity5(j,:),Activity6(j,:),...
+    Cleaneds1(j,:),Cleaneds2(j,:),Cleaneds3(j,:),Cleaneds4(j,:),Cleaneds5(j,:),Cleaneds6(j,:), ...
+    Fs,MinPeakWidthRest1,MinPeakWidthRun_2,MinPeakWidthRun_3,MinPeakWidthRun_4,MinPeakWidthRun_5,MinPeakWidthRest6,...
+    MaxWidthRest1,MaxWidthRun2,MaxWidthRun3,MaxWidthRun4,MaxWidthRun5,MaxWidthRest6,...
+    ProminenceInRest1,ProminenceRun2,ProminenceRun3,ProminenceRun4,ProminenceRun5,ProminenceInRest6,...
+    MinDistRest1,MinDistRun2,MinDistRun3,MinDistRun4,MinDistRun5,MinDistRest6,...
+    CleanedActivityECG1(j,:),CleanedActivityECG2(j,:),CleanedActivityECG3(j,:),...
+    CleanedActivityECG4(j,:),CleanedActivityECG5(j,:),CleanedActivityECG6(j,:),...
+    MinHeightECGRest1,MinHeightECGRun2,MinHeightECGRun3,MinHeightECGRun4,MinHeightECGRun5,MinHeightECGRest6,...
+    minDistRest1,minDistRun2,minDistRun3,minDistRun4,minDistRun5,minDistRest6,...
+    maxWidthRest1,maxWidthRun2,maxWidthRun3,maxWidthRun4,maxWidthRun5,maxWidthRest6);
+
+%% 2. Linear Predictor Artificial noise Model
+%1 High frequency component
+     LP(1:3750)      = Function_1_LP(ZeroCenteredNoise1,LPCActivity1);  
+     LP(3751:11250)  = Function_1_LP(ZeroCenteredNoise2,LPCActivity);    
+     LP(11251:18750) = Function_1_LP(ZeroCenteredNoise3,LPCActivity);   
+     LP(18751:26250) = Function_1_LP(ZeroCenteredNoise4,LPCActivity);   
+     LP(26251:33750) = Function_1_LP(ZeroCenteredNoise5,LPCActivity);   
+     LP(33751:35989) = Function_1_LP(ZeroCenteredNoise6,LPCActivity6); 
+% TOTAL LINEAR PREDICTOR ARTIFITIAL NOISE 
+% Ruido total 1: o(t) = n(t)+w(t)
+% **Wanderer baseline is added
+% This noise includes lpc linear predictor with the described orders
+% also includes filter for modeling average noise extracted from signal.
+    TotalLP(1:3750)      = WandererBaseline1 + LP(1:3750);
+    TotalLP(3751:11250)  = WandererBaseline2 + LP(3751:11250);
+    TotalLP(11251:18750) = WandererBaseline3 + LP(11251:18750);
+    TotalLP(18751:26250) = WandererBaseline4 + LP(18751:26250);
+    TotalLP(26251:33750) = WandererBaseline5 + LP(26251:33750);
+    TotalLP(33751:35989) = WandererBaseline6 + LP(33751:35989);
+% Cleaning signal with LP
+    CleanedLP1 = Activity1 - TotalLP(1:3750);
+    CleanedLP2 = Activity2 - TotalLP(3751:11250);
+    CleanedLP3 = Activity3 - TotalLP(11251:18750);
+    CleanedLP4 = Activity4 - TotalLP(18751:26250);
+    CleanedLP5 = Activity5 - TotalLP(26251:33750);
+    CleanedLP6 = Activity6 - TotalLP(33751:35989);
+    %% ERROR FOR LP
+disp('ERRORES CALCULADOS POR LINEAR PREDICTOR')
+findErrors(Activity1(j,:),Activity2(j,:),Activity3(j,:),Activity4(j,:),Activity5(j,:),Activity6(j,:),...
+    CleanedLP1(j,:),CleanedLP2(j,:),CleanedLP3(j,:),CleanedLP4(j,:),CleanedLP5(j,:),CleanedLP6(j,:), ...
+    Fs,MinPeakWidthRest1,MinPeakWidthRun_2,MinPeakWidthRun_3,MinPeakWidthRun_4,MinPeakWidthRun_5,MinPeakWidthRest6,...
+    MaxWidthRest1,MaxWidthRun2,MaxWidthRun3,MaxWidthRun4,MaxWidthRun5,MaxWidthRest6,...
+    ProminenceInRest1,ProminenceRun2,ProminenceRun3,ProminenceRun4,ProminenceRun5,ProminenceInRest6,...
+    MinDistRest1,MinDistRun2,MinDistRun3,MinDistRun4,MinDistRun5,MinDistRest6,...
+    CleanedActivityECG1(j,:),CleanedActivityECG2(j,:),CleanedActivityECG3(j,:),...
+    CleanedActivityECG4(j,:),CleanedActivityECG5(j,:),CleanedActivityECG6(j,:),...
+    MinHeightECGRest1,MinHeightECGRun2,MinHeightECGRun3,MinHeightECGRun4,MinHeightECGRun5,MinHeightECGRest6,...
+    minDistRest1,minDistRun2,minDistRun3,minDistRun4,minDistRun5,minDistRest6,...
+    maxWidthRest1,maxWidthRun2,maxWidthRun3,maxWidthRun4,maxWidthRun5,maxWidthRest6);
 %% 3. Moving average for artifitial noise modeling
     MA(1:3750)      = Function_2_MA(ZeroCenteredNoise1,windowsizeRest);
     MA(3751:11250)  = Function_2_MA(ZeroCenteredNoise2,windowsizeRun);
@@ -315,13 +319,7 @@ ZeroCenteredNoise6=Noise6-WandererBaseline6;
     MinHeightECGRest1,MinHeightECGRun2,MinHeightECGRun3,MinHeightECGRun4,MinHeightECGRun5,MinHeightECGRest6,...
     minDistRest1,minDistRun2,minDistRun3,minDistRun4,minDistRun5,minDistRest6,...
     maxWidthRest1,maxWidthRun2,maxWidthRun3,maxWidthRun4,maxWidthRun5,maxWidthRest6);
-<<<<<<< HEAD
 %% 4. FINAL MODEL: Band-Limited Gaussian noise model
-   
-=======
-%% 4. Band-Limited Gaussian noise model
-    h=hampel(MA,500); 
->>>>>>> 02af9820f6f738eff0d95981fdc8db8768e24e79
     MAHF=MA;
     V=[s-WandererBaseline1 s1-WandererBaseline2 s2-WandererBaseline3 s3-WandererBaseline4 s4-WandererBaseline5 s5-WandererBaseline6];
     varianzamuestralMA= var(V);
@@ -366,7 +364,7 @@ ZeroCenteredNoise6=Noise6-WandererBaseline6;
     maxWidthRest1,maxWidthRun2,maxWidthRun3,maxWidthRun4,maxWidthRun5,maxWidthRest6);
 
  %% Plotting noise models
-%figure
-%t=(0:length(TotalLP)-1/Fs);
-%plot(t,TotalLP,t,TotalS),hold on,plot(t,TotalMA,'LineWidth',3),title('Final Artificial Noise Models'),ylabel('Magnitude'), xlabel('Time (s)'),grid on, axis tight,
-%legend('Linear Predictor LPC + filtering Model','Savitzky smoothing Model','Moving Average model')
+figure
+t=(0:length(TotalLP)-1/Fs);
+plot(t,TotalLP,t,TotalS),hold on,plot(t,TotalMA,'LineWidth',3),title('Final Artificial Noise Models'),ylabel('Magnitude'), xlabel('Time (s)'),grid on, axis tight,
+legend('Linear Predictor LPC + filtering Model','Savitzky smoothing Model','Moving Average model')

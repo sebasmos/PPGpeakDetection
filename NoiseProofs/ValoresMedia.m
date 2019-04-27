@@ -1,3 +1,8 @@
+%% function vectormedias = ValoresMedia(signal)
+% DESCRIPTION: Determines de change points and changes it by step functions
+% in order to represent the low-frequency noise component.
+% INPUT: Original signal
+% OUTPUT: Low-frequency noise component
 function vectormedias = ValoresMedia(signal)
     L=length(signal);
     [A B]=findchangepts(signal,'Statistic','mean','MaxNumChanges',6);

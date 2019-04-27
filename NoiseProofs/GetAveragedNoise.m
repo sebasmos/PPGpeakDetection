@@ -1,8 +1,5 @@
-
-function [h,TamRealizaciones,s,s1,s2,s3,s4,s5] = GetAveragedNoise()
-%% ARTIFITIAL NOISE DESIGN 
-
-% This code intends to proof the viability of the obtained noise from the
+%% function [h,TamRealizaciones,s,s1,s2,s3,s4,s5] = GetAveragedNoise()
+% DESCRIPTION: % This code intends to proof the viability of the obtained noise from the
 % substraction of the signal minus the Savitzky-golay's filter through the
 % function findpeaks as demonstrated below
 % Activities type 1 from type 2 differ only from the 2nd activities ahead,
@@ -14,7 +11,14 @@ function [h,TamRealizaciones,s,s1,s2,s3,s4,s5] = GetAveragedNoise()
 % 4. Running 8km/h (1min)  corresponds to 6 km/h in activity type 2
 % 5. Running 15km/h (1min) corresponds to 12 km/h in activity type 2
 % 6. Rest (30 min)
-
+% Obtain Savitzky Noise model using Medias moviles for
+% removing the low-frequency noise component and then this base noise is
+% cleaned using hampel to delete extra peaks at each interval's activities.
+% OUTPUTs:
+%   h: High-frequency noise component
+%   TamRealizaciones: Size (sampled) of realizations
+%   s..s6: Signals separated by activity.
+function [h,TamRealizaciones,s,s1,s2,s3,s4,s5] = GetAveragedNoise()
 % Initial Conditions
 
 k=0;
