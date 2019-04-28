@@ -225,14 +225,28 @@ TACHYECGLong=[TACHECGLong((1:limitTachPositivesLong),:);VTACHECGLong((1:limitVTa
 TACHYPPGShort=[TACHPPGShort((1:limitTachPositivesShort),:);VTACHPPGShort((1:limitVTachPositivesShort),:);TACHPPGShort((limitTachPositivesShort+1:end),:);VTACHPPGShort((limitVTachPositivesShort+1:end),:)];
 TACHYPPGLong=[TACHPPGLong((1:limitTachPositivesLong),:);VTACHPPGLong((1:limitVTachPositivesLong),:);TACHPPGLong((limitTachPositivesLong+1:end),:);VTACHPPGLong((limitVTachPositivesLong+1:end),:)];
 
+
+%% VAMOS A PORCIONAR LAS SEÑALES TACHY DE A 60 REGISTROS 
+
+TACHYECGLong1=TACHYECGLong((1:60),:);
+TACHYECGLong2=TACHYECGLong((61:120),:);
+TACHYECGLong3=TACHYECGLong((121:180),:);
+TACHYECGLong4=TACHYECGLong((181:end),:);
+
+TACHYECGShort1=TACHYECGShort((1:60),:);
+TACHYECGShort2=TACHYECGShort((61:120),:);
+TACHYECGShort3=TACHYECGShort((121:180),:);
+TACHYECGShort4=TACHYECGShort((181:end),:);
+
 %% Ya que los organizamos, vamos a exportarlos o guardarlos.
 
 save('BRADECGLong','BRADECGLong');
 save('BRADECGShort','BRADECGShort');
-%save('TACHYECGLong','TACHYECGLong');
-%save('TACHYECGShort','TACHYECGShort');
 
 save('BRADPPGLong','BRADPPGLong');
 save('BRADPPGShort','BRADPPGShort');
-%save('TACHYPPGLong','TACHYPPGLong');
-%save('TACHYPPGShort','TACHYPPGShort');
+%%
+save('TACHYECGLong1','TACHYECGLong1');
+save('TACHYECGLong2','TACHYECGLong2');
+save('TACHYECGLong3','TACHYECGLong3');
+save('TACHYECGLong4','TACHYECGLong4');
