@@ -265,31 +265,29 @@ TACHYPPGShort4=TACHYPPGShort((181:end),:);
 %versiones de git, de manera que cada vez que un archivo se renueve, git
 %add . va a continuar subiendo estos archivos, pues han sido 'modificados'.
 
-%Yo tuve que hacer esto, pero si estas viendo esto y ya bajaste las bases
-%de datos, es innecesario.
+%Y
+save('BRADECGLong','BRADECGLong');
+save('BRADECGShort','BRADECGShort');
+save('BRADPPGLong','BRADPPGLong');
+save('BRADPPGShort','BRADPPGShort');
+%%
+save('TACHYECGLong1','TACHYECGLong1');
+save('TACHYECGLong2','TACHYECGLong2');
+save('TACHYECGLong3','TACHYECGLong3');
+save('TACHYECGLong4','TACHYECGLong4');
+%%
+save('TACHYECGShort1','TACHYECGShort1')
+save('TACHYECGShort2','TACHYECGShort2')
+save('TACHYECGShort3','TACHYECGShort3')
+save('TACHYECGShort4','TACHYECGShort4')
 
-% save('BRADECGLong','BRADECGLong');
-% save('BRADECGShort','BRADECGShort');
-% save('BRADPPGLong','BRADPPGLong');
-% save('BRADPPGShort','BRADPPGShort');
-% 
-% save('TACHYECGLong1','TACHYECGLong1');
-% save('TACHYECGLong2','TACHYECGLong2');
-% save('TACHYECGLong3','TACHYECGLong3');
-% save('TACHYECGLong4','TACHYECGLong4');
-% 
-% save('TACHYECGShort1','TACHYECGShort1')
-% save('TACHYECGShort2','TACHYECGShort2')
-% save('TACHYECGShort3','TACHYECGShort3')
-% save('TACHYECGShort4','TACHYECGShort4')
-% 
-% save('TACHYPPGLong1','TACHYPPGLong1');
-% save('TACHYPPGLong2','TACHYPPGLong2');
-% save('TACHYPPGLong3','TACHYPPGLong3');
-% save('TACHYPPGLong4','TACHYPPGLong4');
-% 
-% save('TACHYPPGShort1','TACHYPPGShort1')
-% save('TACHYPPGShort2','TACHYPPGShort2')
-% save('TACHYPPGShort3','TACHYPPGShort3')
-% save('TACHYPPGShort4','TACHYPPGShort4')
+save('TACHYPPGLong1','TACHYPPGLong1');
+save('TACHYPPGLong2','TACHYPPGLong2');
+save('TACHYPPGLong3','TACHYPPGLong3');
+save('TACHYPPGLong4','TACHYPPGLong4');
+
+save('TACHYPPGShort1','TACHYPPGShort1')
+save('TACHYPPGShort2','TACHYPPGShort2')
+save('TACHYPPGShort3','TACHYPPGShort3')
+save('TACHYPPGShort4','TACHYPPGShort4')
 %%
