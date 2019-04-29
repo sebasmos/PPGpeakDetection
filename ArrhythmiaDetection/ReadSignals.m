@@ -227,7 +227,7 @@ TACHYPPGLong=[TACHPPGLong((1:limitTachPositivesLong),:);VTACHPPGLong((1:limitVTa
 
 
 %% VAMOS A PORCIONAR LAS SEÑALES TACHY DE A 60 REGISTROS 
-
+%Primero las Taquicardias en ECG tanto cortas como largas
 TACHYECGLong1=TACHYECGLong((1:60),:);
 TACHYECGLong2=TACHYECGLong((61:120),:);
 TACHYECGLong3=TACHYECGLong((121:180),:);
@@ -237,7 +237,17 @@ TACHYECGShort1=TACHYECGShort((1:60),:);
 TACHYECGShort2=TACHYECGShort((61:120),:);
 TACHYECGShort3=TACHYECGShort((121:180),:);
 TACHYECGShort4=TACHYECGShort((181:end),:);
+%% Luego las taquicardias en PPG tanto cortas como largas 
 
+TACHYPPGLong1=TACHYPPGLong((1:60),:);
+TACHYPPGLong2=TACHYPPGLong((61:120),:);
+TACHYPPGLong3=TACHYPPGLong((121:180),:);
+TACHYPPGLong4=TACHYPPGLong((181:end),:);
+
+TACHYPPGShort1=TACHYPPGShort((1:60),:);
+TACHYPPGShort2=TACHYPPGShort((61:120),:);
+TACHYPPGShort3=TACHYPPGShort((121:180),:);
+TACHYPPGShort4=TACHYPPGShort((181:end),:);
 %% Ya que los organizamos, vamos a exportarlos o guardarlos.
 
 save('BRADECGLong','BRADECGLong');
@@ -250,3 +260,19 @@ save('TACHYECGLong1','TACHYECGLong1');
 save('TACHYECGLong2','TACHYECGLong2');
 save('TACHYECGLong3','TACHYECGLong3');
 save('TACHYECGLong4','TACHYECGLong4');
+%%
+save('TACHYECGShort1','TACHYECGShort1')
+save('TACHYECGShort2','TACHYECGShort2')
+save('TACHYECGShort3','TACHYECGShort3')
+save('TACHYECGShort4','TACHYECGShort4')
+
+save('TACHYPPGLong1','TACHYPPGLong1');
+save('TACHYPPGLong2','TACHYPPGLong2');
+save('TACHYPPGLong3','TACHYPPGLong3');
+save('TACHYPPGLong4','TACHYPPGLong4');
+
+save('TACHYPPGShort1','TACHYPPGShort1')
+save('TACHYPPGShort2','TACHYPPGShort2')
+save('TACHYPPGShort3','TACHYPPGShort3')
+save('TACHYPPGShort4','TACHYPPGShort4')
+%%
