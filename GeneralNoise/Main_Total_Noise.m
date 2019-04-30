@@ -169,6 +169,8 @@ FinalSignal = (PPGdatasetSignals-128)/(255);
 
 % Normalize the entire signal of all realizations.
 for k=1:12
+    vectormaximosppg(k)=max(FinalSignal(k,:));
+    vectorminimosppg(k)=min(FinalSignal(k,:));
     sNorm(k,:) = (FinalSignal(k,:)-min(FinalSignal(k,:)))/(max(FinalSignal(k,:))-min(FinalSignal(k,:)));
     ecgNorm(k,:) = (ecgFullSignal(k,:)-min(ecgFullSignal(k,:)))./(max(ecgFullSignal(k,:))-min(ecgFullSignal(k,:)));
 end
