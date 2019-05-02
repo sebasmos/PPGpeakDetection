@@ -230,7 +230,7 @@ ZeroCenteredNoise6=Noise6-WandererBaseline6;
 % Create Gaussian Noise Models varying variance for each seed-value
 %% FORMA 1
     for k=1:length(MA)
-        GaussianModel(:,k) = MA(k) + sqrt(varianzamuestralMA(k))*randn(1);
+        GaussianModel(1,k) = MA(k) + sqrt(varianzamuestralMA(k))*randn(1);
     end
 %% FORMA 2
 %     
