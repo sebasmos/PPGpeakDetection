@@ -1,4 +1,4 @@
-% function [Sensibity,Especificity] = Function_GMA(windowsizeRest,windowsizeRun)
+% function [Sensibity,Especificity] = Function_Gaussian(windowsizeRest,windowsizeRun)
 % DESCRIPTION: This function determines the band-limited gaussian noise
 % model using a range of seed-values for determining an noise model fed with
 % MA noise.
@@ -18,14 +18,14 @@
 %           windowsizeRun: Window size for MA window for running activities
 % OUTPUT:    Sensivility: Performance parameter for ECGPeaks = 0 and PPGPeaks = 0 
 function [Sensivility,Especificity] = Function_Gaussian(windowsizeRest,windowsizeRun)
-addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/NoiseProofs')
-addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/GaussianNoise')
-addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/db')
-addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/GeneralNoise')
-% addpath('C:\MATLAB2018\MATLAB\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\db');
-% addpath('C:\MATLAB2018\MATLAB\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\GeneralNoise');
-% addpath('C:\MATLAB2018\MATLAB\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\NoiseProofs');
-% addpath('C:\MATLAB2018\MATLAB\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\GaussianNoise');
+% addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/NoiseProofs')
+% addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/GaussianNoise')
+% addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/db')
+% addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/GeneralNoise')
+addpath('C:\MATLAB2018\MATLAB\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\db');
+addpath('C:\MATLAB2018\MATLAB\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\GeneralNoise');
+addpath('C:\MATLAB2018\MATLAB\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\NoiseProofs');
+addpath('C:\MATLAB2018\MATLAB\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\GaussianNoise');
 % Initial Conditions
 % windowsizeRest = 30;
 % windowsizeRun = 70;

@@ -18,7 +18,7 @@
 % INPUT:     windowsizeReset: Window size for MA window for rest activities
 %           windowsizeRun: Window size for MA window for running activities
 % OUTPUT:    Sensivility: Performance parameter for ECGPeaks = 0 and PPGPeaks = 0 
-function [Sensivility,Especificity] = Function_GMA(windowsizeRest,windowsizeRun)
+function [Sensivility,Especificity] = Function_GMA(windowSize)
 % addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/NoiseProofs')
 % addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/GaussianNoise')
 % addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/db')
@@ -27,8 +27,8 @@ addpath('C:\MATLAB2018\MATLAB\Tesis\IEEE-Processing-Cup\competition_data\PPGpeak
 addpath('C:\MATLAB2018\MATLAB\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\NoiseProofs');
 addpath('C:\MATLAB2018\MATLAB\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\GaussianNoise');
 % Initial Conditions
-% windowsizeRest = 30;
-% windowsizeRun = 70;
+windowsizeRest = 45;
+windowsizeRun = 70;
 k=0;
 prom=0;
 sm0=0;
@@ -225,18 +225,15 @@ ZeroCenteredNoise6=Noise6-WandererBaseline6;
 % drift. When XMA  = 0, model sets to MA performance parameters, for this, 
 % conditional for passband filtering is created to avoid unexpected signal
 % distortion
-% Seed pool.
-    seed = [0 0.05 0.06 0.03 0.04];
-    Seed_Position = 2;
 % Save memory for XMA band-limited Gaussian noise models
-    GaussianModelsMA=zeros(length(seed),length(MA));
+    GaussianModelsMA=zeros(1,length(MA));
 % Create Gaussian Noise Models varying variance for each seed-value
     for k=1:length(MA)
-        GaussianModelsMA(:,k) = MA(k) + sqrt(varianzamuestralMA(k))*seed;
+        GaussianModelsMA(:,k) = MA(k) + sqrt(varianzamuestralMA(k))*windowSize;
     end
 
-if Seed_Position == 1
-     TotalMAHF = GaussianModelsMA(Seed_Position,:);
+if windowSize == 0
+     TotalMAHF = GaussianModelsMA(1,:);
 else
     % Passband filtering for supressing frequencies above 26 hz and below 3hz.
      PBF = designfilt('bandpassiir','PassbandFrequency1',2.5,...
@@ -245,7 +242,7 @@ else
     'StopbandAttenuation1',10,'StopbandAttenuation2',10,...
     'SampleRate',Fs,'DesignMethod','ellip');
 %    Apply filter with filtfilt
-     TotalMAHF = filtfilt(PBF,GaussianModelsMA(Seed_Position,:));
+     TotalMAHF = filtfilt(PBF,GaussianModelsMA(1,:));
 end
 %%   Ruido total 2: o(t) = n(t)+w(t)
     TotalGaussianNoise(1:3750)      = WandererBaseline1 + TotalMAHF(1:3750);
