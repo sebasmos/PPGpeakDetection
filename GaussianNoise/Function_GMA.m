@@ -231,19 +231,19 @@ ZeroCenteredNoise6=Noise6-WandererBaseline6;
     for k=1:length(MA)
         GaussianModelsMA(:,k) = MA(k) + sqrt(varianzamuestralMA(k))*windowSize;
     end
-
-if windowSize == 0
+% 
+% if windowSize == 0
      TotalMAHF = GaussianModelsMA(1,:);
-else
-    % Passband filtering for supressing frequencies above 26 hz and below 3hz.
-     PBF = designfilt('bandpassiir','PassbandFrequency1',2.5,...
-    'StopbandFrequency1',2,'StopbandFrequency2',26.5,...
-    'PassbandFrequency2',26,...
-    'StopbandAttenuation1',10,'StopbandAttenuation2',10,...
-    'SampleRate',Fs,'DesignMethod','ellip');
-%    Apply filter with filtfilt
-     TotalMAHF = filtfilt(PBF,GaussianModelsMA(1,:));
-end
+% else
+%     % Passband filtering for supressing frequencies above 26 hz and below 3hz.
+%      PBF = designfilt('bandpassiir','PassbandFrequency1',2.5,...
+%     'StopbandFrequency1',2,'StopbandFrequency2',26.5,...
+%     'PassbandFrequency2',26,...
+%     'StopbandAttenuation1',10,'StopbandAttenuation2',10,...
+%     'SampleRate',Fs,'DesignMethod','ellip');
+% %    Apply filter with filtfilt
+%      TotalMAHF = filtfilt(PBF,GaussianModelsMA(1,:));
+% end
 %%   Ruido total 2: o(t) = n(t)+w(t)
     TotalGaussianNoise(1:3750)      = WandererBaseline1 + TotalMAHF(1:3750);
     TotalGaussianNoise(3751:11250)  = WandererBaseline2 + TotalMAHF(3751:11250);
