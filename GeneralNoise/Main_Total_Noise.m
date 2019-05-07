@@ -322,22 +322,34 @@ findErrors(Activity1(j,:),Activity2(j,:),Activity3(j,:),Activity4(j,:),Activity5
     minDistRest1,minDistRun2,minDistRun3,minDistRun4,minDistRun5,minDistRest6,...
     maxWidthRest1,maxWidthRun2,maxWidthRun3,maxWidthRun4,maxWidthRun5,maxWidthRest6);
 %% 4. FINAL MODEL: Band-Limited Gaussian noise model
-    MAHF=MA;
-    V=[s-WandererBaseline1 s1-WandererBaseline2 s2-WandererBaseline3 s3-WandererBaseline4 s4-WandererBaseline5 s5-WandererBaseline6];
-    varianzamuestralMA= var(V);
-    XMA = [0.05 0.001 0.1 0.2 0.4 ];
-    GaussianModelsMA=zeros(length(XMA),length(MAHF));
-    for k=1:length(MAHF)
-        GaussianModelsMA(:,k)=MAHF(k)+sqrt(varianzamuestralMA(k))*XMA;
+% Seed-pool is created, in order to set different deviations around baseline
+% drift. When XMA  = 0, model sets to MA performance parameters, for this, 
+% conditional for passband filtering is created to avoid unexpected signal
+% distortion
+ V=[s-WandererBaseline1 s1-WandererBaseline2 s2-WandererBaseline3 s3-WandererBaseline4 s4-WandererBaseline5 s5-WandererBaseline6];
+ varianzamuestralMA= var(V);
+% Save memory for XMA band-limited Gaussian noise models
+    GaussianModelsMA=zeros(1,length(MA));
+% The seed-value is selected as -0.53 using the automatic algorithm
+% detection
+windowSize = -0.53;
+% Create Gaussian Noise Models varying variance for each seed-value
+    for k=1:length(MA)
+        GaussianModelsMA(:,k) = MA(k) + sqrt(varianzamuestralMA(k))*windowSize;
     end
-    PBF = designfilt('bandpassiir','PassbandFrequency1',2.5,...
+
+if windowSize == 0
+     TotalMAHF = GaussianModelsMA(1,:);
+else
+    % Passband filtering for supressing frequencies above 26 hz and below 3hz.
+     PBF = designfilt('bandpassiir','PassbandFrequency1',2.5,...
     'StopbandFrequency1',2,'StopbandFrequency2',26.5,...
     'PassbandFrequency2',26,...
     'StopbandAttenuation1',10,'StopbandAttenuation2',10,...
     'SampleRate',Fs,'DesignMethod','ellip');
-
-    TotalMAHF = filtfilt(PBF,GaussianModelsMA(1,:));
-    
+%    Apply filter with filtfilt
+     TotalMAHF = filtfilt(PBF,GaussianModelsMA(1,:));
+end
     GaussianTotalMA(1:3750)      = WandererBaseline1 + TotalMAHF(1:3750);
     GaussianTotalMA(3751:11250)  = WandererBaseline2 + TotalMAHF(3751:11250);
     GaussianTotalMA(11251:18750) = WandererBaseline3 + TotalMAHF(11251:18750);
