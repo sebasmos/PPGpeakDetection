@@ -19,13 +19,14 @@
 %           windowsizeRun: Window size for MA window for running activities
 % OUTPUT:    Sensivility: Performance parameter for ECGPeaks = 0 and PPGPeaks = 0 
 function [Sensivility,Especificity] = Function_GMA(windowSize)
-% addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/NoiseProofs')
-% addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/GaussianNoise')
-% addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/db')
-addpath('C:\MATLAB2018\MATLAB\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\db');
-addpath('C:\MATLAB2018\MATLAB\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\GeneralNoise');
-addpath('C:\MATLAB2018\MATLAB\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\NoiseProofs');
-addpath('C:\MATLAB2018\MATLAB\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\GaussianNoise');
+addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/NoiseProofs')
+addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/GaussianNoise')
+addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/db')
+addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/GeneralNoise')
+% addpath('C:\MATLAB2018\MATLAB\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\db');
+% addpath('C:\MATLAB2018\MATLAB\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\GeneralNoise');
+% addpath('C:\MATLAB2018\MATLAB\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\NoiseProofs');
+% addpath('C:\MATLAB2018\MATLAB\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\GaussianNoise');
 % Initial Conditions
 windowsizeRest = 45;
 windowsizeRun = 70;
@@ -232,18 +233,18 @@ ZeroCenteredNoise6=Noise6-WandererBaseline6;
         GaussianModelsMA(:,k) = MA(k) + sqrt(varianzamuestralMA(k))*windowSize;
     end
 % 
-% if windowSize == 0
+if windowSize == 0
      TotalMAHF = GaussianModelsMA(1,:);
-% else
-%     % Passband filtering for supressing frequencies above 26 hz and below 3hz.
-%      PBF = designfilt('bandpassiir','PassbandFrequency1',2.5,...
-%     'StopbandFrequency1',2,'StopbandFrequency2',26.5,...
-%     'PassbandFrequency2',26,...
-%     'StopbandAttenuation1',10,'StopbandAttenuation2',10,...
-%     'SampleRate',Fs,'DesignMethod','ellip');
-% %    Apply filter with filtfilt
-%      TotalMAHF = filtfilt(PBF,GaussianModelsMA(1,:));
-% end
+else
+    % Passband filtering for supressing frequencies above 26 hz and below 3hz.
+     PBF = designfilt('bandpassiir','PassbandFrequency1',2.5,...
+    'StopbandFrequency1',2,'StopbandFrequency2',26.5,...
+    'PassbandFrequency2',26,...
+    'StopbandAttenuation1',10,'StopbandAttenuation2',10,...
+    'SampleRate',Fs,'DesignMethod','ellip');
+%    Apply filter with filtfilt
+     TotalMAHF = filtfilt(PBF,GaussianModelsMA(1,:));
+end
 %%   Ruido total 2: o(t) = n(t)+w(t)
     TotalGaussianNoise(1:3750)      = WandererBaseline1 + TotalMAHF(1:3750);
     TotalGaussianNoise(3751:11250)  = WandererBaseline2 + TotalMAHF(3751:11250);
