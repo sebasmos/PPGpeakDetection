@@ -16,6 +16,13 @@
 % 5. param(5): minWidth
 % 6. param(6): MinPeakDistance
 % 7. param(7): minHeight
+%
+% OUTPUTS
+% You can change the output of this code by changing
+% ParametersMatrixCleaned for ParametersMatrixOriginal
+%The first will throw the performance parameters from cleaned signal
+%The second will throw the performance parmeters from original (noisy)
+%signal
 function ParametersMatrixCleaned = GetMetrics(ecgCleaned,ppgOriginal,ppgCleaned,params,Fs)
      % ECGPeaks extration w/without noise
      % 1. ECG
@@ -32,4 +39,5 @@ function ParametersMatrixCleaned = GetMetrics(ecgCleaned,ppgOriginal,ppgCleaned,
     W1=(mean(diff(ECG1Locs)))/2;
     ParametersMatrixCleaned=[];
     ParametersMatrixCleaned(1:4)=GetConfussionValues(W1,ECG1Locs,NewLOCSPPGCleaned,length(ppgOriginal),Fs);
+    %ParametersMatrixOriginal(1:4)=GetConfussionValues(W1,ECG1Locs,NewLOCSPPGOriginal,length(ppgOriginal),Fs);
 end

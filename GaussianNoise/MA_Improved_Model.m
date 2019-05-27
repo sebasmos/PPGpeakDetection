@@ -22,7 +22,7 @@
 % INPUTS: *windosizeRest [30,40]
 %         *windowsizeRun [70]
 %OUTPUTS: [sensitibity,especificity]
-function [Sensivility,Especificity] = MA_Improved_Model(windowsizeRest,windowsizeRun)
+function [Sensitivity,Specificity] = MA_Improved_Model(windowsizeRest,windowsizeRun)
 %% Add Datasets
 addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/NoiseProofs')
 addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/GeneralNoise')
@@ -168,7 +168,7 @@ FN = 0;
       TN = [TN alfa(i,3) alfa(i,7) alfa(i,11) alfa(i,15)  alfa(i,19)  alfa(i,23)];
       FN = [FN alfa(i,4) alfa(i,8) alfa(i,12) alfa(i,16)  alfa(i,20)  alfa(i,24)];     
    end
-   %Presicion     = sum(TP)./(sum(TP)+sum(FP))
-   Especificity  = sum(TN)./(sum(TN)+sum(FP))
-   Sensivility   = sum(TP)./(sum(TP)+sum(FN))
+   Accuracy     = sum(TP)./(sum(TP)+sum(FP))
+   Specificity  = sum(TN)./(sum(TN)+sum(FP))
+   Sensitivity   = sum(TP)./(sum(TP)+sum(FN))
 end

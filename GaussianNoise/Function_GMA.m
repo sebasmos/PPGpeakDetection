@@ -19,7 +19,7 @@
 %           windowsizeRun: Window size for MA window for running activities
 % OUTPUT:    Sensivility: Performance parameter for ECGPeaks = 0 and PPGPeaks = 0 
 
-function [Sensivility,Especificity,TotalMAHF] = Function_GMA(windowSize)
+function [Sensivility,Especificity,TotalMAHF] = Function_GMA(seedValue)
 % addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/NoiseProofs')
 % addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/GaussianNoise')
 % addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/db')
@@ -230,10 +230,10 @@ ZeroCenteredNoise6=Noise6-WandererBaseline6;
     GaussianModelsMA=zeros(1,length(MA));
 % Create Gaussian Noise Models varying variance for each seed-value
     for k=1:length(MA)
-        GaussianModelsMA(:,k) = MA(k) + sqrt(varianzamuestralMA(k))*windowSize;
+        GaussianModelsMA(:,k) = MA(k) + sqrt(varianzamuestralMA(k))*seedValue;
     end
 
-if windowSize == 0
+if seedValue == 0
      TotalMAHF = GaussianModelsMA(1,:);
 else
     % Passband filtering for supressing frequencies above 26 hz and below 3hz.

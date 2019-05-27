@@ -6,15 +6,17 @@ clc
 clear all
 close all
 %% Add Datasets
-% addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/NoiseProofs')
-% addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/GaussianNoise')
-% addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/db')
-addpath('C:\MATLAB2018\MATLAB\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\db');
-addpath('C:\MATLAB2018\MATLAB\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\GaussianNoise');
-addpath('C:\MATLAB2018\MATLAB\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\NoiseProofs');
+addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/NoiseProofs')
+addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/GaussianNoise')
+addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/db')
+% addpath('C:\MATLAB2018\MATLAB\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\db');
+% addpath('C:\MATLAB2018\MATLAB\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\GaussianNoise');
+% addpath('C:\MATLAB2018\MATLAB\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\NoiseProofs');
+%
+%Obtain high-frequency noise base by Savitzky with GetAveragedNoise
 [mediamuestral,TamRealizaciones]=GetAveragedNoise();
 % Set realization as desired.
-j = 3; 
+j = 1; 
 
 %% Get and save signals in 'Realizaciones'
 % NOISE MODEL PARAMETERS    
@@ -33,48 +35,65 @@ sm2=0;
 sm3=0;
 sm4=0;
 sm5=0;
+
+%% PARAMETRIZE FINDPEAKS FOR CLASSIFICATION ERROR COMPUTING
+%  ---------ACTIVIDAD 1------                 -------ACTIVIDAD 2---------             -------ACTIVIDAD 3---------            -------ACTIVIDAD 4---------            -------ACTIVIDAD 5---------          -------ACTIVIDAD 6---------                 
+%  MinW|MW   |PROM|MinD| MH    |MD  |MW     MinW|MW |PROM| MinD| MH |MD |MW          MinW|MW |PROM| MinD| MH |MD |MW  
+P=[0.11 0.5  0.009 0.3  0.025  0.6  0.05    0.01  0.6  0.049  0.1   0.025 0.5 0.05   0.07  0.5 0.038  0.1  0.04  0.2 0.05   0.07 0.8 0.04  0.15  0.04 0.2 0.05     0.07 0.8 0.04  0.1  0.04 0.2 0.05    0.05 1.5 0.01  0.2  0.04 0.2 0.05;
+   0.09 0.45 0.009 0.4  0.025  0.6  0.05    0.05  0.45 0.05   0.35  0.025 0.5 0.05   0.07  0.5 0.038  0.1  0.04  0.2 0.05   0.07 0.8 0.04  0.15  0.04 0.2 0.05     0.07 0.8 0.04  0.3  0.04 0.2 0.05    0.05 1.5 0.01  0.2  0.04 0.2 0.05;
+   0.09 0.45 0.009 0.4  0.025  0.5  0.05    0.05  0.45 0.05   0.2   0.025 0.5 0.05   0.07  0.5 0.038  0.1  0.04  0.2 0.05   0.07 1.5 0.038 0.12  0.04 0.2 0.05     0.07 0.8 0.04  0.3  0.04 0.2 0.05    0.05 1.5 0.01  0.2  0.04 0.2 0.05;
+   0.09 0.45 0.009 0.4  0.025  0.5  0.05    0.028 0.9  0.077  0.28  0.025 0.4 0.05   0.08  0.5 0.05   0.2  0.03  0.2 0.05   0.07 1.5 0.067 0.1   0.03 0.2 0.05     0.07 0.8 0.04  0.3  0.04 0.2 0.05    0.05 1.5 0.01  0.2  0.03 0.2 0.05;
+   0.09 0.45 0.009 0.4  0.025  0.5  0.05    0.11  0.5  0.05   0.1   0.025 0.4 0.05   0.05  0.4 0.01   0.22 0.03  0.2 0.05   0.07 1.5 0.067 0.1   0.03 0.2 0.05     0.07 0.8 0.04  0.3  0.04 0.2 0.05    0.05 1.5 0.01  0.2  0.03 0.2 0.05;
+   0.09 0.45 0.009 0.4  0.025  0.5  0.05    0.11  0.5  0.05   0.1   0.025 0.4 0.05   0.05  0.45 0.01  0.28 0.03  0.2 0.05   0.07 1.5 0.067 0.1   0.03 0.2 0.05     0.07 0.8 0.04  0.22 0.04 0.2 0.05    0.05 1.5 0.01  0.2  0.03 0.2 0.05;
+   0.07 0.5  0.05  0.4  0.15   0.5  0.05    0.07  0.5  0.04   0.35  0.15  0.4 0.05   0.05  0.3 0.04   0.3  0.15  0.35 0.05  0.05 0.7 0.03  0.29  0.2  0.35 0.05    0.05  1  0.03  0.29 0.2  0.35 0.05   0.05 0.5 0.04  0.3  0.2  0.35 0.05;
+   0.1  0.5  0.03  0.35 0.025  0.6  0.05    0.05  0.5  0.05   0.17  0.019 0.4 0.05   0.03  0.5 0.03   0.1  0.035 0.35 0.05  0.07 0.7 0.02  0.15  0.02 0.35 0.05    0.05  1  0.04  0.15 0.02 0.35 0.05   0.01 0.5 0.07  0.2  0.02 0.35 0.05;
+   0.1  0.5  0.005 0.45 0.04   0.65 0.05    0.01  0.5  0.05   0.35  0.025 0.4 0.05   0.05  0.6 0.04   0.32 0.02  0.35 0.05  0.07 0.6 0.04  0.3   0.02 0.35 0.05    0.05  1  0.04  0.3  0.02 0.35 0.05   0.1  0.8 0.03  0.2  0.03 0.35 0.05;
+   0.05 0.7  0.004 0.35 0.06   0.4  0.05    0.03  0.7  0.008  0.25  0.06  0.35 0.05  0.02  0.7 0.009  0.23 0.06  0.3  0.05  0.02 0.9 0.02  0.2   0.04 0.3  0.05    0.03  1  0.03  0.175 0.04 0.3 0.05   0.03 0.7 0.03  0.2  0.04 0.3  0.05;
+   0.1  0.5  0.005 0.4  0.05   0.48 0.05    0.01  0.5  0.05   0.25  0.06  0.35 0.05  0.05  0.7 0.05   0.23 0.05  0.25 0.05  0.07 0.3 0.04  0.2   0.05 0.25 0.05    0.07 0.7 0.04  0.2   0.05 0.2 0.05   0.09 0.5 0.04  0.2  0.05 0.2  0.05;
+   0.07 1    0.03  0.4  0.02   0.5  0.05    0.05  0.8  0.04   0.35  0.02  0.44 0.05  0.1   0.8 0.12   0.28 0.02  0.3  0.05  0.07 0.8 0.04  0.25  0.017 0.3 0.04    0.05 1   0.12  0.28  0.017 0.3 0.04  0.1  0.5 0.04  0.2  0.014 0.3 0.04
+   ];
 %% Parameters for findpeaks Function
 % PARAMETERS FOR PPG SIGNAL
 
 % MinPeakWidth
 MinPeakWidthRest1 = 0.09;
-MinPeakWidthRun_2 = 0.05;
-MinPeakWidthRun_3 = 0.07;
+MinPeakWidthRun_2 = 0.11;
+MinPeakWidthRun_3 = 0.05;
 MinPeakWidthRun_4 = 0.07;
 MinPeakWidthRun_5 = 0.07;
 MinPeakWidthRest6 = 0.05;
 % MaxWidthPeak in PPG
 MaxWidthRest1 = 0.45;
-MaxWidthRun2 = 0.45;
-MaxWidthRun3 = 0.5;
+MaxWidthRun2 = 0.5;
+MaxWidthRun3 = 0.45;
 MaxWidthRun4 = 1.5;
 MaxWidthRun5 = 0.8;
 MaxWidthRest6 = 1.5;
 % Prominence in PPG
 ProminenceInRest1 = 0.009;
 ProminenceRun2 = 0.05;
-ProminenceRun3 = 0.038;
-ProminenceRun4 = 0.038;
+ProminenceRun3 = 0.01;
+ProminenceRun4 = 0.067;
 ProminenceRun5 = 0.04;
 ProminenceInRest6 = 0.01;
 % Min peak Distance in PPG
 MinDistRest1 = 0.4;
-MinDistRun2 = 0.2;
-MinDistRun3 = 0.1;
-MinDistRun4 = 0.12;
-MinDistRun5 = 0.3;
+MinDistRun2 = 0.1;
+MinDistRun3 = 0.28;
+MinDistRun4 = 0.1;
+MinDistRun5 = 0.22;
 MinDistRest6 = 0.2;
 %% PARAMETERS IN ECG SIGNAL
 % Min Height in ECG
 MinHeightECGRest1 = 0.025;
 MinHeightECGRun2  = 0.025;
-MinHeightECGRun3  = 0.04;
-MinHeightECGRun4  = 0.04;
+MinHeightECGRun3  = 0.03;
+MinHeightECGRun4  = 0.03;
 MinHeightECGRun5  = 0.04;
-MinHeightECGRest6 = 0.04;
+MinHeightECGRest6 = 0.03;
 %Min Dist in ECG
 minDistRest1  = 0.5;
-minDistRun2   = 0.5;
+minDistRun2   = 0.4;
 minDistRun3   = 0.2;
 minDistRun4   = 0.2;
 minDistRun5   = 0.2;
@@ -136,30 +155,7 @@ for k = 1:12
 
 end
 
-%% SAMPLE MEAN
-% Noise is organized in a single matrix M with size 6x7500, where the rows
-% represent the type of activity and the columns represent the samples of
-% each dataset. For the signals in the samples 0-3750 (30s activity), 3750
-% zeros are added in order to fit the matrix with the right dimension.
 
-M=[sm0 zeros(1,3750); sm1; sm2; sm3; sm4; sm5 zeros(1,7500-length(sm5))];
-Realizaciones = 12;
-
-% Here, we divide the beforehand mentioned sum of noises organized in a 
-% matrix and divide it between the number of realizations, so in the final 
-% we obtain the mean value for the high-frequency noise.
-
-Media0 = M./Realizaciones;
-
-% Re-set the sampled mean on a single line linking the 6 activity signals
-% one by one with the adjacent
-
-v=[Media0(1,:) Media0(2,:) Media0(3,:) Media0(4,:) Media0(5,:) Media0(6,:)];
-
-% Delete extra zeros and make the output fit the right format.
-
-mediamuestral=nonzeros(v);
-mediamuestral=mediamuestral';
 %% ECG PEAKS EXTRACTION
 % Sample Frequency
 Fs = 125;
@@ -235,6 +231,8 @@ ZeroCenteredNoise6=Noise6-WandererBaseline6;
     Cleaneds5 = Activity5 - TotalS(26251:33750);
     Cleaneds6 = Activity6 - TotalS(33751:35989);
     %% ERROR FOR SAVITZKY
+    
+    % 1. REGRESSION ERRORS
 disp('ERRORES CALCULADOS POR SAVITZKY')
 findErrors(Activity1(j,:),Activity2(j,:),Activity3(j,:),Activity4(j,:),Activity5(j,:),Activity6(j,:),...
     Cleaneds1(j,:),Cleaneds2(j,:),Cleaneds3(j,:),Cleaneds4(j,:),Cleaneds5(j,:),Cleaneds6(j,:), ...
@@ -248,6 +246,30 @@ findErrors(Activity1(j,:),Activity2(j,:),Activity3(j,:),Activity4(j,:),Activity5
     minDistRest1,minDistRun2,minDistRun3,minDistRun4,minDistRun5,minDistRest6,...
     maxWidthRest1,maxWidthRun2,maxWidthRun3,maxWidthRun4,maxWidthRun5,maxWidthRest6);
 
+%       2. CLASIFICATION ERRORS (PERFORMANCE PARAMS: Se, sc and Acc is
+%       determined)
+TP = 0; 
+FP = 0;
+TN = 0;
+FN = 0;
+   for i=1:12
+    metrics(i,(1:4))  = GetMetrics(CleanedActivityECG1(i,:),Activity1(i,:),Cleaneds1(i,:),P(i,(1:7)),Fs);
+    metrics(i,(5:8))  = GetMetrics(CleanedActivityECG2(i,:),Activity2(i,:),Cleaneds2(i,:),P(i,(8:14)),Fs);
+    metrics(i,(9:12)) = GetMetrics(CleanedActivityECG3(i,:),Activity3(i,:),Cleaneds3(i,:),P(i,(15:21)),Fs);
+    metrics(i,(13:16))= GetMetrics(CleanedActivityECG4(i,:),Activity4(i,:),Cleaneds4(i,:),P(i,(22:28)),Fs);  
+    metrics(i,(17:20))= GetMetrics(CleanedActivityECG5(i,:),Activity5(i,:),Cleaneds5(i,:),P(i,(29:35)),Fs);
+    metrics(i,(21:24))= GetMetrics(CleanedActivityECG6(i,:),Activity6(i,:),Cleaneds6(i,:),P(i,(36:42)),Fs);
+
+      TP = [TP metrics(i,1) metrics(i,5) metrics(i,9)  metrics(i,13)  metrics(i,17)  metrics(i,21)];
+      FP = [FP metrics(i,2) metrics(i,6) metrics(i,10) metrics(i,14)  metrics(i,18)  metrics(i,22)];
+      TN = [TN metrics(i,3) metrics(i,7) metrics(i,11) metrics(i,15)  metrics(i,19)  metrics(i,23)];
+      FN = [FN metrics(i,4) metrics(i,8) metrics(i,12) metrics(i,16)  metrics(i,20)  metrics(i,24)];     
+   end
+   
+   Accuracy     = (sum(TP)+sum(TN))./(sum(TP)+sum(FP)+sum(FN)+sum(TN))
+   Especificity  = sum(TN)./(sum(TN)+sum(FP))
+   Sensitivity   = sum(TP)./(sum(TP)+sum(FN))
+
 %% 2. Linear Predictor Artificial noise Model
 %1 High frequency component
      LP(1:3750)      = Function_1_LP(ZeroCenteredNoise1,LPCActivity1);  
@@ -258,7 +280,7 @@ findErrors(Activity1(j,:),Activity2(j,:),Activity3(j,:),Activity4(j,:),Activity5
      LP(33751:35989) = Function_1_LP(ZeroCenteredNoise6,LPCActivity6); 
 % TOTAL LINEAR PREDICTOR ARTIFITIAL NOISE 
 % Ruido total 1: o(t) = n(t)+w(t)
-% **Wanderer baseline is added
+% **Baseline drift is added
 % This noise includes lpc linear predictor with the described orders
 % also includes filter for modeling average noise extracted from signal.
     TotalLP(1:3750)      = WandererBaseline1 + LP(1:3750);
@@ -275,6 +297,8 @@ findErrors(Activity1(j,:),Activity2(j,:),Activity3(j,:),Activity4(j,:),Activity5
     CleanedLP5 = Activity5 - TotalLP(26251:33750);
     CleanedLP6 = Activity6 - TotalLP(33751:35989);
     %% ERROR FOR LP
+    
+    % 1. REGRESSION ERRORS
 disp('ERRORES CALCULADOS POR LINEAR PREDICTOR')
 findErrors(Activity1(j,:),Activity2(j,:),Activity3(j,:),Activity4(j,:),Activity5(j,:),Activity6(j,:),...
     CleanedLP1(j,:),CleanedLP2(j,:),CleanedLP3(j,:),CleanedLP4(j,:),CleanedLP5(j,:),CleanedLP6(j,:), ...
@@ -287,6 +311,30 @@ findErrors(Activity1(j,:),Activity2(j,:),Activity3(j,:),Activity4(j,:),Activity5
     MinHeightECGRest1,MinHeightECGRun2,MinHeightECGRun3,MinHeightECGRun4,MinHeightECGRun5,MinHeightECGRest6,...
     minDistRest1,minDistRun2,minDistRun3,minDistRun4,minDistRun5,minDistRest6,...
     maxWidthRest1,maxWidthRun2,maxWidthRun3,maxWidthRun4,maxWidthRun5,maxWidthRest6);
+
+%       2. CLASIFICATION ERRORS (PERFORMANCE PARAMS: Se, sc and Acc is
+%       determined)
+TP = 0; 
+FP = 0;
+TN = 0;
+FN = 0;
+   for i=1:12
+    metrics(i,(1:4))  = GetMetrics(CleanedActivityECG1(i,:),Activity1(i,:),CleanedLP1(i,:),P(i,(1:7)),Fs);
+    metrics(i,(5:8))  = GetMetrics(CleanedActivityECG2(i,:),Activity2(i,:),CleanedLP2(i,:),P(i,(8:14)),Fs);
+    metrics(i,(9:12)) = GetMetrics(CleanedActivityECG3(i,:),Activity3(i,:),CleanedLP3(i,:),P(i,(15:21)),Fs);
+    metrics(i,(13:16))= GetMetrics(CleanedActivityECG4(i,:),Activity4(i,:),CleanedLP4(i,:),P(i,(22:28)),Fs);  
+    metrics(i,(17:20))= GetMetrics(CleanedActivityECG5(i,:),Activity5(i,:),CleanedLP5(i,:),P(i,(29:35)),Fs);
+    metrics(i,(21:24))= GetMetrics(CleanedActivityECG6(i,:),Activity6(i,:),CleanedLP6(i,:),P(i,(36:42)),Fs);
+
+      TP = [TP metrics(i,1) metrics(i,5) metrics(i,9)  metrics(i,13)  metrics(i,17)  metrics(i,21)];
+      FP = [FP metrics(i,2) metrics(i,6) metrics(i,10) metrics(i,14)  metrics(i,18)  metrics(i,22)];
+      TN = [TN metrics(i,3) metrics(i,7) metrics(i,11) metrics(i,15)  metrics(i,19)  metrics(i,23)];
+      FN = [FN metrics(i,4) metrics(i,8) metrics(i,12) metrics(i,16)  metrics(i,20)  metrics(i,24)];     
+   end
+   
+   Accuracy     = (sum(TP)+sum(TN))./(sum(TP)+sum(FP)+sum(FN)+sum(TN))
+   Especificity  = sum(TN)./(sum(TN)+sum(FP))
+   Sensitivity   = sum(TP)./(sum(TP)+sum(FN))
 %% 3. Moving average for artifitial noise modeling
     MA(1:3750)      = Function_2_MA(ZeroCenteredNoise1,windowsizeRest);
     MA(3751:11250)  = Function_2_MA(ZeroCenteredNoise2,windowsizeRun);
@@ -309,6 +357,8 @@ findErrors(Activity1(j,:),Activity2(j,:),Activity3(j,:),Activity4(j,:),Activity5
     CleanedMA5 = Activity5 - TotalMA(26251:33750);
     CleanedMA6 = Activity6 - TotalMA(33751:35989);
         %% ERROR FOR MOVING AVERAGE
+        
+    % 1.    REGRESSION ERROR
     disp('ERRORES CALCULADOS POR MOVING AVERAGE')
     findErrors(Activity1(j,:),Activity2(j,:),Activity3(j,:),Activity4(j,:),Activity5(j,:),Activity6(j,:),...
     CleanedMA1(j,:),CleanedMA2(j,:),CleanedMA3(j,:),CleanedMA4(j,:),CleanedMA5(j,:),CleanedMA6(j,:), ...
@@ -321,7 +371,31 @@ findErrors(Activity1(j,:),Activity2(j,:),Activity3(j,:),Activity4(j,:),Activity5
     MinHeightECGRest1,MinHeightECGRun2,MinHeightECGRun3,MinHeightECGRun4,MinHeightECGRun5,MinHeightECGRest6,...
     minDistRest1,minDistRun2,minDistRun3,minDistRun4,minDistRun5,minDistRest6,...
     maxWidthRest1,maxWidthRun2,maxWidthRun3,maxWidthRun4,maxWidthRun5,maxWidthRest6);
-%% 4. FINAL MODEL: Band-Limited Gaussian noise model
+
+%       2. CLASIFICATION ERROR (PERFORMANCE PARAMS: Se, sc and Acc is
+%       determined)
+TP = 0; 
+FP = 0;
+TN = 0;
+FN = 0;
+   for i=1:12
+    metrics(i,(1:4))  = GetMetrics(CleanedActivityECG1(i,:),Activity1(i,:),CleanedMA1(i,:),P(i,(1:7)),Fs);
+    metrics(i,(5:8))  = GetMetrics(CleanedActivityECG2(i,:),Activity2(i,:),CleanedMA2(i,:),P(i,(8:14)),Fs);
+    metrics(i,(9:12)) = GetMetrics(CleanedActivityECG3(i,:),Activity3(i,:),CleanedMA3(i,:),P(i,(15:21)),Fs);
+    metrics(i,(13:16))= GetMetrics(CleanedActivityECG4(i,:),Activity4(i,:),CleanedMA4(i,:),P(i,(22:28)),Fs);  
+    metrics(i,(17:20))= GetMetrics(CleanedActivityECG5(i,:),Activity5(i,:),CleanedMA5(i,:),P(i,(29:35)),Fs);
+    metrics(i,(21:24))= GetMetrics(CleanedActivityECG6(i,:),Activity6(i,:),CleanedMA6(i,:),P(i,(36:42)),Fs);
+
+      TP = [TP metrics(i,1) metrics(i,5) metrics(i,9)  metrics(i,13)  metrics(i,17)  metrics(i,21)];
+      FP = [FP metrics(i,2) metrics(i,6) metrics(i,10) metrics(i,14)  metrics(i,18)  metrics(i,22)];
+      TN = [TN metrics(i,3) metrics(i,7) metrics(i,11) metrics(i,15)  metrics(i,19)  metrics(i,23)];
+      FN = [FN metrics(i,4) metrics(i,8) metrics(i,12) metrics(i,16)  metrics(i,20)  metrics(i,24)];     
+   end
+   
+   Accuracy     = (sum(TP)+sum(TN))./(sum(TP)+sum(FP)+sum(FN)+sum(TN))
+   Especificity  = sum(TN)./(sum(TN)+sum(FP))
+   Sensitivity   = sum(TP)./(sum(TP)+sum(FN))
+%% 4. DYNAMIC VARIANCE MOVING AVERAGE NOISE MODEL
 % Seed-pool is created, in order to set different deviations around baseline
 % drift. When XMA  = 0, model sets to MA performance parameters, for this, 
 % conditional for passband filtering is created to avoid unexpected signal
@@ -363,8 +437,11 @@ end
     CleanedGMA4 = Activity4 - GaussianTotalMA(18751:26250);
     CleanedGMA5 = Activity5 - GaussianTotalMA(26251:33750);
     CleanedGMA6 = Activity6 - GaussianTotalMA(33751:35989);
-        %% ERROR FOR GAUSSIAN MODEL
-    disp('ERRORES CALCULADOS POR MODELO GAUSSIANO')
+   
+        %% ERROR FOR DYNAMIC VARIANCE MOVING AVERAGE MODEL WITH OPTIMAL VALUE (-0.53)
+    
+    %   1. REGRESSION ERRORS
+    disp('ERRORES CALCULADOS POR MODELO DYNAMIC MOVING AVERAGE WITH OPTIMAL VALUE (-0.53)')
     findErrors(Activity1(j,:),Activity2(j,:),Activity3(j,:),Activity4(j,:),Activity5(j,:),Activity6(j,:),...
     CleanedGMA1(j,:),CleanedGMA2(j,:),CleanedGMA3(j,:),CleanedGMA4(j,:),CleanedGMA5(j,:),CleanedGMA6(j,:), ...
     Fs,MinPeakWidthRest1,MinPeakWidthRun_2,MinPeakWidthRun_3,MinPeakWidthRun_4,MinPeakWidthRun_5,MinPeakWidthRest6,...
@@ -376,9 +453,33 @@ end
     MinHeightECGRest1,MinHeightECGRun2,MinHeightECGRun3,MinHeightECGRun4,MinHeightECGRun5,MinHeightECGRest6,...
     minDistRest1,minDistRun2,minDistRun3,minDistRun4,minDistRun5,minDistRest6,...
     maxWidthRest1,maxWidthRun2,maxWidthRun3,maxWidthRun4,maxWidthRun5,maxWidthRest6);
+%%
+%       2. ERRORES DE CLASIFICACION (PERFORMANCE PARAMS: Se, sc and Acc is
+%       determined)
+TP = 0; 
+FP = 0;
+TN = 0;
+FN = 0;
+   for i=1:12
+    metrics(i,(1:4))  = GetMetrics(CleanedActivityECG1(i,:),Activity1(i,:),CleanedGMA1(i,:),P(i,(1:7)),Fs);
+    metrics(i,(5:8))  = GetMetrics(CleanedActivityECG2(i,:),Activity2(i,:),CleanedGMA2(i,:),P(i,(8:14)),Fs);
+    metrics(i,(9:12)) = GetMetrics(CleanedActivityECG3(i,:),Activity3(i,:),CleanedGMA3(i,:),P(i,(15:21)),Fs);
+    metrics(i,(13:16))= GetMetrics(CleanedActivityECG4(i,:),Activity4(i,:),CleanedGMA4(i,:),P(i,(22:28)),Fs);  
+    metrics(i,(17:20))= GetMetrics(CleanedActivityECG5(i,:),Activity5(i,:),CleanedGMA5(i,:),P(i,(29:35)),Fs);
+    metrics(i,(21:24))= GetMetrics(CleanedActivityECG6(i,:),Activity6(i,:),CleanedGMA6(i,:),P(i,(36:42)),Fs);
+
+      TP = [TP metrics(i,1) metrics(i,5) metrics(i,9)  metrics(i,13)  metrics(i,17)  metrics(i,21)];
+      FP = [FP metrics(i,2) metrics(i,6) metrics(i,10) metrics(i,14)  metrics(i,18)  metrics(i,22)];
+      TN = [TN metrics(i,3) metrics(i,7) metrics(i,11) metrics(i,15)  metrics(i,19)  metrics(i,23)];
+      FN = [FN metrics(i,4) metrics(i,8) metrics(i,12) metrics(i,16)  metrics(i,20)  metrics(i,24)];     
+   end
+   
+   Accuracy     = (sum(TP)+sum(TN))./(sum(TP)+sum(FP)+sum(FN)+sum(TN))
+   Especificity  = sum(TN)./(sum(TN)+sum(FP))
+   Sensitivity   = sum(TP)./(sum(TP)+sum(FN))
 
  %% Plotting noise models
 figure
 t=(0:length(TotalLP)-1/Fs);
-plot(t,TotalLP,t,TotalS),hold on,plot(t,TotalMA,'LineWidth',3),title('Final Artificial Noise Models'),ylabel('Magnitude'), xlabel('Time (s)'),grid on, axis tight,
-legend('Linear Predictor LPC + filtering Model','Savitzky smoothing Model','Moving Average model')
+plot(t,TotalLP,t,TotalS,t,TotalMA,t,GaussianTotalMA),hold on,title('Final Artificial Noise Models'),ylabel('Magnitude'), xlabel('Time (s)'),grid on, axis tight,
+legend('Linear Predictor model','Savitzky Golay model','Moving Average model','Dynamic Variance Moving Average model')
