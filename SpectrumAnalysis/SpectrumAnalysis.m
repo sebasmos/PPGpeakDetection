@@ -39,14 +39,14 @@ Activity6=sNorm(:,(33751:end));
 t30s=(0:length(Activity1)-1)/Fs;
 t60s=(0:length(Activity2)-1)/Fs;
 tend=(0:length(Activity6)-1)/Fs;
-%ftotal = (0:length(sNorm)-1)/Fs;
+ftotal = (0:length(sNorm)-1)/Fs;
 
 %% Transformada de Fourier de toda la señal PPG
 % 
 % for i=1:12
 %     Y(i,:)=fft(sNorm(i,:));
 % end
-% %Dominio de la frecuencia para la gráfica
+%Dominio de la frecuencia para la gráfica
 % ftotal = Fs*(0:(length(sNorm)/2))/length(sNorm);
 % 
 % P1=abs(Y/length(sNorm));
@@ -118,39 +118,39 @@ tend=(0:length(Activity6)-1)/Fs;
 % subplot(2,3,6),plot(fend,EspectroActividad6),grid on, xlabel('Frequency (Hz)'),axis ([0 8 0 0.05]),title('Activity 6'),
 
 %% Transformada de Fourier para la realizacion entera (R=1) FILTRADA EN ALTA FRECUENCIA
-% Realization=1;
-% YRealization1=fft(sNorm(Realization,:));
-% %Dominio de la frecuencia para la gráfica
-% P1=abs(YRealization1/length(sNorm));
-% EspectroRealizacion1=P1(1:length(sNorm)/2+1);
-% EspectroRealizacion1(2:end-1) = 2*EspectroRealizacion1(2:end-1);
-% 
-% %Filtramos el ruido de altas frecuencias de la realización
-% sfilt=sgolayfilt(sNorm(Realization,:),3,41);
-% RealizacionFiltrada=hampel(sfilt,5,2);
-% 
-% %Transformada de Fourier para la señal filtrada
-% YRealizacionFiltrada=fft(RealizacionFiltrada);
-% %Dominio de frecuencia  para la gráfica
-% P2=abs(YRealizacionFiltrada/length(sNorm));
-% EspectroRealizacion1Filtrado=P2(1:length(sNorm)/2+1);
-% EspectroRealizacion1Filtrado(2:end-1) = 2*EspectroRealizacion1Filtrado(2:end-1);
-% 
-% %Restamos la señal limpia de la señal con ruido
-% RuidoRealizacion1=sNorm(Realization,:)-RealizacionFiltrada;
-% 
-% %Transformada de Fourier para la señal filtrada
-% YRuidoRealizacion1=fft(RuidoRealizacion1);
-% P3=abs(YRuidoRealizacion1/length(sNorm));
-% EspectroRuidoRealizacion1=P3(1:length(sNorm)/2+1);
-% EspectroRuidoRealizacion1(2:end-1) = 2*EspectroRuidoRealizacion1(2:end-1);
-% 
-% 
+Realization=6;
+YRealization1=fft(sNorm(Realization,:));
+%Dominio de la frecuencia para la gráfica
+P1=abs(YRealization1/length(sNorm));
+EspectroRealizacion1=P1(1:length(sNorm)/2+1);
+EspectroRealizacion1(2:end-1) = 2*EspectroRealizacion1(2:end-1);
+
+%Filtramos el ruido de altas frecuencias de la realización
+sfilt=sgolayfilt(sNorm(Realization,:),3,41);
+RealizacionFiltrada=hampel(sfilt,5,2);
+
+%Transformada de Fourier para la señal filtrada
+YRealizacionFiltrada=fft(RealizacionFiltrada);
+%Dominio de frecuencia  para la gráfica
+P2=abs(YRealizacionFiltrada/length(sNorm));
+EspectroRealizacion1Filtrado=P2(1:length(sNorm)/2+1);
+EspectroRealizacion1Filtrado(2:end-1) = 2*EspectroRealizacion1Filtrado(2:end-1);
+
+%Restamos la señal limpia de la señal con ruido
+RuidoRealizacion1=sNorm(Realization,:)-RealizacionFiltrada;
+
+%Transformada de Fourier para la señal filtrada
+YRuidoRealizacion1=fft(RuidoRealizacion1);
+P3=abs(YRuidoRealizacion1/length(sNorm));
+EspectroRuidoRealizacion1=P3(1:length(sNorm)/2+1);
+EspectroRuidoRealizacion1(2:end-1) = 2*EspectroRuidoRealizacion1(2:end-1);
+
+
 % figure(3), plot(ftotal,EspectroRealizacion1),grid on, xlabel('Frequency(Hz)'),axis([0 8 0 0.01]), title('Frequency spectrum of realization 1'),hold on,
 % plot(ftotal,EspectroRealizacion1Filtrado),legend('Realización 1 unfiltered','Realización 1 filtered w/Saviztky-Golay')
 % 
 % figure(4),plot(ftotal,EspectroRealizacion1),grid on, xlabel('Frequency(Hz)'),axis([ 0 8 0 0.01]), title('Frequency spectrum comparation'), hold on,
-% plot(ftotal,EspectroRuidoRealizacion1),legend('Realizacion 1 unfiltered ','High-frequency noise spectrum')
+ plot(ftotal,EspectroRuidoRealizacion1),legend('Realizacion 1 unfiltered ','High-frequency noise spectrum')
 
 %% GRAFICA DE LA TRANSFORMADA DE FOURIER PARA EL RUIDO COMPLETO
 % 
@@ -199,8 +199,7 @@ nb_Int = 3;                    % Number of intervals for thresholding.
 
 Realization=1;
 %% FILTERING USING WAVELETS
-[sigden,coefs,thrParams,int_DepThr_Cell,BestNbOfInt] = ...
-            cmddenoise(sNorm(1,:),wname,level,sorh,nb_Int);        
+[sigden,coefs,thrParams,int_DepThr_Cell,BestNbOfInt] = cmddenoise(sNorm(1,:),wname,level,sorh,nb_Int);        
  WaveletsNoise = sNorm(1,:) - sigden;
 %% Spectrum
 YRealization1=fft(WaveletsNoise(Realization,:));
@@ -208,19 +207,19 @@ P1=abs(YRealization1/length(sNorm));
 EspectroRealizacion1=P1(1:length(sNorm)/2+1);
 EspectroRealizacion1(2:end-1) = 2*EspectroRealizacion1(2:end-1);
 % REMOVE BASELINE DRIFT
-WNoise = Detrending(WaveletsNoise,10);
+%WNoise = detrend(WaveletsNoise,'linear',10);
 %% Savitzky: 
-[mediamuestral,TamRealizaciones]=GetAveragedNoise();
-SavitzkyNoise=sNorm(Realization,:)-mediamuestral;
-SavitzkyNoise = Detrending(SavitzkyNoise,10);
-% Spectrm
+sfilt=sgolayfilt(sNorm(Realization,:),3,41);
+RealizacionFiltrada=hampel(sfilt,5,2);
+SavitzkyNoise=sNorm(Realization,:)-RealizacionFiltrada;
+% Spectrum
 SavitzkyNoiseF=fft(SavitzkyNoise);
 P2=abs(SavitzkyNoiseF/length(sNorm));
 FinalSavitzky=P2(1:length(sNorm)/2+1);
 FinalSavitzky(2:end-1) = 2*FinalSavitzky(2:end-1);
 %ANALISIS GRAFICO
- plot(WNoise),hold on
- plot(FinalSavitzky)
+ plot(WaveletsNoise),hold on
+ plot(SavitzkyNoise)
  axis tight
  title('Filtered signal using wavelets')
  legend('Wavelet Noise Model','Savitzky Noise Model','Location','NorthWest');

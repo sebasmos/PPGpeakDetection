@@ -248,7 +248,8 @@ ZeroCenteredNoise6=Noise6-WandererBaseline6;
     TotalGaussianNoise(18751:26250) = WandererBaseline4 + TotalMAHF(18751:26250);
     TotalGaussianNoise(26251:33750) = WandererBaseline5 + TotalMAHF(26251:33750);
     TotalGaussianNoise(33751:35989) = WandererBaseline6 + TotalMAHF(33751:35989);
-% Cleaning signal with MA
+    
+%% Cleaning signal with MA
     CleanedGaussianNoise1 = Activity1 - TotalGaussianNoise(1:3750);
     CleanedGaussianNoise2 = Activity2 - TotalGaussianNoise(3751:11250);
     CleanedGaussianNoise3 = Activity3 - TotalGaussianNoise(11251:18750);

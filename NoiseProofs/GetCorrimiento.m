@@ -18,7 +18,7 @@ t=(0:L-1)/Fs;
         NewLOCSPPG=((LOCSPPG*Fs)+corrimiento)/Fs;
     else 
      % if (LOCSPPG(1)>LOCSECG(1)) then ECG happened first and then PPG must be 
-     % shifted forward
+     % run backwards
         corrimiento=(LOCSECG(1)-LOCSPPG(1))*Fs;
         ShiftedSignal=[sPPG(abs(corrimiento)+1:end) zeros(1,L-(L+corrimiento)) ];
         NewLOCSPPG=((LOCSPPG*Fs)+corrimiento)/Fs;  

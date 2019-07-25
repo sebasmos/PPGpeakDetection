@@ -1,7 +1,7 @@
-% This code is aimed at determinen 4 different noise models, 1) Using
+% This code is aimed at determine 4 different noise models, 1) Using
 % Savizky-Golay Smoothing filter, 2) Using Linear Predictor with its 
 % respective coefficientsfiltering LPC, 3)Using Moving Average (MA)
-% filtering and using a Band-limited Gaussian Noise.
+% filtering and using the Dynamic Moving Average Model.
 clc
 clear all
 close all
@@ -424,6 +424,7 @@ else
 %    Apply filter with filtfilt
      TotalMAHF = filtfilt(PBF,GaussianModelsMA(1,:));
 end
+%%
     GaussianTotalMA(1:3750)      = WandererBaseline1 + TotalMAHF(1:3750);
     GaussianTotalMA(3751:11250)  = WandererBaseline2 + TotalMAHF(3751:11250);
     GaussianTotalMA(11251:18750) = WandererBaseline3 + TotalMAHF(11251:18750);
