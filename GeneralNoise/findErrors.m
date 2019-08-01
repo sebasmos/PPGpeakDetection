@@ -1,4 +1,21 @@
-
+%% function [erroresTotales]=findErrors(...)
+% DESCRIPTION: This function allows to find the experimental errors from
+% some specific noise model, using the parameters for each activity, as it
+% can be seen below.
+% INPUTS: Activity 1-6: Signals corresponding to each activity
+%         CleanedSignal 1-6: Cleaned signals by noise model subtraction
+%         corresponding to each activity
+%         MinWidth1-6: min peak width parameter from activity 1 to 6.
+%         MaxWidth1-6: max peak width parameter from activity 1 to 6.
+%         Prominence1-6: prominence parameter from activity 1 to 6.
+%         MinDist1-6: min distance width parameter from activity 1 to 6.
+%         CleanedActivityECG1-6: cleaned ECG signals.
+%         MinHeightECG1-6: min height parameter for ECG signals from
+%         activity 1 to 6.
+%         MinDistECG1-6: min distance parameter for ECG signals from
+%         activity 1 to 6.
+%         MaxWidthECG1-6: max peak width parameter for ECG signals from
+%         activity 1 to 6.
 function [ErroresTotales] = findErrors(Activity1,Activity2,Activity3,Activity4,Activity5,Activity6,...
     CleanedSignal1,CleanedSignal2,CleanedSignal3,CleanedSignal4,CleanedSignal5,CleanedSignal6,Fs,...
     MinPeakWidthRest1,MinPeakWidthRun_2,MinPeakWidthRun_3,MinPeakWidthRun_4,MinPeakWidthRun_5,MinPeakWidthRest6,...
@@ -11,23 +28,23 @@ function [ErroresTotales] = findErrors(Activity1,Activity2,Activity3,Activity4,A
     MaxPeakWidthECG1,MaxPeakWidthECG2,MaxPeakWidthECG3,MaxPeakWidthECG4,MaxPeakWidthECG5,MaxPeakWidthECG6)
 % Access to FindECGPeaks from NoiseProofs
     addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/NoiseProofs');
-%% EXTRACCION DE LOS PICOS DE PPG CON RUIDO Y SIN RUIDO
-    % 1. ORIGINAL en reposo vs sin ruido
+%% PPG PEAKS EXTRACTION WITH AND WITHOUT NOISE.
+    % Activity 1 ORIGINAL at rest vs. noise-subtracted
     [~,LOCS1Original] = GetPeakPoints(Activity1,Fs,MinPeakWidthRest1,MaxWidthRest1,ProminenceInRest1,MinDistRest1);
     [~,LOCS1Cleaned] = GetPeakPoints(CleanedSignal1,Fs,MinPeakWidthRest1,MaxWidthRest1,ProminenceInRest1,MinDistRest1);
-    % 2. CORRIENDO 1min se?al original vs sin ruido
+    % Activity 2 ORIGINAL at rest vs. noise-subtracted
     [~,LOCS2Original] = GetPeakPoints(Activity2,Fs,MinPeakWidthRun_2,MaxWidthRun2,ProminenceRun2,MinDistRun2);
     [~,LOCS2Cleaned] = GetPeakPoints(CleanedSignal2,Fs,MinPeakWidthRun_2,MaxWidthRun2,ProminenceRun2,MinDistRun2);
-    % 3. CORRIENDO 1min se?al original vs sin ruido
+    % Activity 3 ORIGINAL at rest vs. noise-subtracted
     [~,LOCS3Original] = GetPeakPoints(Activity3,Fs,MinPeakWidthRun_3,MaxWidthRun3,ProminenceRun3,MinDistRun3);
     [~,LOCS3Cleaned] = GetPeakPoints(CleanedSignal3,Fs,MinPeakWidthRun_3,MaxWidthRun3,ProminenceRun3,MinDistRun3);
-    % 4. CORRIENDO 1min se?al original vs sin ruido
+    % Activity 4 ORIGINAL at rest vs. noise-subtracted
     [~,LOCS4Original] = GetPeakPoints(Activity4,Fs,MinPeakWidthRun_4,MaxWidthRun4,ProminenceRun4,MinDistRun4);
     [~,LOCS4Cleaned] = GetPeakPoints(CleanedSignal4,Fs,MinPeakWidthRun_4,MaxWidthRun4,ProminenceRun4,MinDistRun4);
-    % 5. CORRIENDO 1min se?al original vs sin ruido
+    % Activity 5 ORIGINAL at rest vs. noise-subtracted
     [~,LOCS5Original] = GetPeakPoints(Activity5,Fs,MinPeakWidthRun_5,MaxWidthRun5,ProminenceRun5,MinDistRun5);
     [~,LOCS5Cleaned] = GetPeakPoints(CleanedSignal5,Fs,MinPeakWidthRun_5,MaxWidthRun5,ProminenceRun5,MinDistRun5);
-    % 6. REST 30s se?al original vs sin ruido
+    % Activity 6 ORIGINAL at rest vs. noise-subtracted
     [~,LOCS6Original] = GetPeakPoints(Activity6,Fs,MinPeakWidthRest6,MaxWidthRest6,ProminenceInRest6,MinDistRest6);
     [~,LOCS6Cleaned] = GetPeakPoints(CleanedSignal6,Fs,MinPeakWidthRest6,MaxWidthRest6,ProminenceInRest6,MinDistRest6);
 

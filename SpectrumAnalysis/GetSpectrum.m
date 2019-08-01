@@ -1,6 +1,11 @@
+%% function [power]=GetSpectrum(OriginalSignal,Fs, realization)
+% DESCRIPTION: This function provides with the codes of three ways to
+% extract the spectra of a signal.
+% However, it's not used directly as a function. 
 function  P1 = GetSpectrum(OriginalSignal,Fs,Realization)
-    %FORMA 1
-  %  YRealization1=fft(sNorm(Realization,:));
+    % FORM 1: Matlab implementation for obtaining any signal's spectra.
+    % It has the general form:
+%YRealization1=fft(sNorm(Realization,:));
 % %Dominio de la frecuencia para la gráfica
 % P1=abs(YRealization1/length(sNorm));
 % EspectroRealizacion1=P1(1:length(sNorm)/2+1);
@@ -16,7 +21,7 @@ function  P1 = GetSpectrum(OriginalSignal,Fs,Realization)
     legend('ruido')
     title('FORMA 1: FOURIER');
     grid on, axis([-1 10 -0 0.5 ]) 
-    % FORMA 2
+    % FORM 2: pwelch estimation.
     Res = 10; 
     Npuntos = 2^nextpow2(Fs/2/Res);
     w = hanning(Npuntos);
@@ -25,7 +30,8 @@ function  P1 = GetSpectrum(OriginalSignal,Fs,Realization)
     pwelch(OriginalSignal(Realization,:),w,Npuntos/2,Npuntos,Fs),
     legend('Signal')
     title('FORMA 2: pwelch')
-    %FORMA 3
+    
+    %FORMA 3 (NOT USED): using an external function called PowSpecs
     [~,~,f,dP] = centerfreq(Fs,OriginalSignal(Realization,:)); %SEÑAL NORMAL
     [PS,NN] = PowSpecs(OriginalSignal(Realization,:));
     figure

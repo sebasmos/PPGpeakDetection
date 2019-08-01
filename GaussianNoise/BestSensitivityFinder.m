@@ -1,13 +1,19 @@
-%% This code helped to find automcatically the best window sizes for MA model
+%% This code helped to find automatically the best window sizes for MA model
+% This code also helped to find automatically the best F factor values for
+% DVMA model.
 clc
 clear all
 close all
 %% Add Datasets
-addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\db');
-addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\GeneralNoise');
-addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\NoiseProofs');
-
-%% Find automatically window size for best noise performance
+% addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\db');
+% addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\GeneralNoise');
+% addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\PPGpeakDetection1\NoiseProofs');
+addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/NoiseProofs')
+addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/db')
+addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/GeneralNoise')
+%% Find automatically window size for best noise performance.
+% Initially uses a wnindow size of 25 and 65 and it goes in steps of 5,
+% until it reaches 300.
 % i=25;
 % j=65;
 % 
@@ -22,7 +28,7 @@ addpath('C:\MATLAB2018\MATLAB\mcode\Tesis\IEEE-Processing-Cup\competition_data\P
 %  i=i+5;
 %  j=65;
 % end
-%% Find best seed values automatically
+%% Find best seed values automatically for DVMA model.
 i = -3;
 k = 1;
 while i<3

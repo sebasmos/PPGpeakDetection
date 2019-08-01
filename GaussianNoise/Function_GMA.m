@@ -1,25 +1,14 @@
-
-% function [Sensibity,Especificity] = Function_GMA(windowsizeRest,windowsizeRun)
-% DESCRIPTION: This function determines the band-limited gaussian noise
-% model using a range of seed-values for determining an noise model fed with
-% MA noise.
-% This code intends to proof the viability of the obtained noise from the
-% substraction of the signal minus the Savitzky-golay's filter through the
-% function findpeaks as demonstrated below
-% Activities type 1 from type 2 differ only from the 2nd activities ahead,
-% where the set speeds for the trendmill in activities type2 are under 6
-% and 12 km/h:
-% 1. Rest (30s)
-% 2. Running 8km/h (1min) corresponds to 6 km/h in activity type 2
-% 3. Running 15km/h (1min) corresponds to 12 km/h in activity type 2
-% 4. Running 8km/h (1min)  corresponds to 6 km/h in activity type 2
-% 5. Running 15km/h (1min) corresponds to 12 km/h in activity type 2
-% 6. Rest (30 min)
-% INPUT:     windowsizeReset: Window size for MA window for rest activities
-%           windowsizeRun: Window size for MA window for running activities
-% OUTPUT:    Sensivility: Performance parameter for ECGPeaks = 0 and PPGPeaks = 0 
-
-function [Sensivility,Especificity,TotalMAHF] = Function_GMA(seedValue)
+%% function [Sensitivity,Specificity] = Function_GMA(windowsizeRest,windowsizeRun)
+% DESCRIPTION: This function determines the DVMA noise model using a range
+% of F factors, making the variance change in each point of the signal.
+% This code intends to proof the viability of the obtained DVMA noise
+% model through the subtraction of this model from the original signal
+% and the posterior execution of the regression and classification tests.
+% INPUTS: windowsizeRest: Window size for MA window on resting activities
+%       windowsizeRun: Window size for MA window on walking activities
+% OUTPUTS:Sensitivity: Performance parameter for ECGPeaks = 1 and PPGPeaks = 1
+%         Specificity: Performance parameter for ECGPeaks = 0 and PPGPeaks = 0 
+function [Sensitivity,Specificity,TotalMAHF] = Function_GMA(factorValue)
 addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/NoiseProofs')
 addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/GaussianNoise')
 addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/db')
@@ -71,9 +60,7 @@ for k = 1:12
         TamRealizaciones(k) = length(a.sig);
     end
 end
-%% Obtain Savitzky noise as a subtraction of filtered signals from the original signals.
-% Each 's' drifts each activities in different arrays, in order to save its
-% information separately.
+%% Obtain Savitzky noise.
 for k = 1:12
     if k >= 10
         labelstring = int2str(k);
@@ -94,8 +81,7 @@ for k = 1:12
         s4(k,:) =  GetSavitzkyNoise(char(word),2,26251,33750);        
         s5(k,:) =  GetSavitzkyNoise(char(word),2,33751,min(TamRealizaciones));
     end
-    % A vertical and sample summation is made, thus saving each in separate
-    % arrrays. End: Obtain sample mean
+    
     sm0 = sm0 + s(k,:);
     sm1 = sm1 + s1(k,:);
     sm2 = sm2 + s2(k,:);
@@ -105,37 +91,15 @@ for k = 1:12
 
 end
 
-%% SAMPLE MEAN
-% Noise is organized in a single matrix M with size 6x7500, where the rows
-% represent the type of activity and the columns represent the samples of
-% each dataset. For the signals in the samples 0-3750 (30s activity), 3750
-% zeros are added in order to fit the matrix with the right dimension.
-
 M=[sm0 zeros(1,3750); sm1; sm2; sm3; sm4; sm5 zeros(1,7500-length(sm5))];
 Realizaciones = 12;
-
-% Here, we divide the beforehand mentioned sum of noises organized in a 
-% matrix and divide it between the number of realizations, so in the final 
-% we obtain the mean value for the high-frequency noise.
-
 Media0 = M./Realizaciones;
-
-% Re-set the sampled mean on a single line linking the 6 activity signals
-% one by one with the adjacent
-
 v=[Media0(1,:) Media0(2,:) Media0(3,:) Media0(4,:) Media0(5,:) Media0(6,:)];
+mediamuestralCleared=nonzeros(v);
+mediamuestralCleared=mediamuestralCleared';
+mediamuestral=hampel(mediamuestralCleared,5,2);
 
-% Delete extra zeros and make the output fit the right format.
-    mediamuestralCleared=nonzeros(v);
-    mediamuestralCleared=mediamuestralCleared';
-%% In order to delete big peaks between activities, use hampel to find the 
-% 3 or more standard deviation around N adjacent samples and replace large
-% peaks.
-% This model won't obtain similar results as 
- 
-    mediamuestral=hampel(mediamuestralCleared,5,2);
-
-%% EXTRACT 2 ECG AND PPG CHANNELS AND SAVE THEM IN ARRAYS.
+%% EXTRACT BOTH ECG AND PPG CHANNELS AND SAVE THEM IN ARRAYS.
 for k = 1:12
     if k >= 10
         labelstring = int2str(k);
@@ -151,18 +115,19 @@ for k = 1:12
         ECGdatasetSignals(k,:)=a.sig(1,(1:35989));
     end
 end
-% Sample Frequency
+% Sampling Frequency
     Fs = 125;
-%Convert to physical values: According to timesheet of the used wearable
+%Convert to physical values
 ecgFullSignal = (ECGdatasetSignals-128)./255;
 signal2 = (PPGdatasetSignals-128)/(255);
 
-% Normalize the entire signal of all realizations.
+% Normalize the entire signal for all realizations.
 for k=1:12
     sNorm(k,:) = (signal2(k,:)-min(signal2(k,:)))/(max(signal2(k,:))-min(signal2(k,:)));
     ecgNorm(k,:) = (ecgFullSignal(k,:)-min(ecgFullSignal(k,:)))./(max(ecgFullSignal(k,:))-min(ecgFullSignal(k,:)));
 end
-%% Separate signals in its corresponding activities 
+
+% Separate signals in its corresponding activities
 % PPG channel
 Activity1=sNorm(:,(1:3750));
 Activity2=sNorm(:,(3751:11250));
@@ -188,7 +153,7 @@ for k=1:12
     CleanedActivityECG5(k,:)=DenoiseECG(ActivityECG5(k,:));
     CleanedActivityECG6(k,:)=DenoiseECG(ActivityECG6(k,:));
 end
-%% Separate Savitzky noise for PPG with its correspondent activity.
+%% Separate Savitzky noise for PPG for each correspondent activity.
 Noise1 = mediamuestral(1:3750);
 Noise2 = mediamuestral(3751:11250);
 Noise3 = mediamuestral(11251:18750);
@@ -227,14 +192,14 @@ ZeroCenteredNoise6=Noise6-WandererBaseline6;
 % drift. When XMA  = 0, model sets to MA performance parameters, for this, 
 % conditional for passband filtering is created to avoid unexpected signal
 % distortion
-% Save memory for XMA band-limited Gaussian noise models
+% Save memory for DVMA band-limited noise models
     GaussianModelsMA=zeros(1,length(MA));
-% Create Gaussian Noise Models varying variance for each seed-value
+% Create DVMA Noise Models varying variance for each seed-value
     for k=1:length(MA)
-        GaussianModelsMA(:,k) = MA(k) + sqrt(varianzamuestralMA(k))*seedValue;
+        GaussianModelsMA(:,k) = MA(k) + sqrt(varianzamuestralMA(k))*factorValue;
     end
 
-if seedValue == 0
+if factorValue == 0
      TotalMAHF = GaussianModelsMA(1,:);
 else
     % Passband filtering for supressing frequencies above 26 hz and below 3hz.
@@ -281,6 +246,6 @@ FN = 0;
    end
    
    Presicion     = sum(TP)./(sum(TP)+sum(FP))
-   Especificity  = sum(TN)./(sum(TN)+sum(FP))
-   Sensivility   = sum(TP)./(sum(TP)+sum(FN))
+   Specificity  = sum(TN)./(sum(TN)+sum(FP))
+   Sensitivity   = sum(TP)./(sum(TP)+sum(FN))
 end

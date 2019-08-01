@@ -1,26 +1,19 @@
 %% function [h,TamRealizaciones,s,s1,s2,s3,s4,s5] = GetAveragedNoise()
-% DESCRIPTION: % This code intends to proof the viability of the obtained noise from the
-% substraction of the signal minus the Savitzky-golay's filter through the
-% function findpeaks as demonstrated below
-% Activities type 1 from type 2 differ only from the 2nd activities ahead,
-% where the set speeds for the trendmill in activities type2 are under 6
-% and 12 km/h:
-% 1. Rest (30s)
-% 2. Running 8km/h (1min) corresponds to 6 km/h in activity type 2
-% 3. Running 15km/h (1min) corresponds to 12 km/h in activity type 2
-% 4. Running 8km/h (1min)  corresponds to 6 km/h in activity type 2
-% 5. Running 15km/h (1min) corresponds to 12 km/h in activity type 2
-% 6. Rest (30 min)
-% Obtain Savitzky Noise model using Medias moviles for
-% removing the low-frequency noise component and then this base noise is
-% cleaned using hampel to delete extra peaks at each interval's activities.
-% OUTPUTs:
-%   h: High-frequency noise component
-%   TamRealizaciones: Size (sampled) of realizations
-%   s..s6: Signals separated by activity.
+% DESCRIPTION: % This code provides with the process followed to generate
+% the savitzky Golay noise model. First it makes the low and high frequency
+% noise sum inside GetSavitzkyNoise.
+% Because of the joints irregular values, this has to be passed through
+% hampelization to avoid these extrema values.
+% INPUTS: none
+% OUTPUTS:
+%   h: Savitzky Golay noise model
+%   TamRealizaciones: vector containing the lengths of each realization.
+%   s..s5: refer to the twelve realizations separated by each activity. In
+%   this way, each one of these variables is a matrix of size 12xlength of
+%   the activity in samples.
+
 function [h,TamRealizaciones,s,s1,s2,s3,s4,s5] = GetAveragedNoise()
 % Initial Conditions
-
 k=0;
 prom=0;
 sm0=0;
@@ -46,8 +39,9 @@ for k = 1:12
 end
 
 %% Obtain Savitzky noise as a subtraction of filtered signals from the original signals.
-% Each 's' drifts each activities in different arrays, in order to save its
-% information separately.
+% This is obtained separately for each activity, making use of the sample
+% interval known for each activity. Then, the savitzky golay noise model is
+% saved into each s...s5.
 for k = 1:12
     if k >= 10
         labelstring = int2str(k);
@@ -69,7 +63,7 @@ for k = 1:12
         s5(k,:) =  GetSavitzkyNoise(char(word),2,33751,min(TamRealizaciones));
     end
     % In this part, after the noise has been obtained for each activity, we
-    % proceed to make a sum for each one of the activities.
+    % proceed to make a vertical sum of them.
     sm0 = sm0 + s(k,:);
     sm1 = sm1 + s1(k,:);
     sm2 = sm2 + s2(k,:);
@@ -80,26 +74,28 @@ for k = 1:12
 end
 
 %% SAMPLE MEAN
-% Noise is organized in a single matrix M with size 6x7500, where the rows
-% represent the type of activity and the columns represent the samples of
-% each dataset. For the signals in the samples 0-3750 (30s activity), 3750
+% Summed noise is organized in a matrix M with size 6x3750. In other words,
+% the sums of noise are stacked into a matrix that contains in each row one
+% activity.
+% For the signals in the samples 0-3750 (30s activity), 3750
 % zeros are added in order to fit the matrix with the right dimension.
 
 M=[sm0 zeros(1,3750); sm1; sm2; sm3; sm4; sm5 zeros(1,7500-length(sm5))];
 Realizaciones = 12;
 
-% Here, we divide the beforehand mentioned sum of noises organized in a 
-% matrix and divide it between the number of realizations, so in the final 
-% we obtain the mean value for the high-frequency noise.
+% Here, we finally divide the sum between the total set of realizations
+% contributing to the noise model. In this way, the Savitzky Golay model
+% is obtained. However, it is still in a matrix form.
 
 Media0 = M./Realizaciones;
 
-% Re-set the sampled mean on a single line linking the 6 activity signals
+% Re-set the sampled mean on a single vector linking the 6 activity signals
 % one by one with the adjacent
 
 v=[Media0(1,:) Media0(2,:) Media0(3,:) Media0(4,:) Media0(5,:) Media0(6,:)];
 
-% Delete extra zeros and make the output fit the right format.
+% Delete extra zeros and delete extrema values caused by joints of each 
+%activity with the adjacent.
 
 mediamuestral=nonzeros(v);
 mediamuestral=mediamuestral';

@@ -1,3 +1,9 @@
+%% function [ps,nn,nbframes]=PowSpecs(signal)
+% THIS FUNCTION IS NO LONGER USED SINCE THE POWER SPECTRA WITH FFT COMMAND
+% IS EASIER TO UNDERSTAND.
+% DESCRIPTION: calculates the power spectrum of a signal using hamming
+% windows, something similar to what matlab makes with the fft function.
+
 function [PS,NN,nbFrames] = PowSpecs(data)
 %% Computing MFCC Co-efficients..
    %Output--> PS: power spectrum of the signal

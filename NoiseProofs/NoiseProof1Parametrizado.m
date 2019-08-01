@@ -1,5 +1,9 @@
-%% NoiseProof1Parametrizado determines the experimental errors for each realization
-% Change parameters according to Appendix B 
+%% DEPRECATED
+% NoiseProof1Parametrizado helps into the determination of the experimental
+% errors for some noise models, since it can be a tiresome process.
+% However, this script has been deprecated and changed by Main:Total_Noise,
+% which allows to make the calculation of all tests outcomes within one
+% script.
 clear all
 close all
 clc

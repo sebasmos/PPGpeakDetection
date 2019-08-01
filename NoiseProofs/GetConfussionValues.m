@@ -1,33 +1,32 @@
 %% function FinalParameters=GetConfussionValues(window,LOCSECG,LOCSPPG,L,Fs)
-% DESCRITION: Determine performance parameters using set intervals
-% INPUTS: window: window size quivalent to RR or MM interval or similar,
-%                   this can change according to inspection. This
-%                   particular case splits 2 sub intervals for each RR
-%                   Interval.
-%          LOCSECG: Ecg peaks
-%          LOCSPPG: PPG peaks
-%          L: Signal's lentgh
-%          Fs: Sample Frequency
+% DESCRIPTION: Determine the confussion matrix values through the use of a
+% sliding window. Inside each window, the classification task is performed
+% and then one value is retrieved, either TP, TN, FN or FP.
+% INPUTS: window: window size equivalent to the half of an average R-R
+% interval. 
+%          LOCSECG: locations of the ECG peaks
+%          LOCSPPG: locations of the PPG peaks
+%          L: signal's length
+%          Fs: Sampling Frequency
 function FinalParameters=GetConfussionValues(window,LOCSECG,LOCSPPG,L,Fs)
     % Set lower limit for window size
     limiteinf=0; 
     % Set upper window size
     limitesup=window; 
     i=1; 
-    % Set the number of measurements (windows) within the input signal, setting W:
-    % L/winwsize. For ECG and PPG.
+    % Set the number of windows within the input signal for ECG and PPG.
     ECGIND=zeros(1,floor(L/(Fs*window)));
     PPGIND=zeros(1,floor(L/(Fs*window)));
-    % Wait until window drifts along the whole activity (the entire input signal)
+    % Wait until window drifts along the entire input signal
     % This for each one of the W windows:
     while(limitesup<=(L/Fs)) 
-        % Find the number of ECG peaks withing the windowsizes
+        % See if the occurence of an ECG peak is within this window
         for j=1:length(LOCSECG) 
           if(LOCSECG(j)>limiteinf && LOCSECG(j)<limitesup) 
                 ECGIND(i)=ECGIND(i)+1;
           end  
         end
-        % Find the number of PPG peaks withing the windowsizes
+        % See if the occurence of a PPG peak is within this window
         for j=1:length(LOCSPPG)
           if(LOCSPPG(j)>limiteinf && LOCSPPG(j)<limitesup) 
                 PPGIND(i)=PPGIND(i)+1;
@@ -41,9 +40,7 @@ function FinalParameters=GetConfussionValues(window,LOCSECG,LOCSPPG,L,Fs)
     end
     
     %% OPCTIONAL: Proof tests to make sure there are no more than 2 peaks within
-    % the same window. This  because if there is thirds or forth partition
-    % the motion artifacts could set more than 1 peak within a single
-    % window
+    % the same window. If there is, then it is set as one.
     for j=1:length(ECGIND) 
         if(ECGIND(j)~=0 && ECGIND(j)~=1) 
             ECGIND(j)=1;               
@@ -54,7 +51,7 @@ function FinalParameters=GetConfussionValues(window,LOCSECG,LOCSPPG,L,Fs)
             PPGIND(j)=1;
         end
     end
-%% Determine Metrics
+%% Determine Metrics taking into account the indicators from the sliding window
   TP=0;
   FP=0;
   TN=0;

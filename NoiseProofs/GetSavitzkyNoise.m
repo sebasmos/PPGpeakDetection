@@ -1,29 +1,31 @@
 %% function Noise = GetSavitzkyNoise(name,n,m,s)
-% name: dataset's name
-% n: Number of channel according to the dataset
+% DESCRIPTION:  This code allows to obtain the high and low frequency noise
+% summed in a single noise, which is called Savitzky Golay.
+% INPUTS: name: dataset's name
+% n: Number of channel for PPG signal according to the dataset
 % m: Initial sample
 % s: Final Sample
+% OUTPUTS:
+%   Noise: noise for each set of twelve signals
+%   TamRealizaciones: vector containing the lengths of each realization.
+%   s..s5: refer to the twelve realizations separated by each activity. In
+%   this way, each one of these variables is a matrix of size 12xlength of
+%   the activity in samples.
 function Noise = GetSavitzkyNoise(name,n,m,s)
-
 %% Add Datasets
 addpath('/Users/alejandralandinez/Documents/MATLAB/mcode/tesis/Training_data/db');
-
+% Get the desired records from the chosen channel, initial and final
+% samples.
     ppg=load(name);
     ppgSignal = ppg.sig;
     pfinal = ppgSignal(n,(m:s));
-%FRECUENCIA DE MUESTREO
-    Fs = 125;
-% CONVERSI�N A VARIABLES F�SICAS
+% Conversion to physical variables according to the consulted literature.
     s2 = (pfinal-128)/(255);
-% NORMALIZACI�N POR M�XIMOS Y M�NIMOS
+% Minima and maxima normalization process
     sNorm = (s2-min(s2))/(max(s2)-min(s2));
-%% Grafica del espectro de potencia
+% Get the high frequency components with sgolayfilt and the low frequency
+% with ValoresMedia function. Then sum them up and return.
     sfilt=sgolayfilt(sNorm,3,41);
-%     if(length(sNorm)<=3750)
-%         media = Detrending(sNorm,5);
-%     else
-%         media = Detrending(sNorm,10);
-%     end
     media=ValoresMedia(sNorm);
     Noise=sNorm-sfilt+media;
 

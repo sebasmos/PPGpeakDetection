@@ -1,7 +1,9 @@
 %% function vectormedias = ValoresMedia(signal)
-% DESCRIPTION: Determines de change points and changes it by step functions
-% in order to represent the low-frequency noise component.
-% INPUT: Original signal
+% DESCRIPTION: Determines the six most important changes in the mean of the
+% signal and then links them up as step functions. Of course this six is
+% configurable, but we decided to maintain this value, since 8 or superior
+% would take unwanted values (changes in the mean for very little time)
+% INPUT: Segment of the signal. It normally is an activity.
 % OUTPUT: Low-frequency noise component
 function vectormedias = ValoresMedia(signal)
     L=length(signal);
@@ -9,6 +11,7 @@ function vectormedias = ValoresMedia(signal)
     newA=[0 A L];
     j=1;
     vim=[];
+    %Use the mean change points to calculate these means and then ...
     for i=1:length(newA)-1
         while(j<newA(i+1))
             vim=[vim signal(j+1)];
@@ -18,7 +21,7 @@ function vectormedias = ValoresMedia(signal)
         means(i)=med;
         vim=[];
     end
-
+    %link them up in one vector.
     vectormedias=zeros(1,length(signal));
     j=1;
     for i=1:length(newA)-1

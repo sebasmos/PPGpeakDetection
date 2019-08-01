@@ -1,7 +1,7 @@
 %% function [NewLOCSPPG]= GetCorrimiento(LOCSECG,LOCSPPG,sPPG,sECG,Fs)
 % DESCRIPTION: This function aligns PPG and ECG peaks.
-% INPUT: LOCSECG :ECG peaks
-%        LOCSPPG : PPG peaks
+% INPUT: LOCSECG : locations of ECG peaks
+%        LOCSPPG : locations of PPG peaks
 %        sPPG: PPG signal
 %        sECG: ECG signal
 % OUTPUTS: NewLOCSPPG: Aligned PPG peaks
@@ -9,7 +9,6 @@
 function [NewLOCSPPG]= GetCorrimiento(LOCSECG,LOCSPPG,sPPG,sECG,Fs)
 % Signal's length
 L=length(sPPG);
-t=(0:L-1)/Fs;
 % If (LOCSPPG(1)<LOCSECG(1)) then ECG happened after the PPG peak, therefore 
 % PPG locs must be delayed
     if(LOCSPPG(1)<LOCSECG(1))
