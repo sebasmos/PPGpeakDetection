@@ -1,6 +1,6 @@
 # Modeling of motion artifacts on PPG signals for heart-monitoring using wearable devices 
 
-[Paper](https://www.spiedigitallibrary.org/conference-proceedings-of-spie/11330/2540554/Modeling-of-motion-artifacts-on-PPG-signals-for-heart-monitoring/10.1117/12.2540554.short?SSO=1)
+[[Paper](https://www.spiedigitallibrary.org/conference-proceedings-of-spie/11330/2540554/Modeling-of-motion-artifacts-on-PPG-signals-for-heart-monitoring/10.1117/12.2540554.short?SSO=1)]
 
 
 Please cite as: 
